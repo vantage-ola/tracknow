@@ -54,10 +54,11 @@ class Driver:
 
 # Track Model
 class Track:
-    def __init__(self, id, name, location, length):
+    def __init__(self, id, name, location, grade, length):
         self.id = id
         self.name = name
         self.location = location
+        self.grade = grade
         self.length = length
 
     def to_dict(self):
@@ -65,5 +66,6 @@ class Track:
             'id': self.id,
             'name': self.name,
             'location': self.location,
+            'grade': self.grade,
             'length': self.length
         }
