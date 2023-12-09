@@ -1,0 +1,1586 @@
+[
+    {
+        "title" : "// OFFICIAL FIA LICENSED TRACKS UPDATED ON : 2020-03-02 [GRADE 1-3] CLEANED BY https://github.com/vantage-ola",
+        "link" : "https://www.fia.com/sites/default/files/circuits_fia20200302.pdf"
+    },
+
+    {
+      "id": "1",
+      "name": "ABU DHABI - YAS MARINA",
+      "location": {
+        "country": "United Arab Emirates",
+        "city": "Abu Dhabi"
+      },
+      "grade": "1",
+      "length": "5.554 km"
+    },
+    {
+      "id": "2",
+      "name": "ALBERT PARK",
+      "location": {
+        "country": "Australia",
+        "city": "Melbourne"
+      },
+      "grade": "1",
+      "length": "5.303 km"
+    },
+    {
+      "id": "3",
+      "name": "ALGARVE",
+      "location": {
+        "country": "Portugal",
+        "city": "Portimão"
+      },
+      "grade": "1",
+      "length": "4.684 km"
+    },
+    {
+      "id": "4",
+      "name": "AUSTIN",
+      "location": {
+        "country": "United States",
+        "city": "Austin"
+      },
+      "grade": "1",
+      "length": "5.513 km"
+    },
+    {
+      "id": "5",
+      "name": "AUTODROMO HERMANOS RODRIGUEZ",
+      "location": {
+        "country": "Mexico",
+        "city": "Mexico City"
+      },
+      "grade": "1",
+      "length": "4.304 km"
+    },
+    {
+      "id": "6",
+      "name": "BAHRAIN",
+      "location": {
+        "country": "Bahrain",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "5.412 km"
+    },
+    {
+      "id": "7",
+      "name": "BAHRAIN-OASIS CIRCUIT",
+      "location": {
+        "country": "Bahrain",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "2.554 km"
+    },
+    {
+      "id": "8",
+      "name": "BAHRAIN-OUTER CIRCUIT",
+      "location": {
+        "country": "Bahrain",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "3.543 km"
+    },
+    {
+      "id": "9",
+      "name": "BAHRAIN-PADDOCK CIRCUIT",
+      "location": {
+        "country": "Bahrain",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "3.823 km"
+    },
+    {
+      "id": "10",
+      "name": "BAHRAIN \"ENDURANCE\"",
+      "location": {
+        "country": "Bahrain",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "6.299 km"
+    },
+    {
+      "id": "11",
+      "name": "BAKU",
+      "location": {
+        "country": "Azerbaijan",
+        "city": "Baku"
+      },
+      "grade": "1",
+      "length": "6.003 km"
+    },
+    {
+      "id": "12",
+      "name": "BURIRAM",
+      "location": {
+        "country": "Thailand",
+        "city": "Buriram"
+      },
+      "grade": "1",
+      "length": "4.554 km"
+    },
+    {
+      "id": "13",
+      "name": "CATALUNYA",
+      "location": {
+        "country": "Spain",
+        "city": "Catalunya"
+      },
+      "grade": "1",
+      "length": "4.655 km"
+    },
+    {
+      "id": "14",
+      "name": "DUBAI GRAND PRIX CIRCUIT",
+      "location": {
+        "country": "United Arab Emirates",
+        "city": "Dubai"
+      },
+      "grade": "1",
+      "length": "5.39 km"
+    },
+    {
+      "id": "15",
+      "name": "DUBAI INTERNATIONAL CIRCUIT",
+      "location": {
+        "country": "United Arab Emirates",
+        "city": "Dubai"
+      },
+      "grade": "1",
+      "length": "4.29 km"
+    },
+    {
+      "id": "16",
+      "name": "ESTORIL",
+      "location": {
+        "country": "Portugal",
+        "city": "Estoril"
+      },
+      "grade": "1",
+      "length": "4.182 km"
+    },
+    {
+      "id": "17",
+      "name": "FIORANO",
+      "location": {
+        "country": "Italy",
+        "city": "Fiorano"
+      },
+      "grade": "1",
+      "length": "2.976 km"
+    },
+    {
+      "id": "18",
+      "name": "FUJI SPEEDWAY",
+      "location": {
+        "country": "Japan",
+        "city": "Fuji"
+      },
+      "grade": "1",
+      "length": "4.563 km"
+    },
+    {
+      "id": "19",
+      "name": "HOCKENHEIM GRAND PRIX",
+      "location": {
+        "country": "Germany",
+        "city": "Hockenheim"
+      },
+      "grade": "1",
+      "length": "4.574 km"
+    },
+    {
+      "id": "20",
+      "name": "HUNGARORING",
+      "location": {
+        "country": "Hungary",
+        "city": "Budapest"
+      },
+      "grade": "1",
+      "length": "4.381 km"
+    },
+    {
+      "id": "21",
+      "name": "IMOLA",
+      "location": {
+        "country": "Italy",
+        "city": "Imola"
+      },
+      "grade": "1",
+      "length": "4.909 km"
+    },
+    {
+      "id": "22",
+      "name": "INDIANAPOLIS GRAND PRIX",
+      "location": {
+        "country": "United States",
+        "city": "Indianapolis"
+      },
+      "grade": "1",
+      "length": "4.192 km"
+    },
+    {
+      "id": "23",
+      "name": "JEREZ",
+      "location": {
+        "country": "Spain",
+        "city": "Jerez"
+      },
+      "grade": "1",
+      "length": "4.428 km"
+    },
+    {
+      "id": "24",
+      "name": "KUWAIT MOTOR TOWN",
+      "location": {
+        "country": "Kuwait",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "5.608 km"
+    },
+    {
+      "id": "25",
+      "name": "MAGNY-COURS",
+      "location": {
+      "country": "France",
+      "city": "Magny-Cours"
+      },
+      "grade": "1",
+      "length": "4.411 km"
+    },
+    {
+      "id": "26",
+      "name": "MONACO",
+      "location": {
+        "country": "Monaco",
+        "city": ""
+      },
+      "grade": "1",
+      "length": "3.34 km"
+    },
+    {
+      "id": "27",
+      "name": "MONTREAL GILLES VILLENEUVE",
+      "location": {
+        "country": "Canada",
+        "city": "Montreal"
+      },
+      "grade": "1",
+      "length": "4.361 km"
+    },
+    {
+      "id": "28",
+      "name": "MONZA",
+      "location": {
+        "country": "Italy",
+        "city": "Monza"
+      },
+      "grade": "1",
+      "length": "5.793 km"
+    },
+    {
+      "id": "29",
+      "name": "MOSCOW RACEWAY",
+      "location": {
+        "country": "Russia",
+        "city": "Moscow"
+      },
+      "grade": "1",
+      "length": "3.955 km"
+    },
+    {
+      "id": "30",
+      "name": "MOTORLAND ALCAÑIZ",
+      "location": {
+        "country": "Spain",
+        "city": "Alcañiz"
+      },
+      "grade": "1",
+      "length": "5.345 km"
+    },
+    {
+      "id": "31",
+      "name": "MUGELLO",
+      "location": {
+        "country": "Italy",
+        "city": "Mugello"
+      },
+      "grade": "1",
+      "length": "5.245 km"
+    },
+    {
+      "id": "32",
+      "name": "NEW DELHI",
+      "location": {
+        "country": "India",
+        "city": "New Delhi"
+      },
+      "grade": "1",
+      "length": "5.125 km"
+    },
+    {
+      "id": "33",
+      "name": "NÜRBURGRING GRAND PRIX",
+      "location": {
+        "country": "Germany",
+        "city": "Nürburg"
+      },
+      "grade": "1",
+      "length": "5.148 km"
+    },
+    {
+      "id": "34",
+      "name": "PAUL RICARD",
+      "location": {
+        "country": "France",
+        "city": "Le Castellet"
+      },
+      "grade": "1",
+      "length": "5.842 km"
+    },
+    {
+      "id": "35",
+      "name": "SEPANG",
+      "location": {
+        "country": "Malaysia",
+        "city": "Sepang"
+      },
+      "grade": "1",
+      "length": "5.543 km"
+    },
+    {
+      "id": "36",
+      "name": "SHANGHAI INTERNATIONAL",
+      "location": {
+        "country": "China",
+        "city": "Shanghai"
+      },
+      "grade": "1",
+      "length": "5.451 km"
+    },
+    {
+      "id": "37",
+      "name": "SILVERSTONE GRAND PRIX",
+      "location": {
+        "country": "United Kingdom",
+        "city": "Silverstone"
+      },
+      "grade": "1",
+      "length": "5.901 km"
+    },
+    {
+      "id": "38",
+      "name": "SOCHI",
+      "location": {
+        "country": "Russia",
+        "city": "Sochi"
+      },
+      "grade": "1",
+      "length": "5.848 km"
+    },
+    {
+      "id": "39",
+      "name": "SUZUKA",
+      "location": {
+        "country": "Japan",
+        "city": "Suzuka"
+      },
+      "grade": "1",
+      "length": "5.807 km"
+    },
+    {
+      "id": "40",
+      "name": "ABU DHABI-YAS MARINA -TRACK 2",
+      "location": {
+        "country": "United Arab Emirates",
+        "city": "Abu Dhabi"
+      },
+      "grade": "2",
+      "length": "4.73 km"
+    },
+    {
+      "id": "41",
+      "name": "ADRIA",
+      "location": {
+        "country": "Italy",
+        "city": "Adria"
+      },
+      "grade": "2",
+      "length": "2.702 km"
+    },
+    {
+      "id": "42",
+      "name": "ANDERSTORP",
+      "location": {
+        "country": "Sweden",
+        "city": "Anderstorp"
+      },
+      "grade": "2",
+      "length": "4.025 km"
+    },
+    {
+      "id": "43",
+      "name": "AUTOPOLIS",
+      "location": {
+        "country": "Japan",
+        "city": "Autopolis"
+      },
+      "grade": "2",
+      "length": "4.674 km"
+    },
+    {
+      "id": "44",
+      "name": "BARBER MOTORSPORTS PARK",
+      "location": {
+        "country": "United States",
+        "city": "Birmingham"
+      },
+      "grade": "2",
+      "length": "3.808 km"
+    },
+    {
+      "id": "45",
+      "name": "BRANDS HATCH - INDY",
+      "location": {
+        "country": "United Kingdom",
+        "city": "Longfield"
+      },
+      "grade": "2",
+      "length": "1.944 km"
+    },
+    {
+      "id": "46",
+      "name": "BRANDS HATCH GRAND PRIX",
+      "location": {
+        "country": "United Kingdom",
+        "city": "Longfield"
+      },
+      "grade": "2",
+      "length": "3.916 km"
+    },
+    {
+      "id": "47",
+      "name": "BRNO",
+      "location": {
+        "country": "Czech Republic",
+        "city": "Brno"
+      },
+      "grade": "2",
+      "length": "5.403 km"
+    },
+    {
+      "id": "48",
+      "name": "CATALUNYA “SHORT CIRCUIT”",
+      "location": {
+        "country": "Spain",
+        "city": "Montmelo"
+      },
+      "grade": "2",
+      "length": "2.977 km"
+    },
+    {
+      "id": "49",
+      "name": "CHENGDU INTERNATIONAL",
+      "location": {
+        "country": "China",
+        "city": "Chengdu"
+      },
+      "grade": "2",
+      "length": "3.34 km"
+    },
+    {
+      "id": "50",
+      "name": "DETROIT BELLE ISLE",
+      "location": {
+        "country": "United States",
+        "city": "Detroit"
+      },
+      "grade": "2",
+      "length": "3.8 km"
+    },
+     {
+      "id": "51",
+      "name": "DIJON-PRENOIS",
+      "location": {
+        "country": "France",
+        "city": "Prenois"
+      },
+      "grade": "2",
+      "length": "3.801 km"
+    },
+    {
+      "id": "52",
+      "name": "DONINGTON PARK",
+      "location": {
+        "country": "United Kingdom",
+        "city": "Castle Donington"
+      },
+      "grade": "53",
+      "length": "4.003 km"
+    },
+    {
+      "id": "53",
+      "name": "EUROSPEEDWAY LAUSITZ GRAND PRIX",
+      "location": {
+        "country": "Germany",
+        "city": "Klettwitz"
+      },
+      "grade": "2",
+      "length": "4.57 km"
+    },
+    {
+      "id": "54",
+      "name": "IGORA DRIVE",
+      "location": {
+        "country": "Russia",
+        "city": "Sosnovaya Polyana"
+      },
+      "grade": "2",
+      "length": "4.086 km"
+    },
+    {
+      "id": "55",
+      "name": "JARAMA",
+      "location": {
+        "country": "Spain",
+        "city": "San Sebastián de los Reyes"
+      },
+      "grade": "2",
+      "length": "3.85 km"
+    },
+    {
+      "id": "56",
+      "name": "KYALAMI",
+      "location": {
+        "country": "South Africa",
+        "city": "Midrand"
+      },
+      "grade": "2",
+      "length": "4.522 km"
+    },
+    {
+      "id": "57",
+      "name": "LAGUNA SECA RACEWAY",
+      "location": {
+        "country": "United States",
+        "city": "Monterey"
+      },
+      "grade": "2",
+      "length": "3.581 km"
+    },
+    {
+      "id": "58",
+      "name": "LE MANS 24 HEURES",
+      "location": {
+        "country": "France",
+        "city": "Le Mans"
+      },
+      "grade": "2",
+      "length": "13.626 km"
+    },
+    {
+      "id": "59",
+      "name": "LE MANS BUGATTI",
+      "location": {
+        "country": "France",
+        "city": "Le Mans"
+      },
+      "grade": "2",
+      "length": "4.18 km"
+    },
+    {
+      "id": "60",
+      "name": "LEDENON",
+      "location": {
+        "country": "France",
+        "city": "Ledenon"
+      },
+      "grade": "2",
+      "length": "3.14 km"
+    },
+    {
+      "id": "61",
+      "name": "LIME ROCK",
+      "location": {
+        "country": "United States",
+        "city": "Lakeville"
+      },
+      "grade": "2",
+      "length": "2.448 km"
+    },
+    {
+      "id": "62",
+      "name": "LONG BEACH",
+      "location": {
+        "country": "United States",
+        "city": "Long Beach"
+      },
+      "grade": "2",
+      "length": "3.168 km"
+    },
+    {
+      "id": "63",
+      "name": "MADRAS",
+      "location": {
+        "country": "India",
+        "city": "Chennai"
+      },
+      "grade": "2",
+      "length": "3.117 km"
+    },
+    {
+      "id": "64",
+      "name": "MARRAKECH FE",
+      "location": {
+        "country": "Morocco",
+        "city": "Marrakech"
+      },
+      "grade": "2",
+      "length": "2.971 km"
+    },
+    {
+      "id": "65",
+      "name": "MID-OHIO",
+      "location": {
+        "country": "United States",
+        "city": "Lexington"
+      },
+      "grade": "2",
+      "length": "3.6 km"
+    },
+    {
+      "id": "66",
+      "name": "MISANO ADRIATICO",
+      "location": {
+        "country": "Italy",
+        "city": "Misano Adriatico"
+      },
+      "grade": "2",
+      "length": "4.048 km"
+    },
+    {
+      "id": "67",
+      "name": "MISANO ADRIATICO (LONG TRACK)",
+      "location": {
+        "country": "Italy",
+        "city": "Misano Adriatico"
+      },
+      "grade": "2",
+      "length": "4.226 km"
+    },
+    {
+      "id": "68",
+      "name": "MOST",
+      "location": {
+        "country": "Czech Republic",
+        "city": "Most"
+      },
+      "grade": "2",
+      "length": "4.219 km"
+    },
+    {
+      "id": "69",
+      "name": "NAVARRA",
+      "location": {
+        "country": "Spain",
+        "city": "Los Arcos"
+      },
+      "grade": "2",
+      "length": "3.933 km"
+    },
+    {
+      "id": "70",
+      "name": "NEW JERSEY MOTORSPORTS PARK",
+      "location": {
+        "country": "United States",
+        "city": "Millville"
+      },
+      "grade": "2",
+      "length": "3.621 km"
+    },
+    {
+      "id": "71",
+      "name": "NINGBO SPEEDPARK",
+      "location": {
+        "country": "China",
+        "city": "Ningbo"
+      },
+      "grade": "2",
+      "length": "4.01 km"
+    },
+    {
+      "id": "72",
+      "name": "NOGARO",
+      "location": {
+        "country": "France",
+        "city": "Nogaro"
+      },
+      "grade": "2",
+      "length": "3.636 km"
+    },
+    {
+      "id": "73",
+      "name": "NORISRING",
+      "location": {
+        "country": "Germany",
+        "city": "Nuremberg"
+      },
+      "grade": "2",
+      "length": "2.3 km"
+    },
+    {
+      "id": "74",
+      "name": "NÜRBURGRING SPRINT STRECKE",
+      "location": {
+        "country": "Germany",
+        "city": "Nürburg"
+      },
+      "grade": "2",
+      "length": "3.629 km"
+    },
+    {
+      "id": "75",
+      "name": "NÜRBURGRING \"OLDTIMER\"",
+      "location": {
+        "country": "Germany",
+        "city": "Nürburg"
+      },
+      "grade": "2",
+      "length": "4.638 km"
+    },
+    {
+      "id": "76",
+      "name": "OKAYAMA",
+      "location": {
+      "country": "Japan",
+      "city": "Mimasaka"
+      },
+      "grade": "2",
+      "length": "3.703 km"
+    },
+    {
+      "id": "77",
+      "name": "ORDOS",
+      "location": {
+        "country": "China",
+        "city": "Ordos"
+      },
+      "grade": "2",
+      "length": "3.751 km"
+    },
+    {
+      "id": "78",
+      "name": "PEDRERA URBAN CIRCUIT",
+      "location": {
+        "country": "Argentina",
+        "city": "Pedrera"
+      },
+      "grade": "2",
+      "length": "4 km"},
+      {
+        "id": "79",
+        "name": "PORTLAND",
+        "location": {
+          "country": "USA",
+          "city": "Portland"
+        },
+        "grade": "2",
+        "length": "3.17 km"
+      },
+      {
+        "id": "80",
+        "name": "QINHUANGDAO",
+        "location": {
+          "country": "CHN",
+          "city": "Qinhuangdao"
+        },
+        "grade": "2",
+        "length": "3.74 km"
+      },
+      {
+        "id": "81",
+        "name": "ROAD ATLANTA",
+        "location": {
+          "country": "USA",
+          "city": "Road Atlanta"
+        },
+        "grade": "2",
+        "length": "4.09 km"
+      },
+      {
+        "id": "82",
+        "name": "SACHSENRING",
+        "location": {
+          "country": "DEU",
+          "city": "Sachsenring"
+        },
+        "grade": "2",
+        "length": "3.645 km"
+      },
+      {
+        "id": "83",
+        "name": "SEBRING",
+        "location": {
+          "country": "USA",
+          "city": "Sebring"
+        },
+        "grade": "2",
+        "length": "6.019 km"
+      },
+      {
+        "id": "84",
+        "name": "SEPANG NORTH CIRCUIT",
+        "location": {
+          "country": "MYS",
+          "city": "Sepang"
+        },
+        "grade": "2",
+        "length": "2.807 km"
+      },
+      {
+        "id": "85",
+        "name": "SHANGHAI INTERNATIONAL TRACK 3",
+        "location": {
+          "country": "CHN",
+          "city": "Shanghai"
+        },
+        "grade": "2",
+        "length": "4.603 km"
+      },
+      {
+        "id": "86",
+        "name": "SILVERSTONE INTERNATIONAL",
+        "location": {
+          "country": "GBR",
+          "city": "Silverstone"
+        },
+        "grade": "2",
+        "length": "5.90 km"
+      },
+      {
+        "id": "87",
+        "name": "SILVERSTONE NATIONAL",
+        "location": {
+          "country": "GBR",
+          "city": "Silverstone"
+        },
+        "grade": "2",
+        "length": "5.901 km"
+      },
+      {
+        "id": "88",
+        "name": "SLOVAKIARING",
+        "location": {
+          "country": "SVK",
+          "city": "Slovakia"
+        },
+        "grade": "2",
+        "length": "5.935 km"
+      },
+      {
+        "id": "89",
+        "name": "SNETTERTON",
+        "location": {
+          "country": "GBR",
+          "city": "Snetterton"
+        },
+        "grade": "2",
+        "length": "3.141 km"
+      },
+      {
+        "id": "90",
+        "name": "SONOMA RACEWAY",
+        "location": {
+          "country": "USA",
+          "city": "Sonoma"
+        },
+        "grade": "2",
+        "length": "3.685 km"
+      },
+      {
+        "id": "91",
+        "name": "ST. PETERSBURG",
+        "location": {
+          "country": "USA",
+          "city": "St. Petersburg"
+        },
+        "grade": "2",
+        "length": "2.91 km"
+      },
+      {
+        "id": "92",
+        "name": "SUGO",
+        "location": {
+          "country": "JPN",
+          "city": "Sugo"
+        },
+        "grade": "2",
+        "length": "3.704 km"
+      },
+      {
+        "id": "93",
+        "name": "SURFERS PARADISE, QUEENSLAND",
+        "location": {
+          "country": "AUS",
+          "city": "Surfers Paradise"
+        },
+        "grade": "2",
+        "length": "2.795 km"
+      },
+      {
+        "id": "94",
+        "name": "SUZUKA \"EAST COURSE\"",
+        "location": {
+          "country": "JPN",
+          "city": "Suzuka"
+        },
+        "grade": "2",
+        "length": "2.243 km"
+      },
+      {
+        "id": "95",
+        "name": "SYDNEY MOTORSPORT PARK",
+        "location": {
+          "country": "AUS",
+          "city": "Sydney"
+        },
+        "grade": "2",
+        "length": "4.5 km"
+      },
+      {
+        "id": "96",
+        "name": "TAUPO",
+        "location": {
+          "country": "NZL",
+          "city": "Taupo"
+        },
+        "grade": "2",
+        "length": "3.321 km"
+      },
+      {
+        "id": "97",
+        "name": "THE BEND MOTORSPORTS PARK",
+        "location": {
+          "country": "AUS",
+          "city": "The Bend"
+        },
+        "grade": "2",
+        "length": "7.77 km"
+      },
+      {
+        "id": "98",
+        "name": "TIANMA SHAOXING",
+        "location": {
+          "country": "CHN",
+          "city": "Tianma Shaoxing"
+        },
+        "grade": "2",
+        "length": "3.238 km"
+      },
+      {
+        "id": "99",
+        "name": "TOKACHI",
+        "location": {
+          "country": "JPN",
+          "city": "Tokachi"
+        },
+        "grade": "2",
+        "length": "5.091 km"
+      },
+      {
+        "id": "100",
+        "name": "TOKACHI - SHORT LAYOUT",
+        "location": {
+          "country": "JPN",
+          "city": "Tokachi"
+        },
+        "grade": "2",
+        "length": "3.405 km"
+      },
+      {
+        "id": "101",
+        "name": "TORONTO LAKESHORE CIRCUIT",
+        "location": {
+          "country": "CAN",
+          "city": "Toronto"
+        },
+        "grade": "2",
+        "length": "2.87 km"
+      },
+      {
+        "id": "102",
+        "name": "TT CIRCUIT ASSEN",
+        "location": {
+          "country": "NLD",
+          "city": "Assen"
+        },
+        "grade": "2",
+        "length": "4.555 km"
+      },
+      {
+        "id": "103",
+        "name": "TWIN RING MOTEGI GRAND PRIX",
+        "location": {
+          "country": "JPN",
+          "city": "Twin Ring Motegi"
+        },
+        "grade": "2",
+        "length": "4.801 km"
+      },
+      {
+        "id": "104",
+        "name": "V1 AUTOWORLD",
+        "location": {
+          "country": "CHN",
+          "city": "V1 Autoworld"
+        },
+        "grade": "2",
+        "length": "3.722 km"
+      },
+      {
+        "id": "105",
+        "name": "VAL DE VIENNE",
+        "location": {
+          "country": "FRA",
+          "city": "Val de Vienne"
+        },
+        "grade": "2",
+        "length": "3.729 km"
+      },
+      {
+        "id": "106",
+        "name": "VALLELUNGA INTERNATIONAL",
+        "location": {
+          "country": "ITA",
+          "city": "Vallelunga"
+        },
+        "grade": "2",
+        "length": "4.085 km"
+      },
+      {
+        "id": "107",
+        "name": "VALLELUNGA JUNIOR",
+        "location": {
+          "country": "ITA",
+          "city": "Vallelunga"
+        },
+        "grade": "2",
+        "length": "3.228 km"
+      },
+      {
+        "id": "108",
+        "name": "VIRGINIA INT. RACEWAY - ALTON",
+        "location": {
+          "country": "USA",
+          "city": "Alton"
+        },
+        "grade": "2",
+        "length": "5.248 km"
+      },
+      {
+        "id": "109",
+        "name": "WATKINS GLEN",
+        "location": {
+          "country": "USA",
+          "city": "Watkins Glen"
+        },
+        "grade": "2",
+        "length": "5.552 km"
+      },
+      {
+        "id": "110",
+        "name": "ZANDVOORT",
+        "location": {
+          "country": "NLD",
+          "city": "Zandvoort"
+        },
+        "grade": "2",
+        "length": "4.307 km"
+      },
+      {
+        "id": "111",
+        "name": "ZHUHAI",
+        "location": {
+          "country": "CHN",
+          "city": "Zhuhai"
+        },
+        "grade": "2",
+        "length": "4.318 km"
+      },
+      {
+        "id": "112",
+        "name": "ZOLDER",
+        "location": {
+          "country": "BEL",
+          "city": "Zolder"
+        },
+        "grade": "2",
+        "length": "4.011 km"
+      },
+      {
+        "id": "113",
+        "name": "MACAU",
+        "location": {
+          "country": "MAC",
+          "city": "Macau"
+        },
+        "grade": "2R",
+        "length": "6.12 km"
+      },
+      {
+        "id": "114",
+        "name": "ADELAIDE-PARKLANDS",
+        "location": {
+          "country": "Australia",
+          "city": "Adelaide"
+        },
+        "grade": "3",
+        "length": "3.22 km"
+      },
+      {
+        "id": "115",
+        "name": "BANGSEAN",
+        "location": {
+          "country": "Thailand",
+          "city": "Bangsean"
+        },
+        "grade": "3",
+        "length": "3.74 km"
+      },
+      {
+        "id": "116",
+        "name": "BARBAGALLO",
+        "location": {
+          "country": "Australia",
+          "city": "Barbagallo"
+        },
+        "grade": "3",
+        "length": "2.41 km"
+      },
+      {
+        "id": "117",
+        "name": "BEIJING GOLDENPORT",
+        "location": {
+          "country": "China",
+          "city": "Beijing Goldenport"
+        },
+        "grade": "3",
+        "length": "2.391 km"
+      },
+      {
+        "id": "118",
+        "name": "BERLIN FORMULA E",
+        "location": {
+          "country": "Germany",
+          "city": "Berlin"
+        },
+        "grade": "3",
+        "length": "2.377 km"
+      },
+      {
+        "id": "119",
+        "name": "DUBAI CLUB CIRCUIT",
+        "location": {
+          "country": "United Arab Emirates",
+          "city": "Dubai"
+        },
+        "grade": "3",
+        "length": "2.46 km"
+      },
+      {
+        "id": "120",
+        "name": "DUBAI NATIONAL CIRCUIT",
+        "location": {
+          "country": "United Arab Emirates",
+          "city": "Dubai"
+        },
+        "grade": "3",
+        "length": "3.56 km"
+      },
+      {
+        "id": "121",
+        "name": "FRANCIACORTA",
+        "location": {
+          "country": "Italy",
+          "city": "Franciacorta"
+        },
+        "grade": "3",
+        "length": "2.519 km"
+      },
+      {
+        "id": "122",
+        "name": "GUANGDONG INTERNATIONAL CIRCUIT",
+        "location": {
+          "country": "China",
+          "city": "Guangdong"
+        },
+        "grade": "3",
+        "length": "2.824 km"
+      },
+      {
+        "id": "123",
+        "name": "HAMPTON DOWNS",
+        "location": {
+          "country": "New Zealand",
+          "city": "Hampton Downs"
+        },
+        "grade": "3",
+        "length": "2.63 km"
+      },
+      {
+        "id": "124",
+        "name": "HIDDEN VALLEY",
+        "location": {
+          "country": "Australia",
+          "city": "Hidden Valley"
+        },
+        "grade": "3",
+        "length": "2.87 km"
+      },
+      {
+        "id": "125",
+        "name": "HIGHLAND MOTORSPORT PARK",
+        "location": {
+          "country": "New Zealand",
+          "city": "Highland Motorsport Park"
+        },
+        "grade": "3",
+        "length": "3.932 km"
+      },
+      {
+        "id": "126",
+        "name": "KNOCKHILL",
+        "location": {
+          "country": "United Kingdom",
+          "city": "Knockhill"
+        },
+        "grade": "3",
+        "length": "2.09 km"
+      },
+      {
+        "id": "127",
+        "name": "MANFEILD",
+        "location": {
+          "country": "New Zealand",
+          "city": "Manfeild"
+        },
+        "grade": "3",
+        "length": "3.03 km"
+      },
+      {
+        "id": "128",
+        "name": "MONACO FORMULA E",
+        "location": {
+          "country": "Monaco",
+          "city": "Monaco"
+        },
+        "grade": "3",
+        "length": "1.765 km"
+      },
+      {
+        "id": "129",
+        "name": "MOUNT PANORAMA - BATHURST",
+        "location": {
+          "country": "Australia",
+          "city": "Bathurst"
+        },
+        "grade": "3",
+        "length": "6.213 km"
+      },
+      {
+        "id": "130",
+        "name": "NEW YORK FORMULA E",
+        "location": {
+          "country": "USA",
+          "city": "New York"
+        },
+        "grade": "3",
+        "length": "1.95 km"
+      },
+      {
+        "id": "131",
+        "name": "NEWCASTLE STREET",
+        "location": {
+          "country": "Australia",
+          "city": "Newcastle"
+        },
+        "grade": "3",
+        "length": "2.629 km"
+      },
+      {
+        "id": "132",
+        "name": "NURBURGRING NORDSCHLEIFE",
+        "location": {
+          "country": "Germany",
+          "city": "Nurburgring Nordschleife"
+        },
+        "grade": "3",
+        "length": "25.888 km"
+      },
+      {
+        "id": "133",
+        "name": "OULTON PARK",
+        "location": {
+          "country": "United Kingdom",
+          "city": "Oulton Park"
+        },
+        "grade": "3",
+        "length": "4.332 km"
+      },
+      {
+        "id": "134",
+        "name": "PARIS FE",
+        "location": {
+          "country": "France",
+          "city": "Paris"
+        },
+        "grade": "3",
+        "length": "1.921 km"
+      },
+      {
+        "id": "135",
+        "name": "PAU VILLE",
+        "location": {
+          "country": "France",
+          "city": "Pau"
+        },
+        "grade": "3",
+        "length": "2.76 km"
+      },
+      {
+        "id": "136",
+        "name": "PERGUSA",
+        "location": {
+          "country": "Italy",
+          "city": "Pergusa"
+        },
+        "grade": "3",
+        "length": "4.95 km"
+      },
+      {
+        "id": "137",
+        "name": "PHILLIP ISLAND",
+        "location": {
+          "country": "Australia",
+          "city": "Phillip Island"
+        },
+        "grade": "3",
+        "length": "4.48 km"
+      },
+      {
+        "id": "138",
+        "name": "POZNAN",
+        "location": {
+          "country": "Poland",
+          "city": "Poznan"
+        },
+        "grade": "3",
+        "length": "4.083 km"
+      },
+      {
+        "id": "139",
+        "name": "PUEBLA",
+        "location": {
+          "country": "Mexico",
+          "city": "Puebla"
+        },
+        "grade": "3",
+        "length": "3.24 km"
+      },
+      {
+        "id": "140",
+        "name": "PUKEKOHE PARK",
+        "location": {
+          "country": "New Zealand",
+          "city": "Pukekohe Park"
+        },
+        "grade": "3",
+        "length": "2.8 km"
+      },
+      {
+        "id": "141",
+        "name": "PUNTA DEL ESTE FORMULA E",
+        "location": {
+          "country": "Uruguay",
+          "city": "Punta del Este"
+        },
+        "grade": "3",
+        "length": "2.875 km"
+      },
+      {
+        "id": "142",
+        "name": "QUEENSLAND RACEWAY",
+        "location": {
+          "country": "Australia",
+          "city": "Queensland Raceway"
+        },
+        "grade": "3",
+        "length": "3.126 km"
+      },
+      {
+        "id": "143",
+        "name": "ROME FORMULA E",
+        "location": {
+          "country": "Italy",
+          "city": "Rome"
+        },
+        "grade": "3",
+        "length": "2.87 km"
+      },
+      {
+        "id": "144",
+        "name": "RUAPUNA",
+        "location": {
+          "country": "New Zealand",
+          "city": "Ruapuna"
+        },
+        "grade": "3",
+        "length": "3.33 km"
+      },
+      {
+        "id": "145",
+        "name": "SALZBURGRING",
+        "location": {
+          "country": "Austria",
+          "city": "Salzburgring"
+        },
+        "grade": "3",
+        "length": "4.241 km"
+      },
+      {
+        "id": "146",
+        "name": "SAMSUNG SPEEDWAY",
+        "location": {
+          "country": "South Korea",
+          "city": "Samsung Speedway"
+        },
+        "grade": "3",
+        "length": "4.346 km"
+      },
+      {
+        "id": "147",
+        "name": "SYMMONS PLAINS",
+        "location": {
+          "country": "Australia",
+          "city": "Symmons Plains"
+        },
+        "grade": "3",
+        "length": "2.44 km"
+      },
+      {
+        "id": "148",
+        "name": "TERETONGA",
+        "location": {
+          "country": "New Zealand",
+          "city": "Teretonga"
+        },
+        "grade": "3",
+        "length": "2.61 km"
+      },
+      {
+        "id": "149",
+        "name": "TIMARU",
+        "location": {
+          "country": "New Zealand",
+          "city": "Timaru"
+        },
+        "grade": "3",
+        "length": "2.4 km"
+      },
+      {
+        "id": "150",
+        "name": "TOWNSVILLE",
+        "location": {
+          "country": "Australia",
+          "city": "Townsville"
+        },
+        "grade": "3",
+        "length": "3.22 km"
+      },
+      {
+        "id": "151",
+        "name": "ROIS-RIVIERES",
+        "location": {
+          "country": "Canada",
+          "city": "Rois-Rivieres"
+        },
+        "grade": "3",
+        "length": "2.4 km"
+      },
+      {
+        "id": "152",
+        "name": "VELO CITTA",
+        "location": {
+          "country": "Brazil",
+          "city": "Velo Citta"
+        },
+        "grade": "3",
+        "length": "3.493 km"
+      },
+      {
+        "id": "153",
+        "name": "VILA REAL",
+        "location": {
+          "country": "Portugal",
+          "city": "Vila Real"
+        },
+        "grade": "3",
+        "length": "4.755 km"
+      },
+      {
+        "id": "154",
+        "name": "WINTON",
+        "location": {
+          "country": "Australia",
+          "city": "Winton"
+        },
+        "grade": "3",
+        "length": "3 km"
+      },
+      {
+        "id": "155",
+        "name": "MEXICO FE",
+        "location": {
+          "country": "Mexico",
+          "city": "Mexico"
+        },
+        "grade": "3E",
+        "length": "2.606 km"
+      },
+      {
+        "id": "156",
+        "name": "RIYADH FORMULA E",
+        "location": {
+          "country": "Saudi Arabia",
+          "city": "Riyadh"
+        },
+        "grade": "3E",
+        "length": "2.495 km"
+      },
+      {
+        "id": "157",
+        "name": "SANTIAGO DE CHILE PARQUE O'HIGGINS FORMULA-E",
+        "location": {
+          "country": "Chile",
+          "city": "Santiago de Chile Parque O'Higgins"
+        },
+        "grade": "3E",
+        "length": "2.384 km"
+      },
+      {
+        "id": "158",
+        "name": "SANYA FORMULA-E",
+        "location": {
+          "country": "China",
+          "city": "Sanya"
+        },
+        "grade": "3E",
+        "length": "2.36 km"
+      }      
+]
