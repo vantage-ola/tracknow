@@ -22,11 +22,11 @@ Feel free to contribute by adding new data, updating existing metrics, or sugges
 
 ### Contributing
 
-Contributions are welcome! If you have data to add, want to enhance existing metrics, or have suggestions for improving Track Now, or want to build it with me, please check out the project section on my profile, there's a lot to work on :)
+Contributions are welcome! If you have data to add, want to enhance existing metrics, or have suggestions for improving TRACK NOW, or want to build it with me, please check out the project section on my profile, there's a lot to work on :)
 
 ### License
 
-Track Now is licensed under the [MIT License](https://github.com/vantage-ola/track-now/blob/main/LICENSE), ensuring that the information is freely accessible and shareable.
+TRACK NOW is licensed under the [MIT License](https://github.com/vantage-ola/track-now/blob/main/LICENSE), ensuring that the information is freely accessible and shareable.
 
 ## DEVELOPMENT
 
