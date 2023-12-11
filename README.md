@@ -1,19 +1,73 @@
 ![logo](./src/img/track-now-banner-italic.png)
 
-Metrics [laptime, avg acceleration, specifications] of your favourite cars on popular tracks around the world.
+Explore lap times, and specifications of your favorite cars on FIA licensed tracks worldwide.
+
+## OVERVIEW
+
+Welcome to TRACK NOW Repository! This repository aims to build a web/mobile application that features a comprehensive collection of motorsport performance metrics showcasing the lap times and detailed specifications of popular cars on globally recognized tracks.
+
+### Features
+
+Lap Times: Dive into the lap times of various cars, allowing you to compare their performance on iconic tracks around the world.
+
+Specifications: Explore detailed specifications for each car, offering a comprehensive view of their design, engine, and other crucial attributes.
+
+### Usage
+
+```shell
+ STILL IN DEVELOPMENT ❤️
+```
+
+Feel free to contribute by adding new data, updating existing metrics, or suggesting improvements to make TRACK NOW even better.
+
+### Contributing
+
+Contributions are welcome! If you have data to add, want to enhance existing metrics, or have suggestions for improving Track Now, or want to build it with me, please check out the project section on my profile, there's a lot to work on :)
+
+### License
+
+Track Now is licensed under the [MIT License](https://github.com/vantage-ola/track-now/blob/main/LICENSE), ensuring that the information is freely accessible and shareable.
 
 ## DEVELOPMENT
 
-### 1. Clone the repository:
+#### Bug Reports
+
+If you encounter a bug in the project, please [open a new issue](https://github.com/vantage-ola/track-now/issues). Provide as much detail as possible, including steps to reproduce the issue, screenshots if applicable, and your system information.
+
+#### Feature Requests
+
+Have a feature in mind that you'd like to see implemented? [Create a new issue](https://github.com/vantage-ola/track-now/issues) and describe your feature idea. Discussions and suggestions are welcome!
+
+#### Pull Requests
+
+I welcome contributions from the community. If you'd like to contribute code, enhancements, or fix issues, follow these steps:
+
+1. Fork the repository / Clone the repository :
 
 ```shell
 git clone git@github.com:vantage-ola/track-now.git
 ```
 
-### 2. Create your branch:
-
-Name your branch based on the feature you are working on. For example, writing README branch would be called `feature/write_readme`:
+2. Name your branch based on the feature you are working on. For example, writing README branch would be called `feature/write_readme`\
 
 ```shell
 git checkout -b <your branch name>
 ```
+
+3. Make your changes and commit them.
+4. Push your changes to your fork.
+5. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
+
+## Project Management
+
+### Backlog
+
+Check out [TRACK NOW](https://github.com/users/vantage-ola/projects/1) project backlog for upcoming features and tasks. Feel free to open a new issue if you have a feature or task to suggest.
+
+### In Progress
+
+See what tasks are currently in progress. If you're working on something, make sure to assign the issue to yourself.
+
+### Completed
+
+Browse through the completed tasks to see the progress we've made. Closed issues and pull requests are listed here.
