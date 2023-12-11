@@ -54,15 +54,22 @@ git clone git@github.com:vantage-ola/track-now.git
 git checkout -b <your branch name>
 ```
 
-3. Make your changes and commit them.
-4. Push your changes to your fork.
-5. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
+3. To access the mongo db database to run the flask api , create a local environment `/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
+
+```shell
+MONGO_USERNAME=github_track_now
+MONGO_PASSWORD=NKwN89hHGe8IcFwn
+```
+
+4. Make your changes and commit them.
+5. Push your changes to your fork.
+6. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
 
 ## Project Management
 
 ### Backlog
 
-Check out [TRACK NOW](https://github.com/users/vantage-ola/projects/1) project backlog for upcoming features and tasks. Feel free to open a new issue if you have a feature or task to suggest.
+Check out [TRACK NOW project backlog](https://github.com/users/vantage-ola/projects/1) for upcoming features and tasks. Feel free to open a new issue if you have a feature or task to suggest.
 
 ### In Progress
 
