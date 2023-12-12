@@ -55,7 +55,7 @@ git checkout -b <your branch name>
 ```
 
 
-3. Create and activate virtualenvironment.
+3. Create and activate virtual environment.
 ``` shell
 virtualenv venv
 ```
