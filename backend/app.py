@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from decouple import config
 
 from models import Car, Track, Laptime ,Driver
-
+from bson import ObjectId
 
 app = Flask(__name__)
 
@@ -15,8 +15,9 @@ client =MongoClient("mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrit
 db = client['track_now'] #Track Now DB
 
 
+# missing error handling* (404, 500, 200...)
 
-
+#`api/collections` routes GET&POST all entries`
 @app.route('/api/cars', methods=['GET', 'POST'])
 def handle_cars():
 
@@ -141,6 +142,49 @@ def handle_laptimes():
             db.laptimes.insert_one(new_laptime.to_dict())
             return jsonify({'message': 'Laptime added successfully!'})
 
+#`api/collection/<collection_id>` routes GET all entries`
+
+@app.route('/api/cars/<car_id>', methods=['GET'])
+def handle_single_car(car_id):
+
+    car_id = int(car_id)
+
+    if request.method == 'GET':
+
+        car = db.cars.find_one({'id': car_id}, {'_id': False})
+
+        if car:
+            return jsonify(car)
+        else:
+            return jsonify({'message': 'Car not found'}), 404
+        
+@app.route('/api/tracks/<track_id>', methods=['GET'])
+def handle_single_track(track_id):
+
+    track_id = str(track_id) #id json is in string form lol {..."id": "1"}
+
+    if request.method == 'GET':
+
+        track = db.tracks.find_one({'id': track_id}, {'_id': False})
+
+        if track:
+            return jsonify(track)
+        else:
+            return jsonify({'message': 'Track not found'}), 404
+        
+@app.route('/api/drivers/<driver_id>', methods=['GET'])
+def handle_single_driver(driver_id):
+
+    driver_id = int(driver_id)
+
+    if request.method == 'GET':
+
+        driver = db.drivers.find_one({'id': driver_id}, {'_id': False})
+
+        if driver:
+            return jsonify(driver)
+        else:
+            return jsonify({'message': 'Driver not found'}), 404
 
 if __name__ == '__main__':
     app.run(debug = True)
