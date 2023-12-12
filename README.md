@@ -1,14 +1,14 @@
 ![logo](./src/img/track-now-banner-italic.png)
 
-Explore lap times, and specifications of your favorite cars on FIA licensed tracks worldwide.
+Explore record lap times, and specifications of your favorite cars on FIA licensed tracks worldwide.
 
 ## OVERVIEW
 
-Welcome to TRACK NOW Repository! This repository aims to build a web/mobile application that features a comprehensive collection of motorsport performance metrics showcasing the lap times and detailed specifications of popular cars on globally recognized tracks.
+Welcome to TRACK NOW Repository! This repository aims to build a web/mobile application that features a comprehensive collection of motorsport performance metrics showcasing the record lap times and detailed specifications of popular cars on globally recognized tracks.
 
 ### Features
 
-Lap Times: Dive into the lap times of various cars, allowing you to compare their performance on iconic tracks around the world.
+Lap Times: Dive into the record lap times of various cars, allowing you to compare their performance on iconic tracks around the world.
 
 Specifications: Explore detailed specifications for each car, offering a comprehensive view of their design, engine, and other crucial attributes.
 
