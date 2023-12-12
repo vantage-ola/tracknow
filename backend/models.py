@@ -42,12 +42,14 @@ class Laptime:
 
 # Driver Model
 class Driver:
-    def __init__(self, name, nationality):
+    def __init__(self,id, name, nationality):
+        self.id = id
         self.name = name
         self.nationality = nationality
 
     def to_dict(self):
         return {
+            'id': self.id,
             'name': self.name,
             'nationality': self.nationality
         }
