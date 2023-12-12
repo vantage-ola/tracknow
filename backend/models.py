@@ -26,18 +26,20 @@ class Car:
 
 # Laptime Model
 class Laptime:
-    def __init__(self, car_id, track_id, driver_id, time):
+    def __init__(self, car_id, track_id, driver_id, time, date):
         self.car_id = car_id
         self.track_id = track_id
         self.driver_id = driver_id
         self.time = time
+        self.date = date
 
     def to_dict(self):
         return {
             'car_id': self.car_id,
             'track_id': self.track_id,
             'driver_id': self.driver_id,
-            'time': self.time
+            'time': self.time,
+            'date' : self.date
         }
 
 # Driver Model
