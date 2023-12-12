@@ -54,7 +54,18 @@ git clone git@github.com:vantage-ola/track-now.git
 git checkout -b <your branch name>
 ```
 
-3. To access the mongo db database to run the flask api , create a local environment `/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
+3. Install dependencies:
+```shell
+pip3 install DEPENDENCIES.txt
+```
+
+4. Create and activate virtualenvironment.
+``` shell
+virtualenv venv
+venv/Scripts\activate
+```
+
+5. To access the mongo db database to run the flask api , create a local environment `/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
 
 ```shell
 MONGO_USERNAME=github_track_now
