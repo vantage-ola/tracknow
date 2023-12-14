@@ -186,5 +186,62 @@ def handle_single_driver(driver_id):
         else:
             return jsonify({'message': 'Driver not found'}), 404
 
+#`api/collection/<collection_id>/collections` routes GET all entries`
+@app.route('/api/cars/<car_id>/tracks', methods=['GET'])
+def get_tracks_for_car(car_id):
+    
+    car_id = int(car_id)
+
+    if request.method == 'GET':
+#-----------        
+        #find <car_id> in Laptimes
+        car_laptimes = db.laptimes.find({'car_id': car_id}, {'_id': False})
+        
+        #Laptime only contains the references
+        car_laptime_objects = [Laptime(**car_laptime) for car_laptime in car_laptimes]
+
+        #return only track_id
+        tracks_laptime_dicts = [laptime.only_tracks() for laptime in car_laptime_objects]
+
+        #convert the gotten track_ids to str, {"id" : "33"}
+        list_of_tracks= [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
+#------------
+        # Use $in to find tracks with matching track_ids
+        tracks = db.tracks.find({'id': {'$in': list_of_tracks}}, {'_id': False})
+        track_dicts = [track for track in tracks]
+        
+        if tracks:
+        # Convert the result to a list of dictionaries
+            return jsonify(track_dicts)
+        #else wouldnt even work, it rathers returns empty array
+
+@app.route('/api/cars/<car_id>/drivers', methods=['GET'])
+def get_drivers_for_car(car_id):
+
+    car_id = int(car_id)
+
+    if request.method == 'GET':
+#-----------        
+        #find <car_id> in Laptimes
+        car_laptimes = db.laptimes.find({'car_id': car_id}, {'_id': False})
+        
+        #Laptime only contains the references
+        car_laptime_objects = [Laptime(**car_laptime) for car_laptime in car_laptimes]
+
+        tracks_laptime_dicts = [laptime.only_drivers() for laptime in car_laptime_objects]
+
+        list_of_drivers= [laptime_dict.get('driver_id') for laptime_dict in tracks_laptime_dicts]
+#------------
+
+        # Use $in to find tracks with matching track_ids
+        drivers = db.drivers.find({'id': {'$in': list_of_drivers}}, {'_id': False})
+        driver_dicts = [driver for driver in drivers]
+        
+        if drivers:
+        # Convert the result to a list of dictionaries
+            return jsonify(driver_dicts)
+        #else wouldnt even work, it rathers returns empty array
+
+
 if __name__ == '__main__':
     app.run(debug = True)
