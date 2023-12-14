@@ -41,7 +41,18 @@ class Laptime:
             'time': self.time,
             'date' : self.date
         }
-
+    def only_tracks(self):
+        return {
+            'track_id': self.track_id
+        }
+    def only_drivers(self):
+        return {
+            'driver_id': self.driver_id
+        }
+    def only_cars(self):
+        return {
+            'car_id' : self.car_id
+        }
 # Driver Model
 class Driver:
     def __init__(self,id, name, nationality):
