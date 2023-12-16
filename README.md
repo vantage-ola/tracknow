@@ -48,7 +48,7 @@ I welcome contributions from the community. If you'd like to contribute code, en
 git clone git@github.com:vantage-ola/track-now.git
 ```
 
-2. Name your branch based on the feature you are working on. For example, writing README branch would be called `feature/write_readme`\
+2. Name your branch based on the feature you are working on. For example, writing README branch would be called `feature/write_readme`
 
 ```shell
 git checkout -b <your branch name>
