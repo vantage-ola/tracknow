@@ -1,119 +1,119 @@
 
 [
-    {
-      "id": 2,
-      "name": "Ferrari SF90 Stradale",
-      "body": "2-door coupe",
-      "class": "Hybrid supercar",
-      "engine": "4.0L twin-turbocharged V8 combined with three electric motors",
-      "hp": "735 kW (1,000 PS; 986 hp) (combined output)",
-      "layout": "Mid-engine, AWD",
-      "racecar": false,
-      "transmission": "8-speed dual-clutch automatic"
-    },
-    {
-      "id": 3,
-      "name": "Porsche 911 GT3 RS",
-      "body": "2-door coupe",
-      "class": "Sports car",
-      "engine": "4.0L naturally aspirated flat-six",
-      "hp": "383 kW (520 PS; 513 hp)",
-      "layout": "Rear-engine, RWD",
-      "racecar": false,
-      "transmission": "7-speed PDK automatic"
-    },
-    {
-      "id": 4,
-      "name": "Lamborghini Huracán Performante",
-      "body": "2-door coupe",
-      "class": "Exotic sports car",
-      "engine": "5.2L naturally aspirated V10",
-      "hp": "470 kW (640 PS; 631 hp)",
-      "layout": "Mid-engine, AWD",
-      "racecar": false,
-      "transmission": "7-speed dual-clutch automatic"
-    },
-    {
-      "id": 5,
-      "name": "Tesla Model S Plaid",
-      "body": "4-door sedan",
-      "class": "Electric high-performance sedan",
-      "engine": "Electric",
-      "hp": "1,020 hp",
-      "layout": "Dual motor, AWD",
-      "racecar": false,
-      "transmission": "Single-speed automatic"
-    },
-  
-    {
-      "id": 1,
-      "name": "Nürburgring Nordschleife",
-      "location": "Nürburg, Germany",
-      "length": "20.8 km"
-    },
-    {
-      "id": 2,
-      "name": "Circuit de la Sarthe",
-      "location": "Le Mans, France",
-      "length": "13.6 km"
-    },
-    {
-      "id": 3,
-      "name": "Monaco Grand Prix Circuit",
-      "location": "Monte Carlo, Monaco",
-      "length": "3.337 km"
-    },
-
-
-  
-    {
-      "id": 1,
-      "name": "Lewis Hamilton",
-      "nationality": "British"
-    },
-    {
-      "id": 2,
-      "name": "Sebastian Vettel",
-      "nationality": "German"
-    },
-    {
-      "id": 3,
-      "name": "Max Verstappen",
-      "nationality": "Dutch"
-    },
-    {
-      "id": 4,
-      "name": "Valtteri Bottas",
-      "nationality": "Finnish"
-    },
-
-    {
-      "id": 1,
-      "car_id": 2,
-      "track_id": 1,
-      "driver_id": 1,
-      "time_minutes": 8.34
-    },
-    {
-      "id": 2,
-      "car_id": 3,
-      "track_id": 2,
-      "driver_id": 2,
-      "time_minutes": 8.00
-    },
-    {
-      "id": 3,
-      "car_id": 4,
-      "track_id": 3,
-      "driver_id": 3,
-      "time_minutes": 8.68
-    },
-    {
-      "id": 4,
-      "car_id": 5,
-      "track_id": 1,
-      "driver_id": 4,
-      "time_minutes": 7.51
-    }  
-  ]
-  
+    {"Car" : [
+        {
+          "id": 2,
+          "name": "Ferrari SF90 Stradale",
+          "body": "2-door coupe",
+          "class": "Hybrid supercar",
+          "engine": "4.0L twin-turbocharged V8 combined with three electric motors",
+          "hp": "735 kW (1,000 PS; 986 hp) (combined output)",
+          "layout": "Mid-engine, AWD",
+          "racecar": false,
+          "transmission": "8-speed dual-clutch automatic"
+        },
+        {
+          "id": 3,
+          "name": "Porsche 911 GT3 RS",
+          "body": "2-door coupe",
+          "class": "Sports car",
+          "engine": "4.0L naturally aspirated flat-six",
+          "hp": "383 kW (520 PS; 513 hp)",
+          "layout": "Rear-engine, RWD",
+          "racecar": false,
+          "transmission": "7-speed PDK automatic"
+        },
+        {
+          "id": 4,
+          "name": "Lamborghini Huracán Performante",
+          "body": "2-door coupe",
+          "class": "Exotic sports car",
+          "engine": "5.2L naturally aspirated V10",
+          "hp": "470 kW (640 PS; 631 hp)",
+          "layout": "Mid-engine, AWD",
+          "racecar": false,
+          "transmission": "7-speed dual-clutch automatic"
+        },
+        {
+          "id": 5,
+          "name": "Tesla Model S Plaid",
+          "body": "4-door sedan",
+          "class": "Electric high-performance sedan",
+          "engine": "Electric",
+          "hp": "1,020 hp",
+          "layout": "Dual motor, AWD",
+          "racecar": false,
+          "transmission": "Single-speed automatic"
+        }
+    ]}, 
+    
+    {"Track" : [
+        {
+            "id": "132",
+            "name": "NURBURGRING NORDSCHLEIFE",
+            "location": {
+              "country": "Germany",
+              "city": "Nurburgring Nordschleife"
+            },
+            "grade": "3",
+            "length": "25.888 km"
+          },
+          {
+            "id": "133",
+            "name": "OULTON PARK",
+            "location": {
+              "country": "United Kingdom",
+              "city": "Oulton Park"
+            },
+            "grade": "3",
+            "length": "4.332 km"
+          }]},
+    {"Driver" : [
+        {
+          "id": 1,
+          "name": "Lewis Hamilton",
+          "nationality": "British"
+        },
+        {
+          "id": 2,
+          "name": "Sebastian Vettel",
+          "nationality": "German"
+        },
+        {
+          "id": 3,
+          "name": "Max Verstappen",
+          "nationality": "Dutch"
+        },
+        {
+          "id": 4,
+          "name": "Valtteri Bottas",
+          "nationality": "Finnish"
+        }
+        ]},
+    
+    {"Laptime" : [
+        {
+            "car_id": 1,
+            "date": "19.08.2022",
+            "driver_id": 1,
+            "time": "1:56.0960",
+            "track_id": 33
+        },
+        {
+            "car_id": 7,
+            "date": "10.10.2020",
+            "driver_id": 5,
+            "time": "1:25.269",
+            "track_id": 33
+            },
+        {
+            "car_id": 1,
+            "date": "20.10.2022",
+            "driver_id": 1,
+            "time": "6.35.183",
+            "track_id": 132
+         }
+        ]} 
+       
+      ]
+      
