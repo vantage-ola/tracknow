@@ -83,9 +83,9 @@ MONGO_USERNAME=github_track_now
 MONGO_PASSWORD=NKwN89hHGe8IcFwn
 ```
 
-4. Make your changes and commit them.
-5. Push your changes to your fork.
-6. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
+6. Make your changes and commit them.
+7. Push your changes to your fork.
+8. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
 
 ## Project Management
 
