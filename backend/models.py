@@ -72,25 +72,31 @@ class Laptime(Car, Driver, Track):
         self.date = date
 
     def to_dict(self):
-        dict_car = Car.to_dict(self)
+        dict_Car = Car.to_dict(self)
         dict_Driver = Driver.to_dict(self)
         dict_Track = Track.to_dict(self)
         return {
-            'car_id': dict_car['id'],
+            'car_id': dict_Car['id'],
             'track_id': dict_Track['id'],
             'driver_id':  dict_Driver['id'],
             'time': self.time,
             'date' : self.date
         }
+    
     def only_tracks(self):
+        dict_Track = Track.to_dict(self)
         return {
-            'track_id': self.Track.id
+            'track_id': dict_Track['id']
         }
+    
     def only_drivers(self):
+        dict_Driver = Driver.to_dict(self)
         return {
-            'driver_id': self.Driver.id
+            'driver_id': dict_Driver['id']
     }
+    
     def only_cars(self):
+        dict_Car = Car.to_dict(self)
         return {
-            'car_id' : self.Car.id
+            'car_id' : dict_Car['id']
     }
