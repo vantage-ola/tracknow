@@ -195,7 +195,6 @@ def get_tracks_for_car(car_id):
     car_id = int(car_id)
 
     if request.method == 'GET':
-#-----------        
         #find <car_id> in Laptimes
         car_laptimes = db.laptimes.find({'car_id': car_id}, {'_id': False})
         
@@ -205,17 +204,17 @@ def get_tracks_for_car(car_id):
         #return only track_id
         tracks_laptime_dicts = [laptime.only_tracks() for laptime in car_laptime_objects]
 
+        if tracks_laptime_dicts:
         #convert the gotten track_ids to str, {"id" : "33"}
-        list_of_tracks_id= [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
-#------------
+            list_of_tracks_id= [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
         # Use $in to find tracks with matching track_ids
-        tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
-        track_dicts = [track for track in tracks]
-        
-        if tracks:
+            tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
+            track_dicts = [track for track in tracks]
         # Convert the result to a list of dictionaries
             return jsonify(track_dicts)
-        #else wouldnt even work, it rathers returns empty array
+        else:
+             return jsonify({'message': 'Record not found!'}), 404
+
 
 @app.route('/api/cars/<car_id>/drivers', methods=['GET'])
 def get_drivers_for_car(car_id):
@@ -223,26 +222,22 @@ def get_drivers_for_car(car_id):
     car_id = int(car_id)
 
     if request.method == 'GET':
-#-----------        
-        #find <car_id> in Laptimes
+
         car_laptimes = db.laptimes.find({'car_id': car_id}, {'_id': False})
         
-        #Laptime only contains the references
         car_laptime_objects = [Laptime(**car_laptime) for car_laptime in car_laptimes]
 
         tracks_laptime_dicts = [laptime.only_drivers() for laptime in car_laptime_objects]
-
-        list_of_drivers_id= [laptime_dict.get('driver_id') for laptime_dict in tracks_laptime_dicts]
-#------------
-
-        # Use $in to find tracks with matching track_ids
-        drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id': False})
-        driver_dicts = [driver for driver in drivers]
         
-        if drivers:
-        # Convert the result to a list of dictionaries
+        if tracks_laptime_dicts:
+            list_of_drivers_id= [laptime_dict.get('driver_id') for laptime_dict in tracks_laptime_dicts]
+
+            drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id': False})
+            driver_dicts = [driver for driver in drivers]
+
             return jsonify(driver_dicts)
-        #else wouldnt even work, it rathers returns empty array
+        else:
+            return jsonify({'message': 'Record not found!'}), 404
 
 @app.route('/api/drivers/<driver_id>/cars', methods=['GET'])
 def get_cars_for_drivers(driver_id):
@@ -257,13 +252,16 @@ def get_cars_for_drivers(driver_id):
 
         cars_laptime_dicts = [laptime.only_cars() for laptime in driver_laptime_objects]
 
-        list_of_cars_id = [laptime_dict.get('car_id') for laptime_dict in cars_laptime_dicts]
+        if cars_laptime_dicts:
+            list_of_cars_id = [laptime_dict.get('car_id') for laptime_dict in cars_laptime_dicts]
 
-        cars = db.cars.find({'id': {'$in': list_of_cars_id}}, {'_id': False})
-        car_dicts = [car for car in cars]
+            cars = db.cars.find({'id': {'$in': list_of_cars_id}}, {'_id': False})
+            car_dicts = [car for car in cars]
 
-        if cars:
-            return jsonify(car_dicts)
+            return jsonify(car_dicts)        
+        else:       
+            return jsonify({'message': 'Record not found!'}), 404
+
 
 @app.route('/api/drivers/<driver_id>/tracks', methods=['GET'])
 def get_tracks_for_drivers(driver_id):
@@ -278,14 +276,16 @@ def get_tracks_for_drivers(driver_id):
 
         tracks_laptime_dicts = [laptime.only_tracks() for laptime in driver_laptime_objects]
 
-        list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
+        if tracks_laptime_dicts:
+        #print(tracks_laptime_dicts)
+            list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
 
-        tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
-        track_dicts = [track for track in tracks]
+            tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
+            track_dicts = [track for track in tracks]
 
-        if tracks:
             return jsonify(track_dicts)
-
+        else:
+            return jsonify({'message': 'Record not found!'}), 404
 
 
 
