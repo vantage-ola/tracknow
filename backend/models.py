@@ -84,13 +84,13 @@ class Laptime(Car, Driver, Track):
         }
     def only_tracks(self):
         return {
-            'track_id': self.Track.id
+            'track_id': self.id
         }
     def only_drivers(self):
         return {
-            'driver_id': self.Driver.id
+            'driver_id': self.id
     }
     def only_cars(self):
         return {
-            'car_id' : self.Car.id
+            'car_id' : self.id
     }
