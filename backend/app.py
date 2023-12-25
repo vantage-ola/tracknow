@@ -3,11 +3,19 @@ from pymongo import MongoClient
 from decouple import config
 from models import Car, Track, Laptime ,Driver
 from bson import ObjectId
-
+from error_handle import *
 
 app = Flask(__name__)
 
 
+#error_handling
+app.register_error_handler(400, handle_bad_request)
+app.register_error_handler(401, handle_unauthorized)
+app.register_error_handler(403, handle_forbidden)
+app.register_error_handler(404, handle_not_found)
+app.register_error_handler(405, handle_method_not_allowed)
+app.register_error_handler(500, handle_internal_server_error)
+app.register_error_handler(503, handle_service_unavailable)
 
 #mongo db config
 MONGO_USERNAME = config('MONGO_USERNAME')
@@ -17,7 +25,7 @@ client =MongoClient("mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrit
 db = client['track_now'] #Track Now DB
 
 
-# missing error handling* (404, 500, 200...)
+
 
 #`api/collections` routes GET&POST all entries`
 @app.route('/api/cars', methods=['GET', 'POST'])
