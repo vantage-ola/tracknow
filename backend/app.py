@@ -189,6 +189,7 @@ def handle_single_driver(driver_id):
             return jsonify({'message': 'Driver not found'}), 404
 
 #`api/collection/<collection_id>/collections` routes GET all entries`
+# cars/<car_id>/*
 @app.route('/api/cars/<car_id>/tracks', methods=['GET'])
 def get_tracks_for_car(car_id):
     
@@ -215,7 +216,6 @@ def get_tracks_for_car(car_id):
         else:
              return jsonify({'message': 'Record not found!'}), 404
 
-
 @app.route('/api/cars/<car_id>/drivers', methods=['GET'])
 def get_drivers_for_car(car_id):
 
@@ -239,6 +239,7 @@ def get_drivers_for_car(car_id):
         else:
             return jsonify({'message': 'Record not found!'}), 404
 
+# drivers/driver_id/*
 @app.route('/api/drivers/<driver_id>/cars', methods=['GET'])
 def get_cars_for_drivers(driver_id):
 
@@ -262,7 +263,6 @@ def get_cars_for_drivers(driver_id):
         else:       
             return jsonify({'message': 'Record not found!'}), 404
 
-
 @app.route('/api/drivers/<driver_id>/tracks', methods=['GET'])
 def get_tracks_for_drivers(driver_id):
         
@@ -277,7 +277,7 @@ def get_tracks_for_drivers(driver_id):
         tracks_laptime_dicts = [laptime.only_tracks() for laptime in driver_laptime_objects]
 
         if tracks_laptime_dicts:
-        #print(tracks_laptime_dicts)
+
             list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
 
             tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
@@ -286,8 +286,53 @@ def get_tracks_for_drivers(driver_id):
             return jsonify(track_dicts)
         else:
             return jsonify({'message': 'Record not found!'}), 404
+        
+# tracks/track_id/*
+@app.route('/api/tracks/<track_id>/cars', methods=['GET'])
+def get_cars_for_track(track_id):
 
+    track_id  = int(track_id)
+    
+    if request.method == 'GET':
 
+        track_laptimes = db.laptimes.find({'track_id' : track_id }, {'_id': False})
+
+        track_laptimes_objects = [Laptime(**track_laptime) for track_laptime in track_laptimes]
+
+        cars_laptimes_dicts = [laptime.only_cars() for laptime in track_laptimes_objects]
+
+        if cars_laptimes_dicts:
+            list_of_cars_id = [laptime_dict.get('car_id') for laptime_dict in cars_laptimes_dicts]
+
+            cars = db.cars.find({'id': {'$in': list_of_cars_id}}, {'_id' : False})
+            cars_dict = [car for car in cars]
+
+            return jsonify(cars_dict)
+        else:
+            return jsonify({'message': 'Record not found!'}), 404
+        
+@app.route('/api/tracks/<track_id>/drivers', methods=['GET'])
+def get_drivers_for_track(track_id):
+
+    track_id  = int(track_id)
+    
+    if request.method == 'GET':
+
+        track_laptimes = db.laptimes.find({'track_id' : track_id }, {'_id': False})
+
+        track_laptimes_objects = [Laptime(**track_laptime) for track_laptime in track_laptimes]
+
+        drivers_laptimes_dicts = [laptime.only_drivers() for laptime in track_laptimes_objects]
+
+        if drivers_laptimes_dicts:
+            list_of_drivers_id = [laptime_dict.get('driver_id') for laptime_dict in drivers_laptimes_dicts]
+
+            drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id' : False})
+            drivers_dicts = [driver for driver in drivers]
+
+            return jsonify(drivers_dicts)
+        else:
+            return jsonify({'message': 'Record not found!'}), 404
 
 if __name__ == '__main__':
     app.run(debug = True)
