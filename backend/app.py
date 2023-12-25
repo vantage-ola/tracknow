@@ -2,9 +2,9 @@ from flask import Flask, request,jsonify
 from pymongo import MongoClient
 from decouple import config
 from models import Car, Track, Laptime ,Driver
-from extensions import db
 from bson import ObjectId
-from function_modules.validitor import to_jsonify
+from extensions import db
+# from function_modules.validitor import to_jsonify
 
 
 app = Flask(__name__)
@@ -12,8 +12,8 @@ app = Flask(__name__)
 
 
 #mongo db config
-MONGO_USERNAME = config('MONGO_USERNAME')
-MONGO_PASSWORD = config('MONGO_PASSWORD')
+# MONGO_USERNAME = config('MONGO_USERNAME')
+# MONGO_PASSWORD = config('MONGO_PASSWORD')
 
 # client =MongoClient("mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority".format(MONGO_USERNAME,MONGO_PASSWORD))
 # db = client['track_now'] #Track Now DB
@@ -278,19 +278,17 @@ def get_tracks_for_drivers(driver_id):
 
         tracks_laptime_dicts = [laptime.only_tracks() for laptime in driver_laptime_objects]
 
-        return to_jsonify(db.tracks, 'id', tracks_laptime_dicts, 'Tracks')
+     
 
-    """ 
-        if tracks_laptime_dicts
+        if tracks_laptime_dicts:
         #print(tracks_laptime_dicts)
             list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
+            print("List of IDs: ", list_of_tracks_id)
             tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
             track_dicts = [track for track in tracks]
             return jsonify(track_dicts)
         else:
-            return jsonify({'message': 'Record not found!'}), 404
-    """
-
+            return jsonify({'message': 'Record not found!'}), 404 
 
 
 if __name__ == '__main__':
