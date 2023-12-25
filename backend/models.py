@@ -76,7 +76,7 @@ class Laptime:
         }
     def only_tracks(self):
         return {
-            'track_id': self.track_idid
+            'track_id': self.track_id
         }
     def only_drivers(self):
         return {

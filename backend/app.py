@@ -2,7 +2,9 @@ from flask import Flask, request,jsonify
 from pymongo import MongoClient
 from decouple import config
 from models import Car, Track, Laptime ,Driver
+from extensions import db
 from bson import ObjectId
+from function_modules.validitor import to_jsonify
 
 
 app = Flask(__name__)
@@ -13,8 +15,8 @@ app = Flask(__name__)
 MONGO_USERNAME = config('MONGO_USERNAME')
 MONGO_PASSWORD = config('MONGO_PASSWORD')
 
-client =MongoClient("mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority".format(MONGO_USERNAME,MONGO_PASSWORD))
-db = client['track_now'] #Track Now DB
+# client =MongoClient("mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority".format(MONGO_USERNAME,MONGO_PASSWORD))
+# db = client['track_now'] #Track Now DB
 
 
 # missing error handling* (404, 500, 200...)
@@ -227,10 +229,10 @@ def get_drivers_for_car(car_id):
         
         car_laptime_objects = [Laptime(**car_laptime) for car_laptime in car_laptimes]
 
-        tracks_laptime_dicts = [laptime.only_drivers() for laptime in car_laptime_objects]
+        driver_laptime_dicts = [laptime.only_drivers() for laptime in car_laptime_objects]
         
-        if tracks_laptime_dicts:
-            list_of_drivers_id= [laptime_dict.get('driver_id') for laptime_dict in tracks_laptime_dicts]
+        if driver_laptime_dicts:
+            list_of_drivers_id= [laptime_dict.get('driver_id') for laptime_dict in driver_laptime_dicts]
 
             drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id': False})
             driver_dicts = [driver for driver in drivers]
@@ -276,16 +278,18 @@ def get_tracks_for_drivers(driver_id):
 
         tracks_laptime_dicts = [laptime.only_tracks() for laptime in driver_laptime_objects]
 
-        if tracks_laptime_dicts:
+        return to_jsonify(db.tracks, 'id', tracks_laptime_dicts, 'Tracks')
+
+    """ 
+        if tracks_laptime_dicts
         #print(tracks_laptime_dicts)
             list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
-
             tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
             track_dicts = [track for track in tracks]
-
             return jsonify(track_dicts)
         else:
             return jsonify({'message': 'Record not found!'}), 404
+    """
 
 
 
