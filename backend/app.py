@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from decouple import config
 from models import Car, Track, Laptime ,Driver
 from bson import ObjectId
+from extensions import db
 
 
 app = Flask(__name__)
