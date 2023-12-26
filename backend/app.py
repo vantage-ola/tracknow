@@ -3,13 +3,19 @@ from pymongo import MongoClient
 from decouple import config
 from models import Car, Track, Laptime ,Driver
 from bson import ObjectId
-from extensions import db
-# from function_modules.validitor import to_jsonify
 
 
 app = Flask(__name__)
 
 
+#error_handling
+app.register_error_handler(400, handle_bad_request)
+app.register_error_handler(401, handle_unauthorized)
+app.register_error_handler(403, handle_forbidden)
+app.register_error_handler(404, handle_not_found)
+app.register_error_handler(405, handle_method_not_allowed)
+app.register_error_handler(500, handle_internal_server_error)
+app.register_error_handler(503, handle_service_unavailable)
 
 #mongo db config
 # MONGO_USERNAME = config('MONGO_USERNAME')
@@ -19,7 +25,7 @@ app = Flask(__name__)
 # db = client['track_now'] #Track Now DB
 
 
-# missing error handling* (404, 500, 200...)
+
 
 #`api/collections` routes GET&POST all entries`
 @app.route('/api/cars', methods=['GET', 'POST'])
@@ -191,6 +197,7 @@ def handle_single_driver(driver_id):
             return jsonify({'message': 'Driver not found'}), 404
 
 #`api/collection/<collection_id>/collections` routes GET all entries`
+# cars/<car_id>/*
 @app.route('/api/cars/<car_id>/tracks', methods=['GET'])
 def get_tracks_for_car(car_id):
     
@@ -217,7 +224,6 @@ def get_tracks_for_car(car_id):
         else:
              return jsonify({'message': 'Record not found!'}), 404
 
-
 @app.route('/api/cars/<car_id>/drivers', methods=['GET'])
 def get_drivers_for_car(car_id):
 
@@ -241,6 +247,7 @@ def get_drivers_for_car(car_id):
         else:
             return jsonify({'message': 'Record not found!'}), 404
 
+# drivers/driver_id/*
 @app.route('/api/drivers/<driver_id>/cars', methods=['GET'])
 def get_cars_for_drivers(driver_id):
 
@@ -264,7 +271,6 @@ def get_cars_for_drivers(driver_id):
         else:       
             return jsonify({'message': 'Record not found!'}), 404
 
-
 @app.route('/api/drivers/<driver_id>/tracks', methods=['GET'])
 def get_tracks_for_drivers(driver_id):
         
@@ -281,14 +287,15 @@ def get_tracks_for_drivers(driver_id):
      
 
         if tracks_laptime_dicts:
-        #print(tracks_laptime_dicts)
+
             list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
             print("List of IDs: ", list_of_tracks_id)
             tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
             track_dicts = [track for track in tracks]
             return jsonify(track_dicts)
         else:
-            return jsonify({'message': 'Record not found!'}), 404 
+            return jsonify({'message': 'Record not found!'}), 404
+
 
 
 if __name__ == '__main__':
