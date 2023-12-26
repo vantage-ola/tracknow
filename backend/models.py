@@ -80,7 +80,7 @@ class Laptime:
         }
     def only_drivers(self):
         return {
-            'driver_id': self.driver_id.id
+            'driver_id': self.driver_id
     }
     def only_cars(self):
         return {
