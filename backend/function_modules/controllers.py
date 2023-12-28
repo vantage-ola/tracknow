@@ -12,7 +12,7 @@ def to_jsonify(id_field, collections, laptime,  name_id=str(), search_id=str()):
     """
   
     find_id = collections.find({name_id: id_field}, {'_id': False})
-    print(find_id)
+
   
     id_objects = [laptime(**find_ids) for find_ids in find_id]
     print(name_id)
