@@ -15,7 +15,6 @@ def to_jsonify(id_field, collections, laptime,  name_id=str(), search_id=str()):
 
   
     id_objects = [laptime(**find_ids) for find_ids in find_id]
-    print(name_id)
     if search_id == 'car_id':
         find_id_dicts = [laptimes.only_cars() for laptimes in id_objects]
         
@@ -44,7 +43,6 @@ def to_jsonify_one(id_field, collection, name_id=str(), message="Entry"):
     if find_id is not None:
         # Extract data from the cursor
         find_id = dict(find_id)
-        print(find_id)
         return jsonify(find_id)
     else:
         return jsonify({"message": "{} not found".format(message)}), 404
