@@ -5,10 +5,13 @@ from extensions import db
 from function_modules.controllers import to_jsonify, to_jsonify_one
 from error_handle import *
 
+
+
 app = Flask(__name__)
 
 
 #error_handling
+
 app.register_error_handler(400, handle_bad_request)
 app.register_error_handler(401, handle_unauthorized)
 app.register_error_handler(403, handle_forbidden)
@@ -16,6 +19,7 @@ app.register_error_handler(404, handle_not_found)
 app.register_error_handler(405, handle_method_not_allowed)
 app.register_error_handler(500, handle_internal_server_error)
 app.register_error_handler(503, handle_service_unavailable)
+
 
 
 #`api/collections` routes GET&POST all entries`
