@@ -9,7 +9,9 @@ from decouple import config
 #config test
 MONGO_USERNAME = config('MONGO_USERNAME')
 MONGO_PASSWORD = config('MONGO_PASSWORD')
-uri = "mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority".format(MONGO_USERNAME,MONGO_PASSWORD)
+MONGO_URI = config('MONGO_URI')
+
+uri = MONGO_URI.format(MONGO_USERNAME,MONGO_PASSWORD)
 
 @pytest.fixture
 def test_mongo():

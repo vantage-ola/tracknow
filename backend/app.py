@@ -1,6 +1,5 @@
 from flask import Flask, request,jsonify
 from models import Car, Track, Laptime ,Driver
-from bson import ObjectId
 from extensions import db
 from function_modules.controllers import to_jsonify, to_jsonify_one
 from error_handle import *
@@ -25,6 +24,38 @@ app.register_error_handler(503, handle_service_unavailable)
 #`api/collections` routes GET&POST all entries`
 @app.route('/api/cars', methods=['GET', 'POST'])
 def handle_cars():
+    """
+Retrieve a JSON list of cars from the TRACK NOW DATABASE.
+
+This endpoint returns a JSON representation of the cars currently stored in the TRACK NOW DATABASE. 
+
+Endpoint:
+    GET /api/cars
+
+Returns:
+    JSON:
+        [{
+            "name": "Ferrari SF90 Stradale",
+            "body": "2-door coupe",
+            "car_class": "Hybrid supercar",
+            ...
+        },
+        {
+            "name": "Porsche 911 GT3 RS",
+            "body": "2-door coupe",
+            "car_class": "Sports car",
+            ...
+        },
+            ...
+        ]
+
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/cars'
+
+Note:
+    - CHECK README.md for MONGO DB credientials
+"""
 
     if request.method == 'GET':
         cars =  db.cars.find({}, {'_id': False})
@@ -62,6 +93,42 @@ def handle_cars():
 
 @app.route('/api/tracks', methods=['GET', 'POST'])
 def handle_tracks():
+    """
+Retrieve a JSON list of tracks from the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of tracks currently stored in the TRACK NOW DATABASE. 
+
+Endpoint:
+    GET /api/tracks
+
+Returns:
+    JSON Format:
+            [{
+                "name": "NURBURGRING NORDSCHLEIFE",
+                "location": {
+                    "country": "Germany",
+                    "city": "Nurburgring Nordschleife"
+                            }
+                "grade": "3",
+                    ...
+            },
+            {
+                "name": "OULTON PARK",
+                "location": {
+                    "country": "United Kingdom",
+                    "city": "Oulton Park"
+                            }
+                "grade": "3",
+                    ...
+            },
+             ...
+            ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/tracks'
+
+
+"""
 
     if request.method == 'GET':
         tracks = db.tracks.find({}, {'_id': False})
@@ -94,6 +161,34 @@ def handle_tracks():
 
 @app.route('/api/drivers', methods=['GET', 'POST'])
 def handle_drivers():
+    """
+Retrieve a JSON list of drivers from the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of drivers currently stored in the TRACK NOW DATABASE. 
+
+Endpoint:
+    GET /api/drivers
+
+Returns:
+    JSON Format:
+            [{
+                "name": "John Doe",
+                "nationality": "American",
+                ...
+            },
+            {
+                "name": "Maria Rodriguez",
+                "nationality": "Spainish",
+                ...
+            },
+                ...
+            ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/drivers'
+
+"""
+
     if request.method == 'GET':
         drivers = db.drivers.find({}, {'_id': False})
         driver_objects = [Driver(**driver) for driver in drivers]
@@ -121,6 +216,39 @@ def handle_drivers():
 
 @app.route('/api/laptimes', methods=['GET', 'POST'])
 def handle_laptimes():
+    """
+Retrieve a JSON list of lap times from the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of lap times recorded in the TRACK NOW DATABASE. 
+
+Endpoint:
+    GET /api/laptimes
+
+Returns:
+    JSON Format:
+        [{
+            "car_id": 1,
+            "date": "19.08.2022",
+            "driver_id": 1,
+            "time": "1:56.0960",
+            "track_id": 33
+        },
+        {
+            "car_id": 1,
+            "date": "20.10.2022",
+            "driver_id": 1,
+            "time": "6.35.183",
+            "track_id": 132
+        },
+        ...
+            
+        }]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/laptimes'
+
+"""
+
     if request.method == 'GET':
         laptimes = db.laptimes.find({}, {'_id': False})
         laptime_objects = [Laptime(**laptime) for laptime in laptimes]
@@ -151,6 +279,32 @@ def handle_laptimes():
 
 @app.route('/api/cars/<car_id>', methods=['GET'])
 def handle_single_car(car_id):
+    """
+Retrieve JSON data for a specific car in the TRACK NOW DATABASE.
+
+This endpoint returns JSON-formatted data for a specific car based on the provided car_id. 
+The car_id represents the unique identifier for the desired car in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/cars/{car_id}
+
+Parameters:
+    - car_id  : The specific identifier for the car being searched.
+
+Returns:
+    JSON Format:
+        {
+          "id" : 1
+          "name": "Ferrari SF90 Stradale",
+          "body": "2-door coupe",
+          "class": "Hybrid supercar"
+            ...
+        }
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/cars/1'
+
+"""
 
     car_id = int(car_id)
 
@@ -162,6 +316,30 @@ def handle_single_car(car_id):
         
 @app.route('/api/tracks/<track_id>', methods=['GET'])
 def handle_single_track(track_id):
+    """
+Retrieve JSON data for a specific track in the TRACK NOW DATABASE.
+
+This endpoint returns JSON-formatted data for a specific track based on the provided track_id. 
+The track_id represents the unique identifier for the desired track in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/tracks/{track_id}
+
+Parameters:
+    - track_id : The specific identifier for the track being searched.
+
+Returns:
+    JSON Format:
+        {
+            "id": "132",
+            "name": "NURBURGRING NORDSCHLEIFE",
+            ...
+        }
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/tracks/1'
+
+"""
 
     track_id = str(track_id) #id json is in string form lol {..."id": "1"}
 
@@ -173,6 +351,30 @@ def handle_single_track(track_id):
         
 @app.route('/api/drivers/<driver_id>', methods=['GET'])
 def handle_single_driver(driver_id):
+    """
+Retrieve JSON data for a specific driver in the TRACK NOW DATABASE.
+
+This endpoint returns JSON-formatted data for a specific driver based on the provided driver_id. 
+The driver_id represents the unique identifier for the desired driver in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/drivers/{driver_id}
+
+Parameters:
+    - driver_id : The specific identifier for the driver being searched.
+
+Returns:
+    JSON Format:
+        {
+            "id": "77",
+            "name": "John Doe",
+            "nationality": "American",
+            ...
+        }
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/drivers/1'
+"""
 
     driver_id = int(driver_id)
 
@@ -186,7 +388,45 @@ def handle_single_driver(driver_id):
 # cars/<car_id>/*
 @app.route('/api/cars/<car_id>/tracks', methods=['GET'])
 def get_tracks_for_car(car_id):
-    
+    """
+Retrieve a JSON list of tracks raced by a specific car in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of tracks where a specific car, identified by car_id, has participated in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/cars/{car_id}/tracks
+
+Parameters:
+    - car_id : The specific identifier for the car being searched.
+
+Returns:
+    JSON Format:
+            [{
+                "name": "NURBURGRING NORDSCHLEIFE",
+                "location": {
+                    "country": "Germany",
+                    "city": "Nurburgring Nordschleife"
+                            }
+                "grade": "3",
+                    ...
+            },
+            {
+                "name": "OULTON PARK",
+                "location": {
+                    "country": "United Kingdom",
+                    "city": "Oulton Park"
+                            }
+                "grade": "3",
+                    ...
+            },
+             ...
+            ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/cars/41/tracks'
+
+"""
+
     car_id = int(car_id)
 
     if request.method == 'GET':
@@ -205,6 +445,35 @@ def get_tracks_for_car(car_id):
 
 @app.route('/api/cars/<car_id>/drivers', methods=['GET'])
 def get_drivers_for_car(car_id):
+    """
+Retrieve a JSON list of drivers who have raced a specific car in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of drivers who have participated in races with a specific car, identified by car_id, in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/cars/{car_id}/drivers
+
+Parameters:
+    - car_id : The specific identifier for the car being searched.
+
+Returns:
+    JSON Format:
+            [{
+                "name": "John Doe",
+                "nationality": "American",
+                ...
+            },
+            {
+                "name": "Maria Rodriguez",
+                "nationality": "Spainish",
+                ...
+            },
+                ...
+            ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/cars/43/drivers'
+"""
 
     car_id = int(car_id)
 
@@ -225,6 +494,37 @@ def get_drivers_for_car(car_id):
 # drivers/driver_id/*
 @app.route('/api/drivers/<driver_id>/cars', methods=['GET'])
 def get_cars_for_drivers(driver_id):
+    """
+Retrieve a JSON list of cars raced by a specific driver in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of cars that a specific driver, identified by driver_id, has raced in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/drivers/{driver_id}/cars
+
+Parameters:
+    - driver_id : The specific identifier for the driver being searched.
+
+Returns:
+    JSON:
+        [{
+            "name": "Ferrari SF90 Stradale",
+            "body": "2-door coupe",
+            "car_class": "Hybrid supercar",
+            ...
+        },
+        {
+            "name": "Porsche 911 GT3 RS",
+            "body": "2-door coupe",
+            "car_class": "Sports car",
+            ...
+        },
+            ...
+        ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/drivers/1/cars'
+"""
 
     driver_id = int(driver_id)
 
@@ -243,7 +543,43 @@ def get_cars_for_drivers(driver_id):
 
 @app.route('/api/drivers/<driver_id>/tracks', methods=['GET'])
 def get_tracks_for_drivers(driver_id):
-        
+    """
+Retrieve a JSON list of tracks raced by a specific driver in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of tracks that a specific driver, identified by driver_id, has participated in within the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/drivers/{driver_id}/tracks
+
+Parameters:
+    - driver_id : The specific identifier for the driver being searched.
+
+Returns:
+    JSON Format:
+            [{
+                "name": "NURBURGRING NORDSCHLEIFE",
+                "location": {
+                    "country": "Germany",
+                    "city": "Nurburgring Nordschleife"
+                            }
+                "grade": "3",
+                    ...
+            },
+            {
+                "name": "OULTON PARK",
+                "location": {
+                    "country": "United Kingdom",
+                    "city": "Oulton Park"
+                            }
+                "grade": "3",
+                    ...
+            },
+             ...
+            ]
+Usage:
+    curl --location --request GET 'localhost:5000/drivers/1/tracks'
+"""
+
     driver_id = int(driver_id)
 
     if request.method == 'GET':
@@ -264,6 +600,38 @@ def get_tracks_for_drivers(driver_id):
 # tracks/track_id/*
 @app.route('/api/tracks/<track_id>/cars', methods=['GET'])
 def get_cars_for_tracks(track_id):
+    """
+Retrieve a JSON list of cars that have raced on a specific track in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of cars that have participated in races on a specific track, identified by track_id, in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/tracks/{track_id}/cars
+
+Parameters:
+    - track_id : The specific identifier for the track being searched.
+Returns:
+    JSON:
+        [{
+            "name": "Ferrari SF90 Stradale",
+            "body": "2-door coupe",
+            "car_class": "Hybrid supercar",
+            ...
+        },
+        {
+            "name": "Porsche 911 GT3 RS",
+            "body": "2-door coupe",
+            "car_class": "Sports car",
+            ...
+        },
+            ...
+        ]
+
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/tracks/132/cars'
+
+"""
 
     track_id = int(track_id)
     
@@ -282,6 +650,35 @@ def get_cars_for_tracks(track_id):
 
 @app.route('/api/tracks/<track_id>/drivers', methods=['GET'])
 def get_drivers_for_tracks(track_id):
+    """
+Retrieve a JSON list of drivers who have raced on a specific track in the TRACK NOW DATABASE.
+
+This endpoint returns a JSON-formatted list of drivers who have participated in races on a specific track, identified by track_id, in the TRACK NOW DATABASE.
+
+Endpoint:
+    GET /api/tracks/{track_id}/drivers
+
+Parameters:
+    - track_id : The specific identifier for the track being searched.
+
+Returns:
+    JSON Format:
+            [{
+                "name": "John Doe",
+                "nationality": "American",
+                ...
+            },
+            {
+                "name": "Maria Rodriguez",
+                "nationality": "Spainish",
+                ...
+            },
+                ...
+            ]
+
+Usage:
+    curl --location --request GET 'localhost:5000/api/tracks/132/drivers'
+"""
 
     track_id = int(track_id)
     
