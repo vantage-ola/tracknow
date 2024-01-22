@@ -1,14 +1,17 @@
 import DevelopmentInProgress from './components/DevelopmentInProgress';
+import Home from './components/Home';
 
 export default function App() {
-  const developmentInProgress = true;
+  const developmentInProgress = false;
+   
   return (
     <>
           {developmentInProgress ? (
         <DevelopmentInProgress />
       ) : (
-        /* Your main app content goes here */
-        <></>
+        <>      
+        <Home/>
+        </>
       )}
     </>
 
