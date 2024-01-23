@@ -1,4 +1,4 @@
-![logo](./src/img/track-now-banner-italic.png)
+![logo](./tracknow/src/img/track-now-banner-italic.png)
 
 Explore record lap times, and specifications of your favorite cars on FIA licensed tracks worldwide.
 
@@ -54,27 +54,29 @@ git clone git@github.com:vantage-ola/track-now.git
 git checkout -b <your branch name>
 ```
 
-
 3. Create and activate virtual environment.
-``` shell
+
+```shell
 virtualenv venv
 ```
-* On Windows:
-``` shell
+
+- On Windows:
+
+```shell
 .\venv\Scripts\activate
 ```
 
-* On Mac and Linux:
+- On Mac and Linux:
+
 ```
 source venv/bin/activate
 ```
 
 4. Install dependencies:
+
 ```shell
 pip3 install DEPENDENCIES.txt
 ```
-
-
 
 5. To access the mongo db database to run the flask api , create a local environment `/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
 
