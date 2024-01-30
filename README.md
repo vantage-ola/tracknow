@@ -83,6 +83,7 @@ pip3 install DEPENDENCIES.txt
 ```shell
 MONGO_USERNAME=github_track_now
 MONGO_PASSWORD=NKwN89hHGe8IcFwn
+MONGO_URI=mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority
 ```
 
 6. Make your changes and commit them.
