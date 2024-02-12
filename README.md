@@ -78,7 +78,7 @@ source venv/bin/activate
 pip3 install DEPENDENCIES.txt
 ```
 
-5. To access the mongo db database to run the flask api , create a local environment `/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
+5. To access the mongo db database to run the flask api , create a local environment `tracknow/backend/.env` and copy the variables.(READ_ACCESS_ONLY)
 
 ```shell
 MONGO_USERNAME=github_track_now
@@ -86,9 +86,23 @@ MONGO_PASSWORD=NKwN89hHGe8IcFwn
 MONGO_URI=mongodb+srv://{}:{}@cluster0.j1gr1sc.mongodb.net/?retryWrites=true&w=majority
 ```
 
-6. Make your changes and commit them.
-7. Push your changes to your fork.
-8. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
+6. To start the react native app(expo configuration), navigate to `tracknow/frontend/`
+
+- Install dependencies
+
+```shell
+npm install
+```
+
+- Start the app
+
+```shell
+npx expo start
+```
+
+7. Make your changes and commit them.
+8. Push your changes to your fork.
+9. Open a [pull request](https://github.com/vantage-ola/track-now/pulls) with a clear title and description.
 
 ## Project Management
 
