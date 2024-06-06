@@ -1,12 +1,19 @@
 from flask import Flask, request,jsonify
 from error_handle import *
+from models import db
+from flask_migrate import Migrate
 
 
 
 app = Flask(__name__)
 
 
-#error_handling
+app.config.from_object('config.Config')
+db.init_app(app)
+migrate = Migrate(app, db)
+
+with app.app_context():
+    db.create_all()
 
 app.register_error_handler(400, handle_bad_request)
 app.register_error_handler(401, handle_unauthorized)
