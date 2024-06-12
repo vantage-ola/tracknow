@@ -38,6 +38,7 @@ class Laptime(db.Model):
 
     time = db.Column(db.Float, nullable=False) #Laptime
     simracing = db.Column(db.Boolean, nullable=False)  # True for simracing, False for real life
+    platform = db.Column(db.String(100), nullable=True) # if simracing is true, what simracing title do you set that laptime.
     youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.
     comment = db.Column(db.String(500), nullable=True)
     
@@ -52,6 +53,7 @@ class Laptime(db.Model):
             'track': self.track,
             'time': self.time,
             'simracing': self.simracing,
+            'platform': self.platform,
             'youtube_link': self.youtube_link,
             'comment': self.comment
         }
