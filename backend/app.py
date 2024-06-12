@@ -1,6 +1,6 @@
 from flask import Flask, abort, request,jsonify,  url_for
 from error_handle import *
-from models import db, User
+from models import db, User, Laptime
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
@@ -36,11 +36,10 @@ def create_app(config_class='config.Config'):
         # { "username" : "your_username",
         #   "password" :  "your_password"}  
         if new_user['username'] is None or new_user['password'] is None:
-            abort(400)
-            # TODO return missing  parameters json
+            return jsonify({"msg" : "Missing requiring fields"}), 400
+        
         if User.query.filter_by(username=new_user['username']).first() is not None:
-            abort(400)
-            # TODO return existing user json
+            return jsonify({"msg" : "User Exists"}), 400
 
         user = User(username=new_user['username'])
         user.hash_password(new_user['password'])
@@ -70,10 +69,17 @@ def create_app(config_class='config.Config'):
         if not user:
             abort(400)
         return jsonify({'username': user.username})
+    
+    # Route to list all users
+    @app.route('/api/v1/users/', methods=['GET'])
+    def get_users():
+        users = User.query.filter_by().all()
 
-    # Route to check if we are logged in with our unique jwt token 
+        return jsonify([u.to_dict() for u in users]), 200
+
+    # Route to check if we are logged in with our unique jwt token.
     @app.route('/api/v1/protected', methods=['GET'])
-    # Include bearer token from login_user() to  verify we are logged in and are in session
+    # Include bearer token from login_user() to  verify we are logged in and are in session.
     @jwt_required()
     def get_identity():
         user_id = get_jwt_identity()
@@ -85,6 +91,75 @@ def create_app(config_class='config.Config'):
         else:
             return jsonify({'message': 'User not found'}), 404
     
+    # Logged in user adds laptime.
+    @app.route('/api/v1/user/laptimes', methods=['POST'])
+    @jwt_required()
+    def add_laptime():
+        user_id = get_jwt_identity()
+        loggedin_user = User.query.filter_by(id=user_id).first()
+        
+        laptime_data = request.get_json()
+
+        car = laptime_data.get('car')
+        track = laptime_data.get('track')
+        time = laptime_data.get('time')
+        simracing = laptime_data.get('simracing', False)
+        platform = laptime_data.get('platform')
+        youtube_link = laptime_data.get('youtube_link', '')
+        comment = laptime_data.get('comment', '')
+
+        if not car or not track or not time:
+            return jsonify({'msg': 'Missing required fields'}), 400
+
+        laptime = Laptime(
+            user_id=user_id,
+            car=car,
+            track=track,
+            time=time,
+            simracing=simracing,
+            platform=platform,
+            youtube_link=youtube_link,
+            comment=comment
+        )
+
+        db.session.add(laptime)
+        db.session.commit()
+
+        return jsonify({"Laptime Added Successfully": laptime.to_dict(), "by": loggedin_user.username}), 201
+
+    # Logged in user gets all the laptimes they posted on tracknow.
+    @app.route('/api/v1/user/laptimes', methods=['GET'])
+    @jwt_required()
+    def get_user_laptimes():
+        user_id = get_jwt_identity()
+        laptimes = Laptime.query.filter_by(user_id=user_id).all()
+        
+        return jsonify([lt.to_dict() for lt in laptimes]), 200
+
+    # Logged in user gets one laptime they selected.
+    @app.route('/api/v1/user/laptime/<id>', methods=['GET'])
+    @jwt_required()
+    def get_user_laptime(id):
+        user_id = get_jwt_identity()
+        laptime = Laptime.query.filter_by(id=id, user_id=user_id).first()
+        return jsonify(laptime.to_dict()), 200
+    
+    # Global - get all laptimes posted around the world.
+    @app.route('/api/v1/laptimes', methods=['GET'])
+    def get_laptimes():
+
+        laptimes = Laptime.query.filter_by().all()
+        
+        return jsonify([lt.to_dict() for lt in laptimes]), 200
+
+    # Global - get one laptime selected.
+    @app.route('/api/v1/laptime/<id>', methods=['GET'])
+    def get_laptime(id):
+
+        laptime = Laptime.query.filter_by(id=id).first()
+        return jsonify(laptime.to_dict()), 200
+    
+
     return app
 
 if __name__ == '__main__':

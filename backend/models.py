@@ -11,7 +11,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     laptimes = db.relationship('Laptime', backref='user', lazy=True)
-
+    # TODO Add nationality.
     def __repr__(self):
         return f'<User {self.username}>'
     
