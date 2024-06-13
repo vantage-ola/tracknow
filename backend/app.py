@@ -1,700 +1,168 @@
-from flask import Flask, request,jsonify
-from models import Car, Track, Laptime ,Driver
-from extensions import db
-from function_modules.controllers import to_jsonify, to_jsonify_one
+from flask import Flask, abort, request,jsonify,  url_for
 from error_handle import *
+from models import db, User, Laptime
+from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
 
-
-app = Flask(__name__)
-
-
-#error_handling
-
-app.register_error_handler(400, handle_bad_request)
-app.register_error_handler(401, handle_unauthorized)
-app.register_error_handler(403, handle_forbidden)
-app.register_error_handler(404, handle_not_found)
-app.register_error_handler(405, handle_method_not_allowed)
-app.register_error_handler(500, handle_internal_server_error)
-app.register_error_handler(503, handle_service_unavailable)
-
-
-
-#`api/collections` routes GET&POST all entries`
-@app.route('/api/cars', methods=['GET', 'POST'])
-def handle_cars():
-    """
-Retrieve a JSON list of cars from the TRACK NOW DATABASE.
-
-This endpoint returns a JSON representation of the cars currently stored in the TRACK NOW DATABASE. 
-
-Endpoint:
-    GET /api/cars
-
-Returns:
-    JSON:
-        [{
-            "name": "Ferrari SF90 Stradale",
-            "body": "2-door coupe",
-            "car_class": "Hybrid supercar",
-            ...
-        },
-        {
-            "name": "Porsche 911 GT3 RS",
-            "body": "2-door coupe",
-            "car_class": "Sports car",
-            ...
-        },
-            ...
-        ]
-
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/cars'
-
-Note:
-    - CHECK README.md for MONGO DB credientials
-"""
-
-    if request.method == 'GET':
-        cars =  db.cars.find({}, {'_id': False})
-        car_objects = [Car(**car) for car in cars]
-        car_dicts = [car.to_dict() for car in car_objects]
-        return jsonify(car_dicts)
+def create_app(config_class='config.Config'):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
     
-    elif request.method == 'POST':
-        data = request.json
+    db.init_app(app)
+    migrate = Migrate(app, db)
+    jwt = JWTManager(app)
 
-        #if inserting multiple data
-        if isinstance(data, list):
-            # Insert multiple cars
-            new_cars = [Car(**car) for car in data]
-            result = db.cars.insert_many([car.to_dict() for car in new_cars])
-            return jsonify({'message': f'{len(result.inserted_ids)} Cars added successfully!'})
+    with app.app_context():
+        db.create_all()
 
-        #only one data
-        else:
+    app.register_error_handler(400, handle_bad_request)
+    app.register_error_handler(401, handle_unauthorized)
+    app.register_error_handler(403, handle_forbidden)
+    app.register_error_handler(404, handle_not_found)
+    app.register_error_handler(405, handle_method_not_allowed)
+    app.register_error_handler(500, handle_internal_server_error)
+    app.register_error_handler(503, handle_service_unavailable)
 
-            new_car = Car(
-                id=data['id'],
-                name=data['name'],
-                body=data['body'],
-                car_class=data['car_class'],
-                engine=data['engine'],
-                hp=data['hp'],
-                layout=data['layout'],
-                racecar=data['racecar'],
-                transmission=data['transmission']
-            )
-            db.cars.insert_one(new_car.to_dict())
-            return jsonify({'message': 'Car added successfully!'})
+    # Hello :)
+    @app.route('/api/v1', methods=['GET'])
+    def index():
+        return jsonify({"msg": 'Track Now...'})
 
+    # Create a new user with username and password.
+    @app.route('/api/v1/users', methods=['POST'])
+    def new_user():
+        new_user = request.get_json()
+        # { "username" : "your_username",
+        #   "password" :  "your_password"}  
+        if new_user['username'] is None or new_user['password'] is None:
+            return jsonify({"msg" : "Missing requiring fields"}), 400
+        
+        if User.query.filter_by(username=new_user['username']).first() is not None:
+            return jsonify({"msg" : "User Exists"}), 400
 
-@app.route('/api/tracks', methods=['GET', 'POST'])
-def handle_tracks():
-    """
-Retrieve a JSON list of tracks from the TRACK NOW DATABASE.
+        user = User(username=new_user['username']) #  nationality=new_user['nationality']
+        user.hash_password(new_user['password'])
 
-This endpoint returns a JSON-formatted list of tracks currently stored in the TRACK NOW DATABASE. 
+        db.session.add(user)
+        db.session.commit()
 
-Endpoint:
-    GET /api/tracks
-
-Returns:
-    JSON Format:
-            [{
-                "name": "NURBURGRING NORDSCHLEIFE",
-                "location": {
-                    "country": "Germany",
-                    "city": "Nurburgring Nordschleife"
-                            }
-                "grade": "3",
-                    ...
-            },
-            {
-                "name": "OULTON PARK",
-                "location": {
-                    "country": "United Kingdom",
-                    "city": "Oulton Park"
-                            }
-                "grade": "3",
-                    ...
-            },
-             ...
-            ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/tracks'
-
-
-"""
-
-    if request.method == 'GET':
-        tracks = db.tracks.find({}, {'_id': False})
-        track_objects = [Track(**track) for track in tracks]
-        track_dicts = [track.to_dict() for track in track_objects]
-        return jsonify(track_dicts)
+        return (jsonify({'username': user.username}), 201,
+                {'Location': url_for('get_user', id=user.id, _external=True)})
     
-    elif request.method == 'POST':
-        
-        data = request.json
-        
-        if isinstance(data, list):
-            new_tracks = [Track(**track) for track in data]
-            result = db.tracks.insert_many([track.to_dict() for track in new_tracks])
-            
-            return jsonify({'message': f'{len(result.inserted_ids)} Tracks added successfully!'})
+    # Login to tracknow with username and password.
+    @app.route('/api/v1/login', methods=['POST'])
+    def login_user():
+        login_user = request.get_json()
+        user = User.query.filter_by(username=login_user['username']).first()
+        # check if user and correct password exists, create a jwt token if successful
+        if user and user.verify_password(login_user['password']):
+            access_token = create_access_token(identity=user.id)
+            return jsonify({'msg': 'Login Sucesss', 'token': access_token})
+        else:
+            return jsonify({'msg': 'Login Failed'}), 401
 
-        else:            
-            new_track = Track(
-                id=data['id'],
-                name=data['name'],
-                location=data['location'],
-                grade=data['grade'],
-                length=data['length']
-            )
-            db.tracks.insert_one(new_track.to_dict())
-            return jsonify({'message': 'Track added successfully!'})
-
-
-
-@app.route('/api/drivers', methods=['GET', 'POST'])
-def handle_drivers():
-    """
-Retrieve a JSON list of drivers from the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of drivers currently stored in the TRACK NOW DATABASE. 
-
-Endpoint:
-    GET /api/drivers
-
-Returns:
-    JSON Format:
-            [{
-                "name": "John Doe",
-                "nationality": "American",
-                ...
-            },
-            {
-                "name": "Maria Rodriguez",
-                "nationality": "Spainish",
-                ...
-            },
-                ...
-            ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/drivers'
-
-"""
-
-    if request.method == 'GET':
-        drivers = db.drivers.find({}, {'_id': False})
-        driver_objects = [Driver(**driver) for driver in drivers]
-        driver_dicts = [driver.to_dict() for driver in driver_objects]
-        return jsonify(driver_dicts)
+    # Route to check someone on the database.   
+    @app.route('/api/v1/users/<int:id>')
+    @jwt_required()
+    def get_user(id):
+        user = User.query.get(id)
+        if not user:
+            return jsonify({'msg': "User does not exist."})
+        return jsonify({'username': user.username})
     
-    elif request.method == 'POST':
-        data = request.json
-        
-        if isinstance(data, list):
-            new_drivers = [Driver(**driver) for driver in data]
-            result = db.drivers.insert_many([driver.to_dict() for driver in new_drivers])
-            
-            return jsonify({'message': f'{len(result.inserted_ids)} Drivers added successfully!'})
+    # Route to list all users
+    @app.route('/api/v1/users', methods=['GET'])
+    def get_users():
+        users = User.query.filter_by().all()
+        return jsonify([u.to_dict() for u in users]), 200
 
-        else:            
-            new_driver = Driver(
-                id=data['id'],
-                name=data['name'],
-                nationality=data['nationality']
-            )
-            db.drivers.insert_one(new_driver.to_dict())
-            return jsonify({'message': 'Driver added successfully!'})
+    # Route to check if we are logged in with our unique jwt token.
+    @app.route('/api/v1/protected', methods=['GET'])
+    # Include bearer token from login_user() to  verify we are logged in and are in session.
+    @jwt_required()
+    def get_identity():
+        user_id = get_jwt_identity()
+        user = User.query.filter_by(id=user_id).first()
 
-
-@app.route('/api/laptimes', methods=['GET', 'POST'])
-def handle_laptimes():
-    """
-Retrieve a JSON list of lap times from the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of lap times recorded in the TRACK NOW DATABASE. 
-
-Endpoint:
-    GET /api/laptimes
-
-Returns:
-    JSON Format:
-        [{
-            "car_id": 1,
-            "date": "19.08.2022",
-            "driver_id": 1,
-            "time": "1:56.0960",
-            "track_id": 33
-        },
-        {
-            "car_id": 1,
-            "date": "20.10.2022",
-            "driver_id": 1,
-            "time": "6.35.183",
-            "track_id": 132
-        },
-        ...
-            
-        }]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/laptimes'
-
-"""
-
-    if request.method == 'GET':
-        laptimes = db.laptimes.find({}, {'_id': False})
-        laptime_objects = [Laptime(**laptime) for laptime in laptimes]
-        laptime_dicts = [laptime.to_dict() for laptime in laptime_objects]
-        return jsonify(laptime_dicts)
+        # Check if user exists
+        if user:
+            return jsonify({'message': 'User found', 'name': user.username})
+        else:
+            return jsonify({'message': 'User not found'}), 404
     
-    elif request.method == 'POST':
-        data = request.json
+    # Logged in user adds laptime.
+    @app.route('/api/v1/user/laptimes', methods=['POST'])
+    @jwt_required()
+    def add_laptime():
+        user_id = get_jwt_identity()
+        loggedin_user = User.query.filter_by(id=user_id).first()
         
-        if isinstance(data, list):
-            new_laptimes = [Laptime(**laptime) for laptime in data]
-            result = db.laptimes.insert_many([laptime.to_dict() for laptime in new_laptimes])
-            
-            return jsonify({'message': f'{len(result.inserted_ids)} Laptimes added successfully!'})
+        laptime_data = request.get_json()
 
-        else:            
-            new_laptime = Laptime(
-                car_id=data['car_id'],
-                track_id=data['track_id'],
-                driver_id=data['driver_id'],
-                time=data['time'],
-                date=data['date']
-            )
-            db.laptimes.insert_one(new_laptime.to_dict())
-            return jsonify({'message': 'Laptime added successfully!'})
+        car = laptime_data['car']
+        track = laptime_data['track']
+        time = laptime_data['time']
+        simracing = laptime_data['simracing']
+        platform = laptime_data['platform']
+        youtube_link = laptime_data['youtube_link']
+        comment = laptime_data['comment']
 
-#`api/collection/<collection_id>` routes GET all entries`
+        if not car or not track or not time:
+            return jsonify({'msg': 'Missing required fields'}), 400
 
-@app.route('/api/cars/<car_id>', methods=['GET'])
-def handle_single_car(car_id):
-    """
-Retrieve JSON data for a specific car in the TRACK NOW DATABASE.
+        laptime = Laptime(
+            user_id=user_id,
+            car=car,
+            track=track,
+            time=time,
+            simracing=simracing,
+            platform=platform,
+            youtube_link=youtube_link,
+            comment=comment
+        )
 
-This endpoint returns JSON-formatted data for a specific car based on the provided car_id. 
-The car_id represents the unique identifier for the desired car in the TRACK NOW DATABASE.
+        db.session.add(laptime)
+        db.session.commit()
 
-Endpoint:
-    GET /api/cars/{car_id}
+        return jsonify({"Laptime Added Successfully": laptime.to_dict(), "by": loggedin_user.username}), 201
 
-Parameters:
-    - car_id  : The specific identifier for the car being searched.
-
-Returns:
-    JSON Format:
-        {
-          "id" : 1
-          "name": "Ferrari SF90 Stradale",
-          "body": "2-door coupe",
-          "class": "Hybrid supercar"
-            ...
-        }
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/cars/1'
-
-"""
-
-    car_id = int(car_id)
-
-    if request.method == 'GET':
-        car = to_jsonify_one(car_id, db.cars, 'id', 'Car')
-
-
-        return car
+    # Logged in user gets all the laptimes they posted on tracknow.
+    @app.route('/api/v1/user/laptimes', methods=['GET'])
+    @jwt_required()
+    def get_user_laptimes():
+        user_id = get_jwt_identity()
+        laptimes = Laptime.query.filter_by(user_id=user_id).all()
         
-@app.route('/api/tracks/<track_id>', methods=['GET'])
-def handle_single_track(track_id):
-    """
-Retrieve JSON data for a specific track in the TRACK NOW DATABASE.
-
-This endpoint returns JSON-formatted data for a specific track based on the provided track_id. 
-The track_id represents the unique identifier for the desired track in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/tracks/{track_id}
-
-Parameters:
-    - track_id : The specific identifier for the track being searched.
-
-Returns:
-    JSON Format:
-        {
-            "id": "132",
-            "name": "NURBURGRING NORDSCHLEIFE",
-            ...
-        }
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/tracks/1'
-
-"""
-
-    track_id = str(track_id) #id json is in string form lol {..."id": "1"}
-
-    if request.method == 'GET':
-
-        track = to_jsonify_one(track_id, db.tracks, 'id', 'Track')
-
-        return track
-        
-@app.route('/api/drivers/<driver_id>', methods=['GET'])
-def handle_single_driver(driver_id):
-    """
-Retrieve JSON data for a specific driver in the TRACK NOW DATABASE.
-
-This endpoint returns JSON-formatted data for a specific driver based on the provided driver_id. 
-The driver_id represents the unique identifier for the desired driver in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/drivers/{driver_id}
-
-Parameters:
-    - driver_id : The specific identifier for the driver being searched.
-
-Returns:
-    JSON Format:
-        {
-            "id": "77",
-            "name": "John Doe",
-            "nationality": "American",
-            ...
-        }
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/drivers/1'
-"""
-
-    driver_id = int(driver_id)
-
-    if request.method == 'GET':
-
-        driver = to_jsonify_one(driver_id, db.drivers, 'id', 'Driver')
-
-        return driver
-
-#`api/collection/<collection_id>/collections` routes GET all entries`
-# cars/<car_id>/*
-@app.route('/api/cars/<car_id>/tracks', methods=['GET'])
-def get_tracks_for_car(car_id):
-    """
-Retrieve a JSON list of tracks raced by a specific car in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of tracks where a specific car, identified by car_id, has participated in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/cars/{car_id}/tracks
-
-Parameters:
-    - car_id : The specific identifier for the car being searched.
-
-Returns:
-    JSON Format:
-            [{
-                "name": "NURBURGRING NORDSCHLEIFE",
-                "location": {
-                    "country": "Germany",
-                    "city": "Nurburgring Nordschleife"
-                            }
-                "grade": "3",
-                    ...
-            },
-            {
-                "name": "OULTON PARK",
-                "location": {
-                    "country": "United Kingdom",
-                    "city": "Oulton Park"
-                            }
-                "grade": "3",
-                    ...
-            },
-             ...
-            ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/cars/41/tracks'
-
-"""
-
-    car_id = int(car_id)
-
-    if request.method == 'GET':
-        #find <car_id> in Laptimes
-        tracks_laptime_dicts = to_jsonify(car_id, db.laptimes, Laptime, 'car_id', 'track_id')
-        if tracks_laptime_dicts:
-        #convert the gotten track_ids to str, {"id" : "33"}
-            list_of_tracks_id= [str(laptime_dict.get('track_id')) for laptime_dict in tracks_laptime_dicts]
-        # Use $in to find tracks with matching track_ids
-            tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
-            track_dicts = [track for track in tracks]
-        # Convert the result to a list of dictionaries
-            return jsonify(track_dicts)
-        else:
-             return jsonify({'message': 'Record not found!'}), 404
-
-@app.route('/api/cars/<car_id>/drivers', methods=['GET'])
-def get_drivers_for_car(car_id):
-    """
-Retrieve a JSON list of drivers who have raced a specific car in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of drivers who have participated in races with a specific car, identified by car_id, in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/cars/{car_id}/drivers
-
-Parameters:
-    - car_id : The specific identifier for the car being searched.
-
-Returns:
-    JSON Format:
-            [{
-                "name": "John Doe",
-                "nationality": "American",
-                ...
-            },
-            {
-                "name": "Maria Rodriguez",
-                "nationality": "Spainish",
-                ...
-            },
-                ...
-            ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/cars/43/drivers'
-"""
-
-    car_id = int(car_id)
-
-    if request.method == 'GET':
-
-        driver_car_dicts = to_jsonify(car_id, db.laptimes, Laptime, 'car_id', 'driver_id')
-        
-        if driver_car_dicts:
-            list_of_drivers_id= [laptime_dict.get('driver_id') for laptime_dict in driver_car_dicts]
-
-            drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id': False})
-            driver_dicts = [driver for driver in drivers]
-
-            return jsonify(driver_dicts)
-        else:
-            return jsonify({'message': 'Record not found!'}), 404
-
-# drivers/driver_id/*
-@app.route('/api/drivers/<driver_id>/cars', methods=['GET'])
-def get_cars_for_drivers(driver_id):
-    """
-Retrieve a JSON list of cars raced by a specific driver in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of cars that a specific driver, identified by driver_id, has raced in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/drivers/{driver_id}/cars
-
-Parameters:
-    - driver_id : The specific identifier for the driver being searched.
-
-Returns:
-    JSON:
-        [{
-            "name": "Ferrari SF90 Stradale",
-            "body": "2-door coupe",
-            "car_class": "Hybrid supercar",
-            ...
-        },
-        {
-            "name": "Porsche 911 GT3 RS",
-            "body": "2-door coupe",
-            "car_class": "Sports car",
-            ...
-        },
-            ...
-        ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/drivers/1/cars'
-"""
-
-    driver_id = int(driver_id)
-
-    if request.method == 'GET':
-        car_dicts = to_jsonify(driver_id, db.laptimes, Laptime, 'driver_id', 'car_id')
-
-        if car_dicts:
-            list_of_cars_id = [laptime_dict.get('car_id') for laptime_dict in car_dicts]
-
-            cars = db.cars.find({'id': {'$in': list_of_cars_id}}, {'_id': False})
-            car_dicts = [car for car in cars]
-
-            return jsonify(car_dicts)        
-        else:       
-            return jsonify({'message': 'Record not found!'}), 404
-
-@app.route('/api/drivers/<driver_id>/tracks', methods=['GET'])
-def get_tracks_for_drivers(driver_id):
-    """
-Retrieve a JSON list of tracks raced by a specific driver in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of tracks that a specific driver, identified by driver_id, has participated in within the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/drivers/{driver_id}/tracks
-
-Parameters:
-    - driver_id : The specific identifier for the driver being searched.
-
-Returns:
-    JSON Format:
-            [{
-                "name": "NURBURGRING NORDSCHLEIFE",
-                "location": {
-                    "country": "Germany",
-                    "city": "Nurburgring Nordschleife"
-                            }
-                "grade": "3",
-                    ...
-            },
-            {
-                "name": "OULTON PARK",
-                "location": {
-                    "country": "United Kingdom",
-                    "city": "Oulton Park"
-                            }
-                "grade": "3",
-                    ...
-            },
-             ...
-            ]
-Usage:
-    curl --location --request GET 'localhost:5000/drivers/1/tracks'
-"""
-
-    driver_id = int(driver_id)
-
-    if request.method == 'GET':
-
-        track_driver_dicts = to_jsonify(driver_id, db.laptimes, Laptime, 'driver_id', 'track_id')
-
-     
-
-        if track_driver_dicts:
-            list_of_tracks_id = [str(laptime_dict.get('track_id')) for laptime_dict in track_driver_dicts]
-            print("List of IDs: ", list_of_tracks_id)
-            tracks = db.tracks.find({'id': {'$in': list_of_tracks_id}}, {'_id': False})
-            track_dicts = [track for track in tracks]
-            return jsonify(track_dicts)
-        else:
-            return jsonify({'message': 'Record not found!'}), 404
-
-# tracks/track_id/*
-@app.route('/api/tracks/<track_id>/cars', methods=['GET'])
-def get_cars_for_tracks(track_id):
-    """
-Retrieve a JSON list of cars that have raced on a specific track in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of cars that have participated in races on a specific track, identified by track_id, in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/tracks/{track_id}/cars
-
-Parameters:
-    - track_id : The specific identifier for the track being searched.
-Returns:
-    JSON:
-        [{
-            "name": "Ferrari SF90 Stradale",
-            "body": "2-door coupe",
-            "car_class": "Hybrid supercar",
-            ...
-        },
-        {
-            "name": "Porsche 911 GT3 RS",
-            "body": "2-door coupe",
-            "car_class": "Sports car",
-            ...
-        },
-            ...
-        ]
-
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/tracks/132/cars'
-
-"""
-
-    track_id = int(track_id)
+        return jsonify([lt.to_dict() for lt in laptimes]), 200
+
+    # Logged in user gets one laptime they selected.
+    @app.route('/api/v1/user/laptimes/<id>', methods=['GET'])
+    @jwt_required()
+    def get_user_laptime(id):
+        user_id = get_jwt_identity()
+        laptime = Laptime.query.filter_by(id=id, user_id=user_id).first()
+        return jsonify(laptime.to_dict()), 200
     
-    if request.method == 'GET':
-        car_track_dicts = to_jsonify(track_id, db.laptimes, Laptime, 'track_id', 'car_id')
+    # Global - get all laptimes posted around the world.
+    @app.route('/api/v1/laptimes', methods=['GET'])
+    def get_laptimes():
 
-        if car_track_dicts:
-            list_of_cars_id = [laptime_dict.get('car_id') for laptime_dict in car_track_dicts]
+        laptimes = Laptime.query.filter_by().all()
+        
+        return jsonify([lt.to_dict() for lt in laptimes]), 200
 
-            cars = db.cars.find({'id': {'$in': list_of_cars_id}}, {'_id' : False})
-            cars_dict = [car for car in cars]
+    # Global - get one laptime selected.
+    @app.route('/api/v1/laptimes/<id>', methods=['GET'])
+    @jwt_required()
+    def get_laptime(id):
 
-            return jsonify(cars_dict)
-        else:
-            return jsonify({'message': 'Record not found!'}), 404
-
-@app.route('/api/tracks/<track_id>/drivers', methods=['GET'])
-def get_drivers_for_tracks(track_id):
-    """
-Retrieve a JSON list of drivers who have raced on a specific track in the TRACK NOW DATABASE.
-
-This endpoint returns a JSON-formatted list of drivers who have participated in races on a specific track, identified by track_id, in the TRACK NOW DATABASE.
-
-Endpoint:
-    GET /api/tracks/{track_id}/drivers
-
-Parameters:
-    - track_id : The specific identifier for the track being searched.
-
-Returns:
-    JSON Format:
-            [{
-                "name": "John Doe",
-                "nationality": "American",
-                ...
-            },
-            {
-                "name": "Maria Rodriguez",
-                "nationality": "Spainish",
-                ...
-            },
-                ...
-            ]
-
-Usage:
-    curl --location --request GET 'localhost:5000/api/tracks/132/drivers'
-"""
-
-    track_id = int(track_id)
+        laptime = Laptime.query.filter_by(id=id).first()
+        return jsonify(laptime.to_dict()), 200
     
-    if request.method == 'GET':
-        driver_track_dicts = to_jsonify(track_id, db.laptimes, Laptime, 'track_id', 'driver_id')
 
-        if driver_track_dicts:
-            list_of_drivers_id = [laptime_dict.get('driver_id') for laptime_dict in driver_track_dicts]
-
-            drivers = db.drivers.find({'id': {'$in': list_of_drivers_id}}, {'_id' : False})
-            drivers_dict = [driver for driver in drivers]
-
-            return jsonify(drivers_dict)
-        else:
-            return jsonify({'message': 'Record not found!'}), 404
-
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug = True)

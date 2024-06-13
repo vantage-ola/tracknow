@@ -1,88 +1,60 @@
-#TRACK_NOW mongo models
-class Car:
-    def __init__(self, id, name, body, car_class, engine, hp, layout, racecar, transmission):
-        self.id = id
-        self.name = name
-        self.body = body
-        self.car_class = car_class
-        self.engine = engine
-        self.hp = hp
-        self.layout = layout
-        self.racecar = racecar
-        self.transmission = transmission
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+
+db = SQLAlchemy()
+
+class User(db.Model):
+
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
+    nationality = db.Column(db.String(40), nullable=True)
+    laptimes = db.relationship('Laptime', backref='user', lazy=True)
+    
+    def __repr__(self):
+        return f'<User {self.username}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username    
+        }
+    def hash_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+class Laptime(db.Model):
+
+    __tablename__ = 'laptimes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    car = db.Column(db.String(100), nullable=False)
+    track = db.Column(db.String(100), nullable=False)
+
+    time = db.Column(db.String(24), nullable=False) #Laptime : string(db cant understand 1.34.4 as float)
+    simracing = db.Column(db.Boolean, nullable=False)  # True for simracing, False for real life
+    platform = db.Column(db.String(100), nullable=True) # if simracing is true, what simracing title do you set that laptime.
+    youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.
+    comment = db.Column(db.String(500), nullable=True)
+    
+    def __repr__(self):
+        return f'<Laptime {self.time}>'
 
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'body': self.body,
-            'car_class': self.car_class,
-            'engine': self.engine,
-            'hp': self.hp,
-            'layout': self.layout,
-            'racecar': self.racecar,
-            'transmission': self.transmission
-        }
-
-
-# Driver Model
-class Driver:
-    def __init__(self,id, name, nationality):
-        self.id = id
-        self.name = name
-        self.nationality = nationality
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'nationality': self.nationality
-        }
-
-# Track Model
-class Track:
-    def __init__(self, id, name, location, grade, length):
-        self.id = id
-        self.name = name
-        self.location = location
-        self.grade = grade
-        self.length = length
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'location': self.location,
-            'grade': self.grade,
-            'length': self.length
-        }
-
-# Laptime Model
-class Laptime:
-    def __init__(self, car_id, track_id, driver_id, time, date):
-        self.car_id = car_id
-        self.track_id = track_id
-        self.driver_id = driver_id
-        self.time = time
-        self.date = date
-
-    def to_dict(self):
-        return {
-            'car_id': self.car_id,
-            'track_id': self.track_id,
-            'driver_id': self.driver_id,
+            'user_id': self.user_id,
+            'car': self.car,
+            'track': self.track,
             'time': self.time,
-            'date' : self.date
+            'simracing': self.simracing,
+            'platform': self.platform,
+            'youtube_link': self.youtube_link,
+            'comment': self.comment
         }
-    def only_tracks(self):
-        return {
-            'track_id': self.track_id
-        }
-    def only_drivers(self):
-        return {
-            'driver_id': self.driver_id
-    }
-    def only_cars(self):
-        return {
-            'car_id' : self.car_id
-    }
