@@ -10,8 +10,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
+    nationality = db.Column(db.String(40), nullable=True)
     laptimes = db.relationship('Laptime', backref='user', lazy=True)
-    # TODO Add nationality.
+    
     def __repr__(self):
         return f'<User {self.username}>'
     
@@ -36,7 +37,7 @@ class Laptime(db.Model):
     car = db.Column(db.String(100), nullable=False)
     track = db.Column(db.String(100), nullable=False)
 
-    time = db.Column(db.Float, nullable=False) #Laptime
+    time = db.Column(db.String(24), nullable=False) #Laptime : string(db cant understand 1.34.4 as float)
     simracing = db.Column(db.Boolean, nullable=False)  # True for simracing, False for real life
     platform = db.Column(db.String(100), nullable=True) # if simracing is true, what simracing title do you set that laptime.
     youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.

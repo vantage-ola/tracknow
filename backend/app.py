@@ -41,7 +41,7 @@ def create_app(config_class='config.Config'):
         if User.query.filter_by(username=new_user['username']).first() is not None:
             return jsonify({"msg" : "User Exists"}), 400
 
-        user = User(username=new_user['username'])
+        user = User(username=new_user['username']) #  nationality=new_user['nationality']
         user.hash_password(new_user['password'])
 
         db.session.add(user)
@@ -62,19 +62,19 @@ def create_app(config_class='config.Config'):
         else:
             return jsonify({'msg': 'Login Failed'}), 401
 
-    # Route to check if you exist on the database.   
+    # Route to check someone on the database.   
     @app.route('/api/v1/users/<int:id>')
+    @jwt_required()
     def get_user(id):
         user = User.query.get(id)
         if not user:
-            abort(400)
+            return jsonify({'msg': "User does not exist."})
         return jsonify({'username': user.username})
     
     # Route to list all users
-    @app.route('/api/v1/users/', methods=['GET'])
+    @app.route('/api/v1/users', methods=['GET'])
     def get_users():
         users = User.query.filter_by().all()
-
         return jsonify([u.to_dict() for u in users]), 200
 
     # Route to check if we are logged in with our unique jwt token.
@@ -100,13 +100,13 @@ def create_app(config_class='config.Config'):
         
         laptime_data = request.get_json()
 
-        car = laptime_data.get('car')
-        track = laptime_data.get('track')
-        time = laptime_data.get('time')
-        simracing = laptime_data.get('simracing', False)
-        platform = laptime_data.get('platform')
-        youtube_link = laptime_data.get('youtube_link', '')
-        comment = laptime_data.get('comment', '')
+        car = laptime_data['car']
+        track = laptime_data['track']
+        time = laptime_data['time']
+        simracing = laptime_data['simracing']
+        platform = laptime_data['platform']
+        youtube_link = laptime_data['youtube_link']
+        comment = laptime_data['comment']
 
         if not car or not track or not time:
             return jsonify({'msg': 'Missing required fields'}), 400
@@ -137,7 +137,7 @@ def create_app(config_class='config.Config'):
         return jsonify([lt.to_dict() for lt in laptimes]), 200
 
     # Logged in user gets one laptime they selected.
-    @app.route('/api/v1/user/laptime/<id>', methods=['GET'])
+    @app.route('/api/v1/user/laptimes/<id>', methods=['GET'])
     @jwt_required()
     def get_user_laptime(id):
         user_id = get_jwt_identity()
@@ -153,7 +153,8 @@ def create_app(config_class='config.Config'):
         return jsonify([lt.to_dict() for lt in laptimes]), 200
 
     # Global - get one laptime selected.
-    @app.route('/api/v1/laptime/<id>', methods=['GET'])
+    @app.route('/api/v1/laptimes/<id>', methods=['GET'])
+    @jwt_required()
     def get_laptime(id):
 
         laptime = Laptime.query.filter_by(id=id).first()
