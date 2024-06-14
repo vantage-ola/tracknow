@@ -1,0 +1,40 @@
+name: Python Backend CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      PG: ${{ secrets.PG }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      TESTING_PG: ${{ secrets.TESTING_PG }}
+      TESTING_JWT_SECRET_KEY: ${{ secrets.TESTING_JWT_SECRET_KEY }}
+      TESTING_SECRET_KEY: ${{ secrets.TESTING_SECRET_KEY }}
+    
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd backend
+          python -m pytest
