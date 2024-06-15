@@ -1,9 +1,21 @@
-from flask import Flask, abort, request,jsonify,  url_for
+from flask import Flask, request, jsonify, url_for
 from error_handle import *
 from models import db, User, Laptime
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_swagger_ui import get_swaggerui_blueprint
 
+# swagger setup
+SWAGGER_URL="/api/v1/docs"
+API_URL="/static/swagger.json"
+
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': 'Track Now API v1'
+    }
+)
 
 def create_app(config_class='config.Config'):
     app = Flask(__name__)
@@ -23,9 +35,10 @@ def create_app(config_class='config.Config'):
     app.register_error_handler(405, handle_method_not_allowed)
     app.register_error_handler(500, handle_internal_server_error)
     app.register_error_handler(503, handle_service_unavailable)
+    app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
     # Hello :)
-    @app.route('/api/v1', methods=['GET'])
+    @app.route('/api/v1/hello', methods=['GET'])
     def index():
         return jsonify({"msg": 'Track Now...'})
 
@@ -63,7 +76,7 @@ def create_app(config_class='config.Config'):
             return jsonify({'msg': 'Login Failed'}), 401
 
     # Route to check someone on the database.   
-    @app.route('/api/v1/users/<int:id>')
+    @app.route('/api/v1/users/<int:id>', methods=['GET'])
     @jwt_required()
     def get_user(id):
         user = User.query.get(id)
