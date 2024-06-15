@@ -6,7 +6,7 @@ user = {
     }
 
 def test_index(test_client):
-    response = test_client.get('/api/v1')
+    response = test_client.get('/api/v1/hello')
     assert response.status_code == 200
     assert response.json == {"msg": 'Track Now...'}
 

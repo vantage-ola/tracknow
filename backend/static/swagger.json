@@ -1,0 +1,536 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the API documentation for Track Now API v1",
+        "version": "1.0.0",
+        "title": "Track Now API"
+    },
+    "basePath": "/api/v1",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/hello": {
+            "get": {
+                "summary": "Welcome",
+                "description": "Returns a welcome message.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "summary": "Create a new user",
+                "description": "Create a new user with username and password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "User object that needs to be added",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "username",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get all users",
+                "description": "List all users.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login user",
+                "description": "Login to Track Now with username and password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "login",
+                        "description": "User login object",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "username",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "token": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Login failed"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Get user by ID",
+                "description": "Route to check someone on the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "ID of user to return"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/protected": {
+            "get": {
+                "summary": "Get identity",
+                "description": "Check if logged in with unique JWT token.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/laptimes": {
+            "post": {
+                "summary": "Add laptime",
+                "description": "Logged in user adds laptime.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "laptime",
+                        "description": "Laptime object that needs to be added",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "car",
+                                "track",
+                                "time"
+                            ],
+                            "properties": {
+                                "car": {
+                                    "type": "string"
+                                },
+                                "track": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "type": "string"
+                                },
+                                "simracing": {
+                                    "type": "boolean"
+                                },
+                                "platform": {
+                                    "type": "string"
+                                },
+                                "youtube_link": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Laptime added successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Laptime Added Successfully": {
+                                    "type": "object",
+                                    "properties": {
+                                        "car": {
+                                            "type": "string"
+                                        },
+                                        "track": {
+                                            "type": "string"
+                                        },
+                                        "time": {
+                                            "type": "string"
+                                        },
+                                        "simracing": {
+                                            "type": "boolean"
+                                        },
+                                        "platform": {
+                                            "type": "string"
+                                        },
+                                        "youtube_link": {
+                                            "type": "string"
+                                        },
+                                        "comment": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "by": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "get": {
+                "summary": "Get user laptimes",
+                "description": "Logged in user gets all the laptimes they posted on Track Now.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "car": {
+                                        "type": "string"
+                                    },
+                                    "track": {
+                                        "type": "string"
+                                    },
+                                    "time": {
+                                        "type": "string"
+                                    },
+                                    "simracing": {
+                                        "type": "boolean"
+                                    },
+                                    "platform": {
+                                        "type": "string"
+                                    },
+                                    "youtube_link": {
+                                        "type": "string"
+                                    },
+                                    "comment": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/laptimes/{id}": {
+            "get": {
+                "summary": "Get user laptime by ID",
+                "description": "Logged in user gets one laptime they selected.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "ID of laptime to return"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "car": {
+                                    "type": "string"
+                                },
+                                "track": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "type": "string"
+                                },
+                                "simracing": {
+                                    "type": "boolean"
+                                },
+                                "platform": {
+                                    "type": "string"
+                                },
+                                "youtube_link": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/laptimes": {
+            "get": {
+                "summary": "Get all laptimes",
+                "description": "Global - get all laptimes posted around the world.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "car": {
+                                        "type": "string"
+                                    },
+                                    "track": {
+                                        "type": "string"
+                                    },
+                                    "time": {
+                                        "type": "string"
+                                    },
+                                    "simracing": {
+                                        "type": "boolean"
+                                    },
+                                    "platform": {
+                                        "type": "string"
+                                    },
+                                    "youtube_link": {
+                                        "type": "string"
+                                    },
+                                    "comment": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/laptimes/{id}": {
+            "get": {
+                "summary": "Get laptime by ID",
+                "description": "Global - get one laptime selected.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "ID of laptime to return"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "car": {
+                                    "type": "string"
+                                },
+                                "track": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "type": "string"
+                                },
+                                "simracing": {
+                                    "type": "boolean"
+                                },
+                                "platform": {
+                                    "type": "string"
+                                },
+                                "youtube_link": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": " Enter the token with the `Bearer: ` prefix, e.g. Bearer abcde12345."
+        }
+    }
+}

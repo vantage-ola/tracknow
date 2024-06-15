@@ -1,4 +1,3 @@
-# TODO set up pytest config.
 import pytest
 from app import create_app
 from models import db, User
