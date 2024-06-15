@@ -1,6 +1,6 @@
 ## BACKEND DOCUMENTATION
 
-I am assuming you have python3 installed and are in this directory. ```/backend```
+I am assuming you have python3 installed and are in this directory. ```tracknow/backend```
 
 ### 1. Setup a virtual environment in this directory.
 ``` shell 
