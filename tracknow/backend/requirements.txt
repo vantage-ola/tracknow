@@ -17,6 +17,7 @@ packaging==24.1
 pluggy==1.5.0
 psycopg2-binary==2.9.9
 PyJWT==2.8.0
+gunicorn
 pytest==8.2.2
 python-decouple==3.8
 python-dotenv==1.0.1
