@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Box, Text, Center } from '@chakra-ui/react';
+import { Box, Text, Center, Link } from '@chakra-ui/react';
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Footer: React.FC = () => {
-    const getCurrentYear = (): number => {
-        return new Date().getFullYear();
-    };
 
     return (
         <Box as="footer" py={4} >
             <Center>
-                <Text>© {getCurrentYear()} Pedantic. All rights reserved</Text>
+                <Text> made with ❤️ by
+                    <Link color="red" href="https://github.com/vantage-ola" isExternal> ola</Link>
+                </Text>
             </Center>
         </Box>
     );
