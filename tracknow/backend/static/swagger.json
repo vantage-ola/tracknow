@@ -7,7 +7,7 @@
     },
     "basePath": "/api/v1",
     "schemes": [
-        "https"
+        "http"
     ],
     "paths": {
         "/hello": {
@@ -185,6 +185,82 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{user_id}/update": {
+            "put": {
+                "summary": "Update user's nationality",
+                "description": "Allows a user to update their nationality.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "User ID"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nationality": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "New nationality for the user"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nationality updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "user": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "nationality": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No nationality provided"
+                    },
+                    "403": {
+                        "description": "Permission denied"
                     },
                     "404": {
                         "description": "User not found"
@@ -470,14 +546,21 @@
                 }
             }
         },
-        "/laptimes/{id}": {
+        "/users/{user_id}/laptimes/{id}": {
             "get": {
-                "summary": "Get laptime by ID",
+                "summary": "Get laptime by user id and laptime id",
                 "description": "Global - get one laptime selected.",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "description": "User ID "
+                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -512,25 +595,36 @@
                                 },
                                 "comment": {
                                     "type": "string"
+                                },
+                                "user": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        },
+                        "security": [
+                            {
+                                "Bearer": []
+                            }
+                        ]
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
+            },
+            "securityDefinitions": {
+                "Bearer": {
+                    "type": "apiKey",
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": " Enter the token with the `Bearer: ` prefix, e.g. Bearer abcde12345."
+                }
             }
-        }
-    },
-    "securityDefinitions": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-            "description": " Enter the token with the `Bearer: ` prefix, e.g. Bearer abcde12345."
         }
     }
 }

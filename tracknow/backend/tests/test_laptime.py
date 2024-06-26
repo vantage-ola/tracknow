@@ -58,7 +58,7 @@ def test_logged_in_user_laptime(test_client, init_database):
         'Authorization': f'Bearer {token}'
     }
 
-    response = test_client.get('/api/v1/laptimes/1', headers=headers, content_type='application/json')
+    response = test_client.get('/api/v1/user/laptimes/1', headers=headers, content_type='application/json')
     assert response.status_code == 200
 
 def test_get_all_laptimes(test_client, init_database):
@@ -67,6 +67,12 @@ def test_get_all_laptimes(test_client, init_database):
     assert len(response.json) == 1
 
 def test_get_one_laptime(test_client, init_database):
-    response = test_client.get('/api/v1/laptimes', content_type='application/json')
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user), content_type='application/json')
+    
+    token = login_response.json['token']
+    headers = {
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = test_client.get('/api/v1/users/1/laptimes/1', headers=headers, content_type='application/json')
     assert response.status_code == 200
-    assert "simracing" in response.json[0]
