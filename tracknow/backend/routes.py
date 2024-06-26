@@ -30,6 +30,31 @@ def new_user():
     return (jsonify({'username': user.username}), 201,
             {'Location': url_for('routes.get_user', id=user.id, _external=True)})
 
+# update route for nationality. no username or password change right now.
+@routes.route('/api/v1/users/<int:user_id>/update', methods=['PUT'])
+@jwt_required()
+def update_user_nationality(user_id):
+    current_user_id = get_jwt_identity()
+
+    # Ensure the user is updating their own information
+    if current_user_id != user_id:
+        return jsonify({'msg': 'Permission denied'}), 403
+
+    data = request.get_json()
+    nationality = data.get('nationality', None)
+
+    if nationality is None:
+        return jsonify({'msg': 'No nationality provided'}), 400
+
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'msg': 'User not found'}), 404
+
+    user.nationality = nationality
+    db.session.commit()
+
+    return jsonify({'msg': 'Nationality updated successfully', 'user': user.to_dict()}), 200
+
 # Login to tracknow with username and password.
 @routes.route('/api/v1/login', methods=['POST'])
 def login_user():
@@ -115,7 +140,7 @@ def get_user_laptimes():
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Logged in user gets one laptime they selected.
-@routes.route('/api/v1/user/laptimes/<id>', methods=['GET'])
+@routes.route('/api/v1/user/laptimes/<int:id>', methods=['GET'])
 @jwt_required()
 def get_user_laptime(id):
     user_id = get_jwt_identity()
@@ -128,9 +153,17 @@ def get_laptimes():
     laptimes = Laptime.query.filter_by().all()
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
-# Global - get one laptime selected.
-@routes.route('/api/v1/laptimes/<id>', methods=['GET'])
+# Global - get one user laptime selected.
+@routes.route('/api/v1/users/<int:user_id>/laptimes/<int:laptime_id>', methods=['GET'])
 @jwt_required()
-def get_laptime(id):
-    laptime = Laptime.query.filter_by(id=id).first()
-    return jsonify(laptime.to_dict()), 200
+def get_laptime(user_id, laptime_id):
+    laptime = Laptime.query.filter_by(id=laptime_id, user_id=user_id).first()
+
+    if laptime is None:
+        return jsonify({'msg': 'Laptime not found'}), 404
+
+    laptime_data = laptime.to_dict()
+    user = User.query.filter_by(id=user_id).first()
+    laptime_data['user'] = user.to_dict()
+
+    return jsonify(laptime_data), 200
