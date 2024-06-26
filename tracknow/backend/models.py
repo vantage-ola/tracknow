@@ -42,7 +42,7 @@ class Laptime(db.Model):
     platform = db.Column(db.String(100), nullable=True) # if simracing is true, what simracing title do you set that laptime.
     youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.
     comment = db.Column(db.String(500), nullable=True)
-    
+    # TODO Add date time.
     def __repr__(self):
         return f'<Laptime {self.time}>'
 
