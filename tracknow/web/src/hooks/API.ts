@@ -1,4 +1,4 @@
-import {User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeResponse, GetUserLaptimesResponse} from '../Types';
+import { User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeResponse, GetUserLaptimesResponse } from '../Types';
 
 // backend api routes.
 
@@ -9,12 +9,14 @@ const endpoints = {
     GET_USER: (id: Number) => `${API_PREFIX_URL}/users/${id}`, // get user by ID. jwt *
     LOGIN_USER: `${API_PREFIX_URL}/login`, // login user
     POST_USER: `${API_PREFIX_URL}/users`, // create a user account
-    // PUT_USER: ``; // edit user details
+    PUT_USER: (user_id: Number) => `${API_PREFIX_URL}/users/${user_id}/update`, // edit user details(nationality)
+
     POST_GET_LAPTIME: `${API_PREFIX_URL}/user/laptimes`, // user posts a laptime or view all their laptimes jwt*
     GET_USER_LAPTIME: (id: Number) => `${API_PREFIX_URL}/user/laptimes/${id}`, // get an exact laptime of a user jwt*
-    
+
     GET_LAPTIMES: `${API_PREFIX_URL}/laptimes`, // see everyone's laptime on tracknow
-   // GET_ONE_LAPTIME: (id: Number) => `${API_PREFIX_URL}/laptimes/${id}` // see a specific laptime of someone
+    GET_ONE_LAPTIME: (user_id: Number, id: Number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}` // see a specific laptime of someone
+
 };
 
 const token = localStorage.getItem('token') // after logging in, we retrieve the token to get access to some of the functions
@@ -22,12 +24,12 @@ const token = localStorage.getItem('token') // after logging in, we retrieve the
 // function to fetch users. ideally for search
 async function fetchUsers(): Promise<User[]> {
     const response = await fetch(endpoints.GET_USERS);
-    if (!response.ok){
+    if (!response.ok) {
         throw new Error('Failed to fetch users!');
     }
     const data: User[] = await response.json();
     return data;
-}
+};
 
 // function to fetch one user with id. bearer token required
 async function fetchUser(id: Number): Promise<User> {
@@ -35,15 +37,16 @@ async function fetchUser(id: Number): Promise<User> {
     if (!token) {
         throw new Error('Login')
     }
-    const response = await fetch(endpoints.GET_USER(id),  {
+    const response = await fetch(endpoints.GET_USER(id), {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
             'Authorization': `Bearer ${token}`, // after logging in, you get token.
             // TODO unique api key, extra security
-        }});
+        }
+    });
     if (!response.ok) {
-      throw new Error(`Failed to fetch user with ID: ${id}`);
+        throw new Error(`Failed to fetch user with ID: ${id}`);
     }
     const data: User = await response.json();
     return data;
@@ -60,9 +63,9 @@ async function loginUser(details: Login): Promise<LoginResponse> {
         body: JSON.stringify(details)
     });
 
-    if (!response.ok){
+    if (!response.ok) {
         throw new Error('Login Failed');
-    }
+    };
 
     const data: LoginResponse = await response.json()
     return data;
@@ -76,19 +79,19 @@ async function CreateUser(newUser: Login): Promise<SignUpResponse> {
             'Content-Type': 'applicaton/json'
         },
         body: JSON.stringify(newUser)
-    })
+    });
 
     if (!response.ok) {
         throw new Error('Failed to create user');
-      }
-    
-      const data: SignUpResponse = await response.json();
-      return data;
-}
+    };
+
+    const data: SignUpResponse = await response.json();
+    return data;
+};
 
 // function to create a user's personal laptime and get personal laptimes
-async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse>{
-    if (newLaptime){
+async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse> {
+    if (newLaptime) {
         const response = await fetch(endpoints.POST_GET_LAPTIME, {
             method: 'POST',
             headers: {
@@ -117,11 +120,11 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
 
         const data: GetUserLaptimesResponse = await response.json();
         return data;
-    }
-}
+    };
+};
 
 // function to fetch personal laptime(single by id).
-async function fetchMyLaptime(id: Number): Promise<Laptime>{
+async function fetchMyLaptime(id: Number): Promise<Laptime> {
 
     const response = await fetch(endpoints.GET_USER_LAPTIME(id), {
         method: 'GET',
@@ -136,17 +139,18 @@ async function fetchMyLaptime(id: Number): Promise<Laptime>{
 
     const data: Laptime = await response.json();
     return data;
-} 
+};
 
 // function to get everyone's laptime. not quite efficient way.
-async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse>{
+async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse> {
     const response = await fetch(endpoints.GET_LAPTIMES);
-    if (!response.ok){
+    if (!response.ok) {
         throw new Error('Failed to fetch laptimes!');
     }
     const data: GetUserLaptimesResponse = await response.json();
     return data;
-}
+};
+
 const API = {
     fetchUser,
     fetchUsers,

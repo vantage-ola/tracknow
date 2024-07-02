@@ -27,7 +27,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { SignUpResponse } from "../../Types";
 
 export const NavbarWelcome = () => (
-    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('red', 'white')}>
+    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('grey', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
             <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
@@ -45,7 +45,7 @@ export const NavbarWelcome = () => (
 );
 
 export const Navbar = () => (
-    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('red', 'white')}>
+    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('grey', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
             <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
@@ -80,7 +80,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
             px={4}
             borderBottom={1}
             borderStyle={"solid"}
-            borderColor={useColorModeValue("red", "white")}
+            borderColor={useColorModeValue("grey", "white")}
         >
             <Flex h={10} alignItems={"center"} justifyContent={"space-between"}>
                 <Box>
