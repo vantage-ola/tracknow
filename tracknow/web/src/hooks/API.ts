@@ -1,4 +1,4 @@
-import { User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeResponse, GetUserLaptimesResponse } from '../Types';
+import { User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeResponse, GetUserLaptimesResponse, identity } from '../Types';
 
 // backend api routes.
 
@@ -15,11 +15,12 @@ const endpoints = {
     GET_USER_LAPTIME: (id: Number) => `${API_PREFIX_URL}/user/laptimes/${id}`, // get an exact laptime of a user jwt*
 
     GET_LAPTIMES: `${API_PREFIX_URL}/laptimes`, // see everyone's laptime on tracknow
-    GET_ONE_LAPTIME: (user_id: Number, id: Number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}` // see a specific laptime of someone
+    GET_ONE_LAPTIME: (user_id: Number, id: Number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
 
+    GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
 };
 
-const token = localStorage.getItem('token') // after logging in, we retrieve the token to get access to some of the functions
+const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
 
 // function to fetch users. ideally for search
 async function fetchUsers(): Promise<User[]> {
@@ -41,7 +42,7 @@ async function fetchUser(id: Number): Promise<User> {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
-            'Authorization': `Bearer ${token}`, // after logging in, you get token.
+            Authorization: `Bearer ${token}`, // after logging in, you get token.
             // TODO unique api key, extra security
         }
     });
@@ -51,14 +52,14 @@ async function fetchUser(id: Number): Promise<User> {
     const data: User = await response.json();
     return data;
 
-}
+};
 
 // function to login a user.
 async function loginUser(details: Login): Promise<LoginResponse> {
     const response = await fetch(endpoints.LOGIN_USER, {
         method: 'POST',
         headers: {
-            'Content-Type:': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(details)
     });
@@ -69,14 +70,31 @@ async function loginUser(details: Login): Promise<LoginResponse> {
 
     const data: LoginResponse = await response.json()
     return data;
-}
+};
 
+// function to get user identity after logging in.
+async function getIdentity(): Promise<identity> {
+
+    const response = await fetch(endpoints.GET_IDENTITY, {
+        'method': 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+    });
+    if (!response.ok) {
+        throw new Error('User not Logged in');
+    };
+
+    const data: identity = await response.json();
+    return data;
+};
 // function to create a new user account.
 async function CreateUser(newUser: Login): Promise<SignUpResponse> {
     const response = await fetch(endpoints.POST_USER, {
         method: 'POST',
         headers: {
-            'Content-Type': 'applicaton/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(newUser)
     });
@@ -96,10 +114,10 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(newLaptime)
-        })
+        });
         if (!response.ok) {
             throw new Error('Failed to create laptime');
         }
@@ -111,7 +129,7 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
         if (!response.ok) {
@@ -130,7 +148,7 @@ async function fetchMyLaptime(id: Number): Promise<Laptime> {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     });
     if (!response.ok) {
@@ -158,7 +176,8 @@ const API = {
     fetchEveryoneLaptime,
     loginUser,
     CreateUser,
-    handleLaptimes
+    handleLaptimes,
+    getIdentity
 };
 
 

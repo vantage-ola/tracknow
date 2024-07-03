@@ -27,10 +27,17 @@ export interface Laptime {
     youtube_link?: string;
     comment?: string;
 }
+
 export interface CreateLaptimeResponse {
     "Laptime Added Successfully": Laptime;
     by: string;
 }
+
 export interface GetUserLaptimesResponse {
     laptimes: Laptime[];
+}
+
+export interface identity {
+    "message": "User Found";
+    "name": string; // username
 }
