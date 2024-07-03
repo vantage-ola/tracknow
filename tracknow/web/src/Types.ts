@@ -34,7 +34,16 @@ export interface CreateLaptimeResponse {
 }
 
 export interface GetUserLaptimesResponse {
-    laptimes: Laptime[];
+    car: string;
+    track: string;
+    time: string;
+    simracing: boolean;
+    platform: string;
+    youtube_link: string;
+    comment: string;
+    user_id: Number;
+    id: Number;
+    by: string;
 }
 
 export interface identity {
