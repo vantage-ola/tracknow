@@ -38,7 +38,7 @@ export const Hero = () => {
                     align={'center'}
                     alignSelf={'center'}
                     position={'relative'}>
-                    <Button as={ReactRouterLink} to={"/home"} colorScheme={'red'} rounded={'full'} px={6}>
+                    <Button as={ReactRouterLink} to={"/create-user"} colorScheme={'red'} rounded={'full'} px={6}>
                         Get Started
                     </Button>
 
