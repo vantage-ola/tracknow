@@ -20,7 +20,6 @@ const endpoints = {
     GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
 };
 
-const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
 
 // function to fetch users. ideally for search
 async function fetchUsers(): Promise<User[]> {
@@ -34,7 +33,7 @@ async function fetchUsers(): Promise<User[]> {
 
 // function to fetch one user with id. bearer token required
 async function fetchUser(id: Number): Promise<User> {
-
+    const token = localStorage.getItem('access_token');
     if (!token) {
         throw new Error('Login')
     }
@@ -47,7 +46,7 @@ async function fetchUser(id: Number): Promise<User> {
         }
     });
     if (!response.ok) {
-        throw new Error(`Failed to fetch user with ID: ${id}`);
+        throw new Error(`Failed to fetch user`);
     }
     const data: User = await response.json();
     return data;
@@ -74,6 +73,7 @@ async function loginUser(details: Login): Promise<LoginResponse> {
 
 // function to get user identity after logging in.
 async function getIdentity(): Promise<identity> {
+    const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
 
     const response = await fetch(endpoints.GET_IDENTITY, {
         'method': 'GET',
@@ -109,6 +109,9 @@ async function CreateUser(newUser: Login): Promise<SignUpResponse> {
 
 // function to create a user's personal laptime and get personal laptimes
 async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse> {
+
+    const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
+
     if (newLaptime) {
         const response = await fetch(endpoints.POST_GET_LAPTIME, {
             method: 'POST',
@@ -144,6 +147,8 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
 // function to fetch personal laptime(single by id).
 async function fetchMyLaptime(id: Number): Promise<Laptime> {
 
+    const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
+
     const response = await fetch(endpoints.GET_USER_LAPTIME(id), {
         method: 'GET',
         headers: {
@@ -160,12 +165,14 @@ async function fetchMyLaptime(id: Number): Promise<Laptime> {
 };
 
 // function to get everyone's laptime. not quite efficient way.
-async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse> {
+async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse[]> {
+
     const response = await fetch(endpoints.GET_LAPTIMES);
+
     if (!response.ok) {
         throw new Error('Failed to fetch laptimes!');
     }
-    const data: GetUserLaptimesResponse = await response.json();
+    const data: GetUserLaptimesResponse[] = await response.json();
     return data;
 };
 
