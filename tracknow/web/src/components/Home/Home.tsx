@@ -1,10 +1,15 @@
 import * as React from "react";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+// import Footer from "../Footer/Footer";
 import CarouselCard from "./CarouselCard";
 import Slider from "react-slick";
-import { Text } from "@chakra-ui/react";
+import { Text, useToast } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 
+import API from "../../hooks/API";
+import { LoadingSpinner } from "../Loading/LoadingSpinner";
+
+// setting for slide carousel
 const settings = {
     dots: true,
     arrows: false,
@@ -172,6 +177,37 @@ const sampleLaptimes = {
 
 export const Home = () => {
     const [slider, setSlider] = React.useState<Slider | null>(null)
+    const [username, setUsername] = React.useState("");
+    const [loading, setLoading] = React.useState(true);
+
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    React.useEffect(() => {
+        const checkLoggedIn = async () => {
+            try {
+                const response = await API.getIdentity();
+                setUsername(response.name);
+                setLoading(false)
+
+            } catch (error) {
+                toast({
+                    title: "Login required",
+                    description: "Please log in to view this page.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                navigate("/login");
+                setLoading(false);
+            }
+        };
+        checkLoggedIn()
+    }, []);
+
+    if (loading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <>
@@ -180,7 +216,7 @@ export const Home = () => {
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
 
 
-            <NavbarLoggedIn username="sigma_alonso" />
+            <NavbarLoggedIn username={username} />
             <Slider {...settings} ref={(slider) => setSlider(slider)}>
                 {sampleLaptimes.laptimes.map((laptime, index) => (
                     <CarouselCard key={index} laptime={laptime} username={{ username: laptime.by.username }} />
