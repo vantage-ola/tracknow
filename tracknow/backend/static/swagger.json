@@ -538,6 +538,9 @@
                                     },
                                     "comment": {
                                         "type": "string"
+                                    },
+                                    "by": {
+                                        "type": "string"
                                     }
                                 }
                             }

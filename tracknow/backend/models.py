@@ -43,6 +43,7 @@ class Laptime(db.Model):
     youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.
     comment = db.Column(db.String(500), nullable=True)
     # TODO Add date time.
+    
     def __repr__(self):
         return f'<Laptime {self.time}>'
 
@@ -56,5 +57,6 @@ class Laptime(db.Model):
             'simracing': self.simracing,
             'platform': self.platform,
             'youtube_link': self.youtube_link,
-            'comment': self.comment
+            'comment': self.comment,
+            'by': self.user.username if self.user else None
         }

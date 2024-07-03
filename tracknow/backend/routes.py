@@ -150,7 +150,9 @@ def get_user_laptime(id):
 # Global - get all laptimes posted around the world.
 @routes.route('/api/v1/laptimes', methods=['GET'])
 def get_laptimes():
-    laptimes = Laptime.query.filter_by().all()
+    # TODO introduce randomness, recently added 
+    laptimes = Laptime.query.all() #Laptime.query.filter_by().all()
+
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Global - get one user laptime selected.
