@@ -1,9 +1,54 @@
 import * as React from "react";
-import { Flex, Input, Button, Image, Text, Link } from "@chakra-ui/react";
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Flex, Input, Button, Image, Text, Link, useToast } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { Navbar } from "../Navbar/Navbar";
+import API from "../../hooks/API";
+import { useState } from "react";
 
 export const UserLogin = () => {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [usernameValid, setUsernameValid] = useState(false);
+    const [passwordValid, setPasswordValid] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!usernameValid || !passwordValid) {
+            return;
+        }
+        setIsLoading(true);
+        try {
+            const response = await API.loginUser({ username, password });
+            localStorage.setItem("access_token", response.token)
+
+            toast({
+                title: `Welcome, ${username}`,
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+            navigate("/home");
+            //console.log(response.msg);
+        } catch (error) {
+            //console.error(error);
+            toast({
+                title: "Error logging in, try again.",
+                description: (error as Error).message,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <>
@@ -14,6 +59,9 @@ export const UserLogin = () => {
                     p={12}
                     borderRadius={8}
                     boxShadow="lg"
+                    as={"form"}
+                    onSubmit={handleSubmit}
+
                 >
                     <Image boxSize="80px" alignSelf="center" src='./web_svg/arrow_done.svg' alt='track-bnow img' />
 
@@ -25,6 +73,12 @@ export const UserLogin = () => {
                         type="text"
                         variant="outline"
                         mb={3}
+                        value={username}
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                            setUsernameValid(e.target.value.length > 0);
+
+                        }}
                     />
                     <Input
                         focusBorderColor='red.500'
@@ -32,8 +86,20 @@ export const UserLogin = () => {
                         type="password"
                         variant="outline"
                         mb={3}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                            setPasswordValid(e.target.value.length > 0)
+                        }}
                     />
-                    <Button colorScheme="red" mb={3}>
+                    <Button
+                        colorScheme="red"
+                        mb={3}
+                        type="submit"
+                        isLoading={isLoading}
+                        isDisabled={!usernameValid || !passwordValid}
+                        cursor={usernameValid && passwordValid ? "pointer" : "not-allowed"}
+                    >
                         Sign In
                     </Button>
                     <Text alignSelf="center" fontSize='xs'>New here? <Link as={ReactRouterLink} to='/create-user' color="red"> Create an account</Link></Text>
