@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import API from "./API";
-import { CreateLaptimeResponse, GetUserLaptimesResponse, Laptime } from "../Types";
+import { GetUserLaptimesResponse, Laptime } from "../Types";
 
 export const useLaptimes = () => {
 

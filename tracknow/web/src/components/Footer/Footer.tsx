@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Box, Text, Center, Link } from '@chakra-ui/react';
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Footer: React.FC = () => {
 

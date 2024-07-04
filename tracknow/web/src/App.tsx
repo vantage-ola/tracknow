@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-    ChakraProvider,
-    Box,
-    Grid,
-    extendTheme,
-    color,
-} from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserLogin } from "./components/User/UserLogin";
 import { UserSignUp } from "./components/User/UserSignUp";

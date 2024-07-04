@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Center, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
 export const LoadingSpinner = () => (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
