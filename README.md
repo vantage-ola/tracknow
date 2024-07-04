@@ -1,19 +1,10 @@
-![logo](./src/img/track-now-banner-italic.png)
+![logo](./tracknow/img/new_tracknow_black.png)
 
 
 ## OVERVIEW
 
-Welcome to TRACK NOW Repository! This repository aims to build an application(web, mobile, desktop) that lets you share your fastest laptimes with the world. 
-
-### Features
-
-Share your Laptimes: Track Now 1.0 would let you share laptimes you set in your favourite car and track, and have a record of them and also check other people's laptimes around the world. You can also share tips and tricks on how you were able to set such a laptime.
-
-### Usage
-
-```shell
- STILL IN DEVELOPMENT ❤️
-```
+Welcome to TRACK NOW Repository! This repository contains the source code of the tracknow application. 
+TRACK NOW lets you share your racing moments with the world. 
 
 Feel free to contribute by suggesting improvements and ideas to make TRACK NOW even better.
 
