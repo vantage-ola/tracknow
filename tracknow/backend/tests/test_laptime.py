@@ -1,4 +1,5 @@
 import json
+from decouple import config
 
 laptime_data = {
     "car": "Formula 1 2020",
@@ -15,17 +16,21 @@ user = {
         'password': 'xtestpassword'
     }
 
-
+api_key = config("API_KEY")
+header = {
+        'x-api-key': api_key,
+    }
 
 def test_logged_in_user_add_laptime(test_client, init_database):
     
     # since the test_laptime runs first for some reason
     # we have to create a new user... freaking pytest
-    test_client.post('/api/v1/users', data=json.dumps(user), content_type='application/json')
+    test_client.post('/api/v1/users', data=json.dumps(user), headers=header, content_type='application/json')
 
-    login_response = test_client.post('/api/v1/login', data=json.dumps(user), content_type='application/json')
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user), headers=header, content_type='application/json')
     token = login_response.json['token']
     headers = {
+        'x-api-key': api_key,
         'Authorization': f'Bearer {token}'
     }
 
@@ -37,10 +42,11 @@ def test_logged_in_user_add_laptime(test_client, init_database):
 def test_logged_in_user_laptimes(test_client, init_database):
     
  
-    login_response = test_client.post('/api/v1/login', data=json.dumps(user), content_type='application/json')
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user), headers=header, content_type='application/json')
     
     token = login_response.json['token']
     headers = {
+        'x-api-key': api_key,
         'Authorization': f'Bearer {token}'
     }
 
@@ -51,10 +57,11 @@ def test_logged_in_user_laptimes(test_client, init_database):
 def test_logged_in_user_laptime(test_client, init_database):
     
 
-    login_response = test_client.post('/api/v1/login', data=json.dumps(user), content_type='application/json')
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user),headers=header,  content_type='application/json')
     
     token = login_response.json['token']
     headers = {
+        'x-api-key': api_key,
         'Authorization': f'Bearer {token}'
     }
 
@@ -62,15 +69,16 @@ def test_logged_in_user_laptime(test_client, init_database):
     assert response.status_code == 200
 
 def test_get_all_laptimes(test_client, init_database):
-    response = test_client.get('/api/v1/laptimes', content_type='application/json')
+    response = test_client.get('/api/v1/laptimes', headers=header, content_type='application/json')
     assert response.status_code == 200
     assert len(response.json) == 1
 
 def test_get_one_laptime(test_client, init_database):
-    login_response = test_client.post('/api/v1/login', data=json.dumps(user), content_type='application/json')
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user),headers=header,  content_type='application/json')
     
     token = login_response.json['token']
     headers = {
+        'x-api-key': api_key,
         'Authorization': f'Bearer {token}'
     }
 

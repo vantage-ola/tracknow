@@ -2,7 +2,23 @@ from flask import Blueprint, request, jsonify, url_for
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from models import db, User, Laptime
 
+from functools import wraps
+from decouple import config
+
 routes = Blueprint('routes', __name__)
+
+# api key authentication
+api_key = config("API_KEY")
+
+def require_api_key(view_function):
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        provided_api_key = request.headers.get('x-api-key')
+        if not provided_api_key or provided_api_key != api_key:
+            return jsonify({'message': 'Invalid API key'}), 401
+        return view_function(*args, **kwargs)
+    return decorated_function
+
 
 # Hello :)
 @routes.route('/api/v1/hello', methods=['GET'])
@@ -11,6 +27,7 @@ def index():
 
 # Create a new user with username and password.
 @routes.route('/api/v1/users', methods=['POST'])
+@require_api_key
 def new_user():
     new_user = request.get_json()
     # { "username" : "your_username",
@@ -32,6 +49,7 @@ def new_user():
 
 # update route for nationality. no username or password change right now.
 @routes.route('/api/v1/users/<int:user_id>/update', methods=['PUT'])
+@require_api_key
 @jwt_required()
 def update_user_nationality(user_id):
     current_user_id = get_jwt_identity()
@@ -57,6 +75,7 @@ def update_user_nationality(user_id):
 
 # Login to tracknow with username and password.
 @routes.route('/api/v1/login', methods=['POST'])
+@require_api_key
 def login_user():
     login_user = request.get_json()
     user = User.query.filter_by(username=login_user['username']).first()
@@ -68,6 +87,7 @@ def login_user():
 
 # Route to check someone on the database.   
 @routes.route('/api/v1/users/<int:id>', methods=['GET'])
+@require_api_key
 @jwt_required()
 def get_user(id):
     user = User.query.get(id)
@@ -77,12 +97,14 @@ def get_user(id):
 
 # Route to list all users
 @routes.route('/api/v1/users', methods=['GET'])
+@require_api_key
 def get_users():
     users = User.query.filter_by().all()
     return jsonify([u.to_dict() for u in users]), 200
 
 # Route to check if we are logged in with our unique jwt token.
 @routes.route('/api/v1/protected', methods=['GET'])
+@require_api_key
 # Include bearer token from login_user() to  verify we are logged in and are in session.
 @jwt_required()
 def get_identity():
@@ -96,6 +118,7 @@ def get_identity():
 
 # Logged in user adds laptime.
 @routes.route('/api/v1/user/laptimes', methods=['POST'])
+@require_api_key
 @jwt_required()
 def add_laptime():
     user_id = get_jwt_identity()
@@ -132,6 +155,7 @@ def add_laptime():
 
 # Logged in user gets all the laptimes they posted on tracknow.
 @routes.route('/api/v1/user/laptimes', methods=['GET'])
+@require_api_key
 @jwt_required()
 def get_user_laptimes():
     user_id = get_jwt_identity()
@@ -141,6 +165,7 @@ def get_user_laptimes():
 
 # Logged in user gets one laptime they selected.
 @routes.route('/api/v1/user/laptimes/<int:id>', methods=['GET'])
+@require_api_key
 @jwt_required()
 def get_user_laptime(id):
     user_id = get_jwt_identity()
@@ -149,6 +174,7 @@ def get_user_laptime(id):
 
 # Global - get all laptimes posted around the world.
 @routes.route('/api/v1/laptimes', methods=['GET'])
+@require_api_key
 def get_laptimes():
     # TODO introduce randomness, recently added 
     laptimes = Laptime.query.all() #Laptime.query.filter_by().all()
@@ -157,6 +183,7 @@ def get_laptimes():
 
 # Global - get one user laptime selected.
 @routes.route('/api/v1/users/<int:user_id>/laptimes/<int:laptime_id>', methods=['GET'])
+@require_api_key
 @jwt_required()
 def get_laptime(user_id, laptime_id):
     laptime = Laptime.query.filter_by(id=laptime_id, user_id=user_id).first()

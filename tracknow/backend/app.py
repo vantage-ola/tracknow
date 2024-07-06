@@ -6,7 +6,6 @@ from flask_jwt_extended import JWTManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from routes import routes 
 from flask_cors import CORS
-
 # swagger setup
 SWAGGER_URL="/api/v1/docs"
 API_URL="/static/swagger.json"

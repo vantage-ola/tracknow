@@ -3,6 +3,7 @@ import { User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeRespo
 // backend api routes.
 
 const API_PREFIX_URL = process.env.REACT_APP_PREFIX_URL || '';
+const API_KEY = process.env.REACT_APP_API_KEY || 'wont work lol';
 
 const endpoints = {
     GET_USERS: `${API_PREFIX_URL}/users`, // get all users
@@ -23,7 +24,14 @@ const endpoints = {
 
 // function to fetch users. ideally for search
 async function fetchUsers(): Promise<User[]> {
-    const response = await fetch(endpoints.GET_USERS);
+    const response = await fetch(endpoints.GET_USERS, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY
+        }
+    });
+
     if (!response.ok) {
         throw new Error('Failed to fetch users!');
     }
@@ -42,7 +50,7 @@ async function fetchUser(id: Number): Promise<User> {
         headers: {
             'Content-type': 'application/json',
             Authorization: `Bearer ${token}`, // after logging in, you get token.
-            // TODO unique api key, extra security
+            'x-api-key': API_KEY
         }
     });
     if (!response.ok) {
@@ -58,7 +66,8 @@ async function loginUser(details: Login): Promise<LoginResponse> {
     const response = await fetch(endpoints.LOGIN_USER, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY
         },
         body: JSON.stringify(details)
     });
@@ -79,7 +88,8 @@ async function getIdentity(): Promise<identity> {
         'method': 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
         },
     });
     if (!response.ok) {
@@ -94,7 +104,8 @@ async function CreateUser(newUser: Login): Promise<SignUpResponse> {
     const response = await fetch(endpoints.POST_USER, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY
         },
         body: JSON.stringify(newUser)
     });
@@ -117,7 +128,8 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'x-api-key': API_KEY
             },
             body: JSON.stringify(newLaptime)
         });
@@ -132,7 +144,8 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'x-api-key': API_KEY
             }
         });
         if (!response.ok) {
@@ -153,7 +166,8 @@ async function fetchMyLaptime(id: Number): Promise<Laptime> {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
         }
     });
     if (!response.ok) {
@@ -167,7 +181,13 @@ async function fetchMyLaptime(id: Number): Promise<Laptime> {
 // function to get everyone's laptime. not quite efficient way.
 async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse[]> {
 
-    const response = await fetch(endpoints.GET_LAPTIMES);
+    const response = await fetch(endpoints.GET_LAPTIMES, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY
+        }
+    });
 
     if (!response.ok) {
         throw new Error('Failed to fetch laptimes!');
