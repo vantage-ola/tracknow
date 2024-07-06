@@ -7,7 +7,8 @@
     },
     "basePath": "/api/v1",
     "schemes": [
-        "https"
+        "https",
+        "http"
     ],
     "paths": {
         "/hello": {
@@ -79,7 +80,12 @@
                     "400": {
                         "description": "Bad request"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             },
             "get": {
                 "summary": "Get all users",
@@ -155,7 +161,12 @@
                     "401": {
                         "description": "Login failed"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/users/{id}": {
@@ -193,6 +204,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             }
@@ -269,6 +283,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             }
@@ -302,6 +319,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             }
@@ -399,6 +419,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             },
@@ -445,6 +468,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             }
@@ -499,6 +525,9 @@
                 "security": [
                     {
                         "Bearer": []
+                    },
+                    {
+                        "api_key": []
                     }
                 ]
             }
@@ -546,7 +575,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
             }
         },
         "/users/{user_id}/laptimes/{id}": {
@@ -611,16 +645,25 @@
                                     }
                                 }
                             }
-                        },
-                        "security": [
-                            {
-                                "Bearer": []
-                            }
-                        ]
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    },
+                    {
+                        "api_key": []
+                    }
+                ]
             },
             "securityDefinitions": {
+                "api_key": {
+                    "type": "apiKey",
+                    "name": "x-api-key",
+                    "in": "header",
+                    "description": " Enter API to have access to the API."
+                },
                 "Bearer": {
                     "type": "apiKey",
                     "name": "Authorization",
