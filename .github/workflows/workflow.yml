@@ -16,7 +16,7 @@ jobs:
       TESTING_PG: ${{ secrets.TESTING_PG }}
       TESTING_JWT_SECRET_KEY: ${{ secrets.TESTING_JWT_SECRET_KEY }}
       TESTING_SECRET_KEY: ${{ secrets.TESTING_SECRET_KEY }}
-    
+      API_KEY: ${{ secrets.API_KEY }}
 
     steps:
       - name: Checkout repository
