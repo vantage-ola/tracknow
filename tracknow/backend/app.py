@@ -6,8 +6,6 @@ from flask_jwt_extended import JWTManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from routes import routes 
 from flask_cors import CORS
-
-from datetime import timedelta
 # swagger setup
 SWAGGER_URL="/api/v1/docs"
 API_URL="/static/swagger.json"
@@ -40,12 +38,6 @@ def create_app(config_class='config.Config'):
     app.register_error_handler(500, handle_internal_server_error)
     app.register_error_handler(503, handle_service_unavailable)
     app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
-
-    # jwt
-    app.config["JWT_COOKIE_SECURE"] = True
-    # TODO use refresh tokens 
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=168) # 1 week
-
     app.register_blueprint(routes)  # Register the routes blueprint
 
     return app
