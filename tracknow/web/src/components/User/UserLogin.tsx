@@ -1,8 +1,10 @@
 import * as React from "react";
-import { Flex, Input, Button, Image, Text, Link, useToast } from "@chakra-ui/react";
+import { Flex, Input, Button, Image, Text, Link, useToast, InputRightElement, InputGroup } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { Navbar } from "../Navbar/Navbar";
 import API from "../../hooks/API";
+
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 
 export const UserLogin = () => {
 
@@ -13,6 +15,7 @@ export const UserLogin = () => {
     const [passwordValid, setPasswordValid] = React.useState(false);
 
     const [isLoading, setIsLoading] = React.useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -65,9 +68,8 @@ export const UserLogin = () => {
                     <Image boxSize="80px" alignSelf="center" src='./web_svg/arrow_done.svg' alt='track-bnow img' />
 
                     <Text marginBottom="10px" alignSelf="center" fontSize='xs'>Welcome, driver. Sign in to continue</Text>
-
                     <Input
-                        focusBorderColor='red.500'
+                        focusBorderColor='grey'
                         placeholder="Username"
                         type="text"
                         variant="outline"
@@ -79,18 +81,30 @@ export const UserLogin = () => {
 
                         }}
                     />
-                    <Input
-                        focusBorderColor='red.500'
-                        placeholder="Password"
-                        type="password"
-                        variant="outline"
-                        mb={3}
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value)
-                            setPasswordValid(e.target.value.length > 0)
-                        }}
-                    />
+                    <InputGroup>
+                        <Input
+                            focusBorderColor='grey'
+                            placeholder="Password"
+                            type={showPassword ? 'text' : 'password'}
+                            variant="outline"
+                            mb={3}
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                                setPasswordValid(e.target.value.length > 0)
+                            }}
+                        />
+                        <InputRightElement >
+                            <Button
+                                color={'red'}
+                                variant={'ghost'}
+                                colorScheme='black'
+                                onClick={() => setShowPassword((showPassword) => !showPassword)}>
+                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+
                     <Button
                         colorScheme="red"
                         mb={3}
