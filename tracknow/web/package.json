@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react-slick": "^0.23.13",
     "ajv": "^7.2.4"
   }
