@@ -29,41 +29,45 @@ import {
     FormErrorMessage,
 } from "@chakra-ui/react";
 import BeatLoader from "react-spinners/BeatLoader";
-import { PlusSquareIcon } from '@chakra-ui/icons'
+import { PlusSquareIcon, AddIcon } from '@chakra-ui/icons'
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Laptime, SignUpResponse } from "../../Types";
 import { FaCar, FaMapMarkedAlt, FaStopwatch, FaYoutube } from "react-icons/fa";
 import { useLaptimes } from "../../hooks/useLaptimes";
 
 export const NavbarWelcome = () => (
-    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('grey', 'white')}>
+    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
             <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
-
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
                     <Link as={ReactRouterLink} to={'/login'} >Login</Link>
+                    {/*
                     <Center>
-                        <Text as='del' >Leaderboard</Text> {/*coming soon*/}
+                        <Text as='del' >Leaderboard</Text> coming soon
                     </Center>
+                    */}
                 </Stack>
             </Flex>
+
         </Flex>
     </Box>
 );
 
 export const Navbar = () => (
-    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('grey', 'white')}>
+    <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
             <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
 
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
+                    {/* 
                     <Center>
-                        <Text as='del' >Leaderboard</Text> {/*coming soon*/}
+                        <Text as='del' >Leaderboard</Text>
                     </Center>
+                    */}
                 </Stack>
             </Flex>
         </Flex>
@@ -133,10 +137,16 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
 
     return (
         <Box
+            position="fixed"
+            top="0"
+            left="0"
+            right="0"
+            zIndex={1}
+            bg={"dark"}
             px={4}
             borderBottom={1}
             borderStyle={"solid"}
-            borderColor={useColorModeValue("grey", "white")}
+            borderColor={useColorModeValue("#323536", "white")}
         >
             <Flex h={10} alignItems={"center"} justifyContent={'space-between'}>
                 <Box>
@@ -148,18 +158,12 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                 <Flex alignItems={"center"}>
                     <Stack direction={"row"} spacing={1}>
                         <Button
-                            top={0.5}
-                            variant={"solid"}
-                            colorScheme={"red"}
-                            size={"xs"}
-                            mr={1}
+                            size={"sm"}
+                            variant="navbarButton"
                             onClick={onOpen}
-                        >
-                            <PlusSquareIcon color={"black"} />
-                        </Button>
-
+                            leftIcon={<AddIcon />}>Create</Button>
                         <Center>
-                            <Text>@{username}</Text>
+                            <Text>{username}</Text>
                         </Center>
                     </Stack>
                 </Flex>
