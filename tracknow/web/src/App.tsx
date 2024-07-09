@@ -1,22 +1,12 @@
 import * as React from "react";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "./tracknowTheme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserLogin } from "./components/User/UserLogin";
 import { UserSignUp } from "./components/User/UserSignUp";
 import { Welcome } from "./components/Welcome/Welcome";
 import { Home } from "./components/Home/Home";
 
-// TODO #ff3131 red. change colourtheme
-const theme = extendTheme({
-    styles: {
-        global: {
-            body: {
-                bg: "black",
-                color: "white",
-            },
-        },
-    },
-});
 
 export const App = () => (
     <ChakraProvider theme={theme}>
