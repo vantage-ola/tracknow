@@ -166,7 +166,7 @@ def add_laptime():
     youtube_link = laptime_data['youtube_link']
     comment = laptime_data['comment']
 
-    if not title or not track or not simracing:
+    if not title or not simracing:
         return jsonify({'msg': 'Missing required fields'}), 400
 
     laptime = Laptime(
