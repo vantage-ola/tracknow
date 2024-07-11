@@ -119,7 +119,7 @@ async function CreateUser(newUser: Login): Promise<SignUpResponse> {
 };
 
 // function to create a user's personal laptime and get personal laptimes
-async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse> {
+async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse[]> {
 
     const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
 
@@ -152,7 +152,7 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
             throw new Error('Failed to fetch Personal laptimes');
         }
 
-        const data: GetUserLaptimesResponse = await response.json();
+        const data: GetUserLaptimesResponse[] = await response.json();
         return data;
     };
 };
