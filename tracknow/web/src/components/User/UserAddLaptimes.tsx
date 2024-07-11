@@ -6,19 +6,19 @@ import {
     HStack, useToast,
     FormErrorMessage
 } from "@chakra-ui/react";
-import { useParams, Link as ReactRouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { Laptime } from "../../Types";
 import { BeatLoader } from "react-spinners";
 import API from "../../hooks/API";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
+import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 const UserAddLaptimes = () => {
 
     const { addLaptime } = useLaptimes();
 
-    const { username } = useParams();
 
     const [myusername, setUsername] = React.useState("");
     const [title, setTitle] = React.useState("");
@@ -98,6 +98,9 @@ const UserAddLaptimes = () => {
             setIsLoading(false);
 
         }
+    };
+    if (loading) {
+        return <LoadingSpinner />;
     };
 
     // regex
