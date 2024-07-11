@@ -27,6 +27,12 @@ import {
     Textarea,
     useToast,
     FormErrorMessage,
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuDivider,
+    MenuItem,
+    MenuList
 } from "@chakra-ui/react";
 import BeatLoader from "react-spinners/BeatLoader";
 import { PlusSquareIcon, AddIcon } from '@chakra-ui/icons'
@@ -93,6 +99,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
 
     const toast = useToast();
 
+    // handle submitting moment
     const handleSubmit = async () => {
 
         const newLaptime: Laptime = {
@@ -131,6 +138,14 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
         }
     };
 
+    // handle logout
+    const handleLogout = () => {
+
+        localStorage.removeItem("access_token");
+        window.location.href = '/login';
+        window.location.reload()
+    }
+
     // regex
     const youtubeRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
     const timeRegex = /^(\d{1,2})?(\.(\d{2}))?(\.(\d{2}))?(\.(\d{1,3}))?$/;
@@ -161,10 +176,41 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                             size={"sm"}
                             variant="navbarButton"
                             onClick={onOpen}
-                            leftIcon={<AddIcon />}>Create</Button>
-                        <Center>
-                            <Text>{username}</Text>
-                        </Center>
+                            leftIcon={<AddIcon />}>
+                            Create
+                        </Button>
+                        <Menu>
+                            <MenuButton
+                                as={Button}
+                                rounded={'full'}
+                                variant={'link'}
+                                cursor={'pointer'}
+                                minW={0}>
+                                <Avatar
+                                    size={'sm'}
+                                    src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                />
+
+                            </MenuButton>
+                            <MenuList alignItems={'center'} >
+                                <br />
+                                <Center>
+                                    <Avatar
+                                        size={'2xl'}
+                                        src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                    />
+                                </Center>
+                                <br />
+                                <Center>
+                                    <p>{username}</p>
+                                </Center>
+                                <br />
+                                <MenuDivider />
+                                <MenuItem>My Moments</MenuItem>
+                                <MenuItem >Account Settings</MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </MenuList>
+                        </Menu>
                     </Stack>
                 </Flex>
             </Flex>
@@ -173,7 +219,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
             <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInTop" size={'full'}>
                 <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
                 <ModalContent>
-                    <ModalHeader color="black">Add Your Racing Moment</ModalHeader>
+                    <ModalHeader color="black">Create A Racing Moment</ModalHeader>
                     <ModalCloseButton color="black" />
                     <ModalBody color="black">
                         <Grid templateColumns="repeat(2, 1fr)" gap={4}>

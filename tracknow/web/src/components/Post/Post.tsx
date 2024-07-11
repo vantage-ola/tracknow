@@ -140,7 +140,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes }) => {
                                     </Box>
                                 </Stack>
                             </Flex>
-                            <Text fontSize={"sm"} color={"white"}>
+                            <Text fontSize={"smaller"} color={"white"} mt={3}>
                                 {showFullText ? laptime.comment : laptime.comment.substring(0, textLimit)}
                                 {laptime.comment.length > textLimit && (
                                     <span
