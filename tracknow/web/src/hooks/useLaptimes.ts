@@ -6,6 +6,7 @@ import { GetUserLaptimesResponse, Laptime } from "../Types";
 export const useLaptimes = () => {
 
     const [laptime, setLaptime] = React.useState<GetUserLaptimesResponse[]>([]);
+    const [mylaptime, setmylaptimes] = React.useState<GetUserLaptimesResponse[]>([]);
 
     // fetch all laptimes from the server
     const fetchLaptime = async () => {
@@ -22,9 +23,27 @@ export const useLaptimes = () => {
         }
     };
 
+    // fetch connected user personal uploaded laptimes/moments
+    const fetchMyLaptimes = async () => {
+        try {
+            const response = await API.handleLaptimes();
+
+            if (Array.isArray(response)) {
+
+                setmylaptimes(response);
+
+            } else {
+                // CreateLaptimeResponse  - addLaptime function lol
+            }
+        } catch (error) {
+            throw new Error("My Laptimes not loaded");
+        }
+    }
+
     React.useEffect(() => {
         //console.log("useEffect called");
         fetchLaptime();
+        fetchMyLaptimes();
     }, [])
 
     // add laptimes
@@ -41,6 +60,6 @@ export const useLaptimes = () => {
         }
     };
 
-    return { laptime, addLaptime };
+    return { laptime, addLaptime, mylaptime };
 
 }
