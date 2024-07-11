@@ -8,8 +8,8 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 const navbarButton = defineStyle({
     _hover: { bg: '#1e2021' },
     color: 'white',
-    borderRadius: '12px'
-
+    borderRadius: '12px',
+    borderColor: '#323536'
 })
 // menu component styles
 const baseStyle = definePartsStyle({
@@ -31,12 +31,26 @@ const baseStyle = definePartsStyle({
     },
     divider: {
         borderColor: '#191a19',
+    },
+    container: {
+        backgroundColor: 'dark',
+        color: 'white',
+    },
+    header: {
+        color: 'white',
+        padding: 4
+    },
+    body: {
+        color: 'white',
+        padding: 4,
+
     }
 })
 export const badgeTheme = defineStyleConfig({
     variants: { navbarButton }
 })
 const menuTheme = defineMultiStyleConfig({ baseStyle })
+const cardTheme = defineMultiStyleConfig({ baseStyle })
 
 export const theme = extendTheme({
     styles: {
@@ -57,6 +71,7 @@ export const theme = extendTheme({
     },
     components: {
         Button: badgeTheme,
-        Menu: menuTheme
+        Menu: menuTheme,
+        Card: cardTheme,
     }
 });
