@@ -1,4 +1,5 @@
 import { Select } from "@chakra-ui/react";
+import { ChangeEvent } from "react";
 
 const styles = {
     borderColor: '#323536',
@@ -9,12 +10,20 @@ const styles = {
         },
     }
 };
+interface SelectProps {
+    value: string;
+    change: (event: ChangeEvent<HTMLSelectElement>) => void;
+}
+
 
 // simracing titles
-export const SimracingTitles = () => {
+export const SimracingTitles: React.FC<SelectProps> = ({ value, change }) => {
 
     return (
-        <Select mr={4}
+        <Select
+            value={value}
+            onChange={(event) => change(event)}
+            mr={4}
             style={styles}
             sx={{
                 'option': {
@@ -43,16 +52,19 @@ export const SimracingTitles = () => {
 
 
 // nationality
-export const CountryDropdown = () => {
-
+export const CountryDropdown: React.FC<SelectProps> = ({ value, change }) => {
     return (
-        <Select style={styles} sx={{
-            'option': {
-                color: 'white', // Change the color as needed
-                backgroundColor: 'black' // Change the background color as needed
-                // Add other styles as needed
-            },
-        }}
+        <Select
+            value={value}
+            onChange={(event) => change(event)}
+            style={styles}
+            sx={{
+                'option': {
+                    color: 'white', // Change the color as needed
+                    backgroundColor: 'black' // Change the background color as needed
+                    // Add other styles as needed
+                },
+            }}
             focusBorderColor="grey">
             <option value="Nigeria">Nigeria</option>
             <option value="Afghanistan">Afghanistan</option>
