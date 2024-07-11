@@ -3,7 +3,7 @@ name: Python Backend CI
 on:
   push:
     branches:
-      - main
+      - '**' 
 
 jobs:
   build:
