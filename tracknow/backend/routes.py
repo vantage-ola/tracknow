@@ -157,17 +157,19 @@ def add_laptime():
 
     laptime_data = request.get_json()
 
-    title = laptime_data['title']
-    car = laptime_data['car']
-    track = laptime_data['track']
-    time = laptime_data['time']
-    simracing = laptime_data['simracing']
-    platform = laptime_data['platform']
-    youtube_link = laptime_data['youtube_link']
-    comment = laptime_data['comment']
+    title = laptime_data.get('title')
+    simracing = laptime_data.get('simracing')
 
-    if not title or not simracing:
+    # Check for required fields
+    if not title and not simracing:
         return jsonify({'msg': 'Missing required fields'}), 400
+
+    car = laptime_data.get('car')
+    track = laptime_data.get('track')
+    time = laptime_data.get('time')
+    platform = laptime_data.get('platform')
+    youtube_link = laptime_data.get('youtube_link')
+    comment = laptime_data.get('comment')
 
     laptime = Laptime(
         user_id=user_id,
