@@ -4,6 +4,7 @@ from models import db, User, Laptime
 
 from functools import wraps
 from decouple import config
+from sqlalchemy import desc, func
 
 routes = Blueprint('routes', __name__)
 
@@ -153,9 +154,10 @@ def get_identity():
 def add_laptime():
     user_id = get_jwt_identity()
     loggedin_user = User.query.filter_by(id=user_id).first()
-    
+
     laptime_data = request.get_json()
 
+    title = laptime_data['title']
     car = laptime_data['car']
     track = laptime_data['track']
     time = laptime_data['time']
@@ -164,11 +166,12 @@ def add_laptime():
     youtube_link = laptime_data['youtube_link']
     comment = laptime_data['comment']
 
-    if not car or not track or not time:
+    if not title or not track or not simracing:
         return jsonify({'msg': 'Missing required fields'}), 400
 
     laptime = Laptime(
         user_id=user_id,
+        title=title,
         car=car,
         track=track,
         time=time,
@@ -206,9 +209,16 @@ def get_user_laptime(id):
 @routes.route('/api/v1/laptimes', methods=['GET'])
 @require_api_key
 def get_laptimes():
-    # TODO introduce randomness, recently added 
-    laptimes = Laptime.query.all() #Laptime.query.filter_by().all()
-
+    # Get the page number from the query string, default is 1
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 5
+    
+    # Get the lap times ordered by date_created in descending order (most recent first)
+    laptimes_query = Laptime.query.order_by(desc(Laptime.date_created))
+    
+    # Pagination: skip the items of previous pages and limit to items_per_page
+    laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
+    
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Global - get one user laptime selected.

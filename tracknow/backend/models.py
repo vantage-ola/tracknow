@@ -76,6 +76,7 @@ class Laptime(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'title': self.title,
             'car': self.car,
             'track': self.track,
             'time': self.time,
