@@ -143,7 +143,7 @@ def get_identity():
     user = User.query.filter_by(id=user_id).first()
     # Check if user exists
     if user:
-        return jsonify({'message': 'User found', 'name': user.username, "id": user.id })
+        return jsonify({'message': 'User found', 'name': user.username, "id": user.id, "pp": user.profile_picture })
     else:
         return jsonify({'message': 'User not found'}), 404
 
