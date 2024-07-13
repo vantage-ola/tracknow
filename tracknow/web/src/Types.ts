@@ -19,9 +19,10 @@ export interface SignUpResponse {
 };
 
 export interface Laptime {
-    car: string;
-    track: string;
-    time: string;
+    title: string;
+    car?: string;
+    track?: string;
+    time?: string;
     simracing: boolean;
     platform?: string;
     youtube_link?: string;
@@ -34,6 +35,7 @@ export interface CreateLaptimeResponse {
 }
 
 export interface GetUserLaptimesResponse {
+    title: string;
     car: string;
     track: string;
     time: string;
@@ -44,9 +46,28 @@ export interface GetUserLaptimesResponse {
     user_id: Number;
     id: Number;
     by: string;
+    date_created: string;
 }
 
 export interface identity {
     "message": "User Found";
-    "name": string; // username
+    id: Number;
+    name: string; // username
+    pp: string; // profile_pic
+}
+
+export interface identityProfile {
+    name: string; // username
+    pp: string; // profile_pic
+}
+
+export interface EditUser {
+    username?: string;
+    password?: string;
+    nationality?: string;
+
+}
+
+export interface EditUserPic {
+    profile_picture_url?: string;
 }
