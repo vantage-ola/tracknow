@@ -17,16 +17,20 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons'
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { SignUpResponse } from "../../Types";
+import { identityProfile } from "../../Types";
+import useMiscFunctions from "../../misc/miscFunctions";
+
+
+// TODO move link styles to tracknowTheme
 
 export const NavbarWelcome = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
-            <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
+            <Box><Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}><Text fontSize="xl" as="b">tracknow</Text></Link></Box>
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
-                    <Link as={ReactRouterLink} to={'/login'} >Login</Link>
+                    <Link _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', fontWeight: "bold", color: 'inherit' }} as={ReactRouterLink} to={'/login'} >login</Link>
                     {/*
                     <Center>
                         <Text as='del' >Leaderboard</Text> coming soon
@@ -43,7 +47,12 @@ export const Navbar = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
-            <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
+            <Box>
+                <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Text fontSize="xl" as="b">
+                        tracknow
+                    </Text>
+                </Link></Box>
 
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
@@ -58,17 +67,9 @@ export const Navbar = () => (
     </Box>
 );
 
-export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
 
-
-    // handle logout
-    const handleLogout = () => {
-
-        localStorage.removeItem("access_token");
-        window.location.href = '/login';
-        window.location.reload()
-    };
-
+export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
+    const { handleLogout } = useMiscFunctions();
     return (
         <Box
             position="fixed"
@@ -84,9 +85,11 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
         >
             <Flex h={10} alignItems={"center"} justifyContent={'space-between'}>
                 <Box>
-                    <Text fontSize="xl" as="b">
-                        tracknow
-                    </Text>
+                    <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Text fontSize="xl" as="b">
+                            tracknow
+                        </Text>
+                    </Link>
                 </Box>
 
                 <Flex alignItems={"center"}>
@@ -95,7 +98,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                             size={"sm"}
                             variant="navbarButton"
                             as={ReactRouterLink}
-                            to={`/user/${username}/create-moments`}
+                            to={`/user/${name}/create-moments`}
                             leftIcon={<AddIcon />}>
                             Create
                         </Button>
@@ -108,7 +111,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                                 minW={0}>
                                 <Avatar
                                     size={'sm'}
-                                    src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                    src={pp}
                                 />
 
                             </MenuButton>
@@ -117,17 +120,17 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                                 <Center>
                                     <Avatar
                                         size={'2xl'}
-                                        src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                        src={pp}
                                     />
                                 </Center>
                                 <br />
                                 <Center>
-                                    <p>{username}</p>
+                                    <p>{name}</p>
                                 </Center>
                                 <br />
                                 <MenuDivider />
-                                <MenuItem>My Moments</MenuItem>
-                                <MenuItem >Account Settings</MenuItem>
+                                <MenuItem as={ReactRouterLink} to={`/user/${name}/my-moments`}>My Moments</MenuItem>
+                                <MenuItem as={ReactRouterLink} to={`/user/${name}/account-settings`}>Account Settings</MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </MenuList>
                         </Menu>

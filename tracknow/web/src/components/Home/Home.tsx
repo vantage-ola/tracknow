@@ -27,13 +27,14 @@ import { useLaptimes } from "../../hooks/useLaptimes";
 export const Home = () => {
     const [slider, setSlider] = React.useState<Slider | null>(null)
     const [username, setUsername] = React.useState("");
+    const [profilepic, setProfilePic] = React.useState("");
     const [loading, setLoading] = React.useState(true);
 
 
     const navigate = useNavigate();
     const toast = useToast();
 
-    const { laptime } = useLaptimes();
+    const { laptime, fetchMoreData, hasMore } = useLaptimes();
     //console.log(laptime)
     // useEffect to make sure user is in session, else /login
     React.useEffect(() => {
@@ -41,6 +42,7 @@ export const Home = () => {
             try {
                 const response = await API.getIdentity();
                 setUsername(response.name);
+                setProfilePic(response.pp);
                 setLoading(false);
 
             } catch (error) {
@@ -58,9 +60,7 @@ export const Home = () => {
         checkLoggedIn()
     }, []);
 
-    if (loading) {
-        return <LoadingSpinner />;
-    };
+
 
     return (
         <>
@@ -69,7 +69,7 @@ export const Home = () => {
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
             */}
 
-            <NavbarLoggedIn username={username} />
+            <NavbarLoggedIn name={username} pp={profilepic} />
             {/* carousel card...
             <Slider {...settings} ref={(slider) => setSlider(slider)}>
                 {laptime &&
@@ -82,7 +82,11 @@ export const Home = () => {
                 Swipe right or left to change
             </Text>
             */}
-            <HomePost laptimes={laptime} />
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <HomePost laptimes={laptime} fetchMoreData={fetchMoreData} hasMore={hasMore} />
+            )}
 
         </>
     )
