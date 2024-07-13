@@ -29,6 +29,7 @@ const UserAddLaptimes = () => {
     const [simracing, setSimracing] = React.useState(true);
     const [platform, setPlatform] = React.useState("");
     const [comment, setComment] = React.useState("");
+    const [profilepic, setProfilePic] = React.useState("");
 
 
     const [isLoading, setIsLoading] = React.useState(false); // for moments
@@ -43,6 +44,7 @@ const UserAddLaptimes = () => {
             try {
                 const response = await API.getIdentity();
                 setUsername(response.name);
+                setProfilePic(response.pp)
                 setLoading(false);
 
             } catch (error) {
@@ -60,6 +62,9 @@ const UserAddLaptimes = () => {
         checkLoggedIn()
     }, []);
 
+    if (loading) {
+        return <LoadingSpinner />;
+    };
     //console.log(simracing);
 
     const handleSubmit = async () => {
@@ -73,7 +78,7 @@ const UserAddLaptimes = () => {
             platform,
             comment,
         };
-        console.log(newLaptime)
+        //console.log(newLaptime)
         setIsLoading(true);
         try {
             const response = await addLaptime(newLaptime);
@@ -99,9 +104,6 @@ const UserAddLaptimes = () => {
 
         }
     };
-    if (loading) {
-        return <LoadingSpinner />;
-    };
 
     // regex
     const youtubeRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
@@ -109,7 +111,7 @@ const UserAddLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn username={myusername} />
+            <NavbarLoggedIn name={myusername} pp={profilepic} />
             <Flex mt={10} bg="dark">
                 {/* Left section*/}
                 <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
