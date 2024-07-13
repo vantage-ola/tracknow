@@ -66,6 +66,7 @@ export const CountryDropdown: React.FC<SelectProps> = ({ value, change }) => {
                 },
             }}
             focusBorderColor="grey">
+            <option value="">Choose Nationality</option>
             <option value="Nigeria">Nigeria</option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Åland Islands">Åland Islands</option>
