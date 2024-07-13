@@ -4,6 +4,7 @@ from models import db, User, Laptime
 
 from functools import wraps
 from decouple import config
+from sqlalchemy import desc, func
 
 routes = Blueprint('routes', __name__)
 
@@ -47,11 +48,11 @@ def new_user():
     return (jsonify({'username': user.username}), 201,
             {'Location': url_for('routes.get_user', id=user.id, _external=True)})
 
-# update route for nationality. no username or password change right now.
-@routes.route('/api/v1/users/<int:user_id>/update', methods=['PUT'])
+# user changes/uploads profile_picture
+@routes.route('/api/v1/users/<int:user_id>/profile_picture', methods=['PUT'])
 @require_api_key
 @jwt_required()
-def update_user_nationality(user_id):
+def update_user_profile_picture(user_id):
     current_user_id = get_jwt_identity()
 
     # Ensure the user is updating their own information
@@ -59,19 +60,49 @@ def update_user_nationality(user_id):
         return jsonify({'msg': 'Permission denied'}), 403
 
     data = request.get_json()
-    nationality = data.get('nationality', None)
+    profile_picture_url = data.get('profile_picture_url', None)
 
-    if nationality is None:
-        return jsonify({'msg': 'No nationality provided'}), 400
+    if profile_picture_url is None:
+        return jsonify({'msg': 'No profile picture URL provided'}), 400
 
     user = User.query.get(user_id)
     if user is None:
         return jsonify({'msg': 'User not found'}), 404
 
-    user.nationality = nationality
-    db.session.commit()
+    user.update_profile_picture(profile_picture_url)
 
-    return jsonify({'msg': 'Nationality updated successfully', 'user': user.to_dict()}), 200
+    return jsonify({'msg': 'Profile picture updated successfully', 'user': user.to_dict()}), 200
+
+# update route for nationality,username,password change.
+@routes.route('/api/v1/users/<int:user_id>/update', methods=['PUT'])
+@require_api_key
+@jwt_required()
+def update_user_info(user_id):
+    current_user_id = get_jwt_identity()
+
+    # Ensure the user is updating their own information
+    if current_user_id != user_id:
+        return jsonify({'msg': 'Permission denied'}), 403
+
+    data = request.get_json()
+    new_username = data.get('username', None)
+    new_password = data.get('password', None)
+    new_nationality = data.get('nationality', None)
+
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'msg': 'User not found'}), 404
+
+    if new_username is not None and not user.update_username(new_username):
+        return jsonify({'msg': 'Username already exists'}), 400
+
+    if new_password is not None:
+        user.update_password(new_password)
+
+    if new_nationality is not None:
+        user.update_nationality(new_nationality)
+
+    return jsonify({'msg': 'User information updated successfully', 'user': user.to_dict()}), 200
 
 # Login to tracknow with username and password.
 @routes.route('/api/v1/login', methods=['POST'])
@@ -112,7 +143,7 @@ def get_identity():
     user = User.query.filter_by(id=user_id).first()
     # Check if user exists
     if user:
-        return jsonify({'message': 'User found', 'name': user.username})
+        return jsonify({'message': 'User found', 'name': user.username, "id": user.id, "pp": user.profile_picture })
     else:
         return jsonify({'message': 'User not found'}), 404
 
@@ -123,22 +154,26 @@ def get_identity():
 def add_laptime():
     user_id = get_jwt_identity()
     loggedin_user = User.query.filter_by(id=user_id).first()
-    
+
     laptime_data = request.get_json()
 
-    car = laptime_data['car']
-    track = laptime_data['track']
-    time = laptime_data['time']
-    simracing = laptime_data['simracing']
-    platform = laptime_data['platform']
-    youtube_link = laptime_data['youtube_link']
-    comment = laptime_data['comment']
+    title = laptime_data.get('title')
+    simracing = laptime_data.get('simracing')
 
-    if not car or not track or not time:
+    # Check for required fields
+    if not title and not simracing:
         return jsonify({'msg': 'Missing required fields'}), 400
+
+    car = laptime_data.get('car')
+    track = laptime_data.get('track')
+    time = laptime_data.get('time')
+    platform = laptime_data.get('platform')
+    youtube_link = laptime_data.get('youtube_link')
+    comment = laptime_data.get('comment')
 
     laptime = Laptime(
         user_id=user_id,
+        title=title,
         car=car,
         track=track,
         time=time,
@@ -158,9 +193,14 @@ def add_laptime():
 @require_api_key
 @jwt_required()
 def get_user_laptimes():
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 5
+
     user_id = get_jwt_identity()
-    laptimes = Laptime.query.filter_by(user_id=user_id).all()
-    
+
+    laptimes_query = Laptime.query.filter_by(user_id=user_id).order_by(desc(Laptime.date_created))
+    laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
+
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Logged in user gets one laptime they selected.
@@ -176,9 +216,16 @@ def get_user_laptime(id):
 @routes.route('/api/v1/laptimes', methods=['GET'])
 @require_api_key
 def get_laptimes():
-    # TODO introduce randomness, recently added 
-    laptimes = Laptime.query.all() #Laptime.query.filter_by().all()
-
+    # Get the page number from the query string, default is 1
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 5
+    
+    # Get the lap times ordered by date_created in descending order (most recent first)
+    laptimes_query = Laptime.query.order_by(desc(Laptime.date_created))
+    
+    # Pagination: skip the items of previous pages and limit to items_per_page
+    laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
+    
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Global - get one user laptime selected.

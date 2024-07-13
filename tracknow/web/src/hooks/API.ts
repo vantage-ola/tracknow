@@ -1,4 +1,15 @@
-import { User, Login, LoginResponse, SignUpResponse, Laptime, CreateLaptimeResponse, GetUserLaptimesResponse, identity } from '../Types';
+import {
+    User,
+    Login,
+    LoginResponse,
+    SignUpResponse,
+    Laptime,
+    CreateLaptimeResponse,
+    GetUserLaptimesResponse,
+    identity,
+    EditUser,
+    EditUserPic
+} from '../Types';
 
 // backend api routes.
 
@@ -10,12 +21,14 @@ const endpoints = {
     GET_USER: (id: Number) => `${API_PREFIX_URL}/users/${id}`, // get user by ID. jwt *
     LOGIN_USER: `${API_PREFIX_URL}/login`, // login user
     POST_USER: `${API_PREFIX_URL}/users`, // create a user account
-    PUT_USER: (user_id: Number) => `${API_PREFIX_URL}/users/${user_id}/update`, // edit user details(nationality)
+    PUT_USER: (user_id: Number) => `${API_PREFIX_URL}/users/${user_id}/update`, // edit user details
+    PUT_USER_PROFILE_PIC: (user_id: Number) => `${API_PREFIX_URL}/users/${user_id}/profile_picture`,
 
     POST_GET_LAPTIME: `${API_PREFIX_URL}/user/laptimes`, // user posts a laptime or view all their laptimes jwt*
+    GET_MY_LAPTIMES: (page: Number) => `${API_PREFIX_URL}/user/laptimes?page=${page}`, // user view all their laptimes with pagination
     GET_USER_LAPTIME: (id: Number) => `${API_PREFIX_URL}/user/laptimes/${id}`, // get an exact laptime of a user jwt*
 
-    GET_LAPTIMES: `${API_PREFIX_URL}/laptimes`, // see everyone's laptime on tracknow
+    GET_LAPTIMES: (page: Number) => `${API_PREFIX_URL}/laptimes?page=${page}`, // see everyone's laptime on tracknow
     GET_ONE_LAPTIME: (user_id: Number, id: Number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
 
     GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
@@ -119,7 +132,7 @@ async function CreateUser(newUser: Login): Promise<SignUpResponse> {
 };
 
 // function to create a user's personal laptime and get personal laptimes
-async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse[]> {
+async function handleLaptimes(page: number = 1, newLaptime?: Laptime): Promise<CreateLaptimeResponse | GetUserLaptimesResponse[]> {
 
     const token = localStorage.getItem('access_token') // after logging in, we retrieve the token to get access to some of the functions
 
@@ -140,7 +153,7 @@ async function handleLaptimes(newLaptime?: Laptime): Promise<CreateLaptimeRespon
         const data: CreateLaptimeResponse = await response.json();
         return data;
     } else {
-        const response = await fetch(endpoints.POST_GET_LAPTIME, {
+        const response = await fetch(endpoints.GET_MY_LAPTIMES(page), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -179,9 +192,9 @@ async function fetchMyLaptime(id: Number): Promise<Laptime> {
 };
 
 // function to get everyone's laptime. not quite efficient way.
-async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse[]> {
+async function fetchEveryoneLaptime(page: number): Promise<GetUserLaptimesResponse[]> {
 
-    const response = await fetch(endpoints.GET_LAPTIMES, {
+    const response = await fetch(endpoints.GET_LAPTIMES(page), {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -196,6 +209,48 @@ async function fetchEveryoneLaptime(): Promise<GetUserLaptimesResponse[]> {
     return data;
 };
 
+async function EditUserProfile(user_id: Number, editUser: EditUser) {
+
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.PUT_USER(user_id), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
+        },
+        body: JSON.stringify(editUser)
+    });
+    if (!response.ok) {
+        throw new Error('Failed to Edit User profile');
+    }
+    const data = await response.json();
+    return data;
+};
+
+async function EditUserProfilePic(user_id: Number, editUserpic: EditUserPic) {
+
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.PUT_USER_PROFILE_PIC(user_id), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
+        },
+        body: JSON.stringify(editUserpic)
+    });
+    if (!response.ok) {
+        throw new Error('Failed to Edit User profile picture');
+    }
+    const data = await response.json();
+    return data;
+};
+
+
+
 const API = {
     fetchUser,
     fetchUsers,
@@ -204,7 +259,9 @@ const API = {
     loginUser,
     CreateUser,
     handleLaptimes,
-    getIdentity
+    getIdentity,
+    EditUserProfile,
+    EditUserProfilePic
 };
 
 

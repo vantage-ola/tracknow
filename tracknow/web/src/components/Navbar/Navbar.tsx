@@ -7,26 +7,7 @@ import {
     Button,
     Center,
     useColorModeValue,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    FormControl,
-    FormLabel,
-    Input,
-    Checkbox,
-    Select,
     Link,
-    InputLeftElement,
-    Grid,
-    InputGroup,
-    Textarea,
-    useToast,
-    FormErrorMessage,
     Avatar,
     Menu,
     MenuButton,
@@ -34,21 +15,22 @@ import {
     MenuItem,
     MenuList
 } from "@chakra-ui/react";
-import BeatLoader from "react-spinners/BeatLoader";
-import { PlusSquareIcon, AddIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { Laptime, SignUpResponse } from "../../Types";
-import { FaCar, FaMapMarkedAlt, FaStopwatch, FaYoutube } from "react-icons/fa";
-import { useLaptimes } from "../../hooks/useLaptimes";
+import { identityProfile } from "../../Types";
+import useMiscFunctions from "../../misc/miscFunctions";
+
+
+// TODO move link styles to tracknowTheme
 
 export const NavbarWelcome = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
-            <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
+            <Box><Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}><Text fontSize="xl" as="b">tracknow</Text></Link></Box>
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
-                    <Link as={ReactRouterLink} to={'/login'} >Login</Link>
+                    <Link _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', fontWeight: "bold", color: 'inherit' }} as={ReactRouterLink} to={'/login'} >login</Link>
                     {/*
                     <Center>
                         <Text as='del' >Leaderboard</Text> coming soon
@@ -65,7 +47,12 @@ export const Navbar = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
-            <Box><Text fontSize="xl" as="b">tracknow</Text></Box>
+            <Box>
+                <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Text fontSize="xl" as="b">
+                        tracknow
+                    </Text>
+                </Link></Box>
 
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
@@ -80,76 +67,9 @@ export const Navbar = () => (
     </Box>
 );
 
-export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const { addLaptime } = useLaptimes();
-
-    const [car, setCar] = React.useState("");
-    const [track, setTrack] = React.useState("");
-    const [time, setTime] = React.useState("");
-    const [youtube_link, setYoutubeLink] = React.useState("");
-    const [simracing, setSimracing] = React.useState(false);
-    const [platform, setPlatform] = React.useState("");
-    const [comment, setComment] = React.useState("");
-
-    const [isLoading, setIsLoading] = React.useState(false);
-
-    // add laptimes
-
-    const toast = useToast();
-
-    // handle submitting moment
-    const handleSubmit = async () => {
-
-        const newLaptime: Laptime = {
-            car,
-            track,
-            time,
-            youtube_link,
-            simracing,
-            platform,
-            comment,
-        };
-        setIsLoading(true);
-        try {
-            const response = await addLaptime(newLaptime);
-            toast({
-                title: 'Laptime added successfully',
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-            });
-            onClose();
-            window.location.reload();
-
-        } catch (error) {
-
-            toast({
-                title: "Error while  adding Laptime.",
-                description: (error as Error).message,
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-            });
-        } finally {
-            setIsLoading(false);
-
-        }
-    };
-
-    // handle logout
-    const handleLogout = () => {
-
-        localStorage.removeItem("access_token");
-        window.location.href = '/login';
-        window.location.reload()
-    }
-
-    // regex
-    const youtubeRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
-    const timeRegex = /^(\d{1,2})?(\.(\d{2}))?(\.(\d{2}))?(\.(\d{1,3}))?$/;
-
+export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
+    const { handleLogout } = useMiscFunctions();
     return (
         <Box
             position="fixed"
@@ -165,9 +85,11 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
         >
             <Flex h={10} alignItems={"center"} justifyContent={'space-between'}>
                 <Box>
-                    <Text fontSize="xl" as="b">
-                        tracknow
-                    </Text>
+                    <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Text fontSize="xl" as="b">
+                            tracknow
+                        </Text>
+                    </Link>
                 </Box>
 
                 <Flex alignItems={"center"}>
@@ -175,7 +97,8 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                         <Button
                             size={"sm"}
                             variant="navbarButton"
-                            onClick={onOpen}
+                            as={ReactRouterLink}
+                            to={`/user/${name}/create-moments`}
                             leftIcon={<AddIcon />}>
                             Create
                         </Button>
@@ -188,7 +111,7 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                                 minW={0}>
                                 <Avatar
                                     size={'sm'}
-                                    src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                    src={pp}
                                 />
 
                             </MenuButton>
@@ -197,17 +120,17 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                                 <Center>
                                     <Avatar
                                         size={'2xl'}
-                                        src={'https://i.postimg.cc/874tLgmf/Untitled-design-1.png'}
+                                        src={pp}
                                     />
                                 </Center>
                                 <br />
                                 <Center>
-                                    <p>{username}</p>
+                                    <p>{name}</p>
                                 </Center>
                                 <br />
                                 <MenuDivider />
-                                <MenuItem>My Moments</MenuItem>
-                                <MenuItem >Account Settings</MenuItem>
+                                <MenuItem as={ReactRouterLink} to={`/user/${name}/my-moments`}>My Moments</MenuItem>
+                                <MenuItem as={ReactRouterLink} to={`/user/${name}/account-settings`}>Account Settings</MenuItem>
                                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
                             </MenuList>
                         </Menu>
@@ -215,141 +138,6 @@ export const NavbarLoggedIn = ({ username }: SignUpResponse) => {
                 </Flex>
             </Flex>
 
-            {/*add laptime modal*/}
-            <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInTop" size={'full'}>
-                <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
-                <ModalContent>
-                    <ModalHeader color="black">Create A Racing Moment</ModalHeader>
-                    <ModalCloseButton color="black" />
-                    <ModalBody color="black">
-                        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-
-                            <FormControl isRequired>
-                                <FormLabel>Car</FormLabel>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents="none">
-                                        <FaCar />
-                                    </InputLeftElement>
-                                    <Input
-                                        focusBorderColor="grey"
-                                        value={car}
-                                        onChange={(e) => setCar(e.target.value)}
-                                        maxLength={50}
-                                    />
-                                </InputGroup>
-                            </FormControl>
-
-                            <FormControl isRequired>
-                                <FormLabel>Track</FormLabel>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents="none">
-                                        <FaMapMarkedAlt />
-                                    </InputLeftElement>
-                                    <Input
-                                        focusBorderColor="grey"
-                                        value={track}
-                                        onChange={(e) => setTrack(e.target.value)}
-                                        maxLength={50}
-                                    />
-                                </InputGroup>
-                            </FormControl>
-
-                            <FormControl isRequired isInvalid={time && !timeRegex.test(time) ? true : undefined}>
-                                <FormLabel>Laptime</FormLabel>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents="none">
-                                        <FaStopwatch />
-                                    </InputLeftElement>
-                                    <Input
-                                        focusBorderColor="grey"
-                                        value={time}
-                                        onChange={(e) => setTime(e.target.value)}
-                                        maxLength={10}
-                                    />
-                                </InputGroup>
-                                {time && !timeRegex.test(time) && (
-                                    <FormErrorMessage>Please enter a valid laptime (minutes:seconds.milliseconds)</FormErrorMessage>
-                                )}
-                            </FormControl>
-
-                            <FormControl isRequired isInvalid={youtube_link && !youtubeRegex.test(youtube_link) ? true : undefined}>
-                                <FormLabel>YouTube Link</FormLabel>
-                                <InputGroup>
-                                    <InputLeftElement pointerEvents="none">
-                                        <FaYoutube />
-                                    </InputLeftElement>
-                                    <Input
-                                        focusBorderColor="grey"
-
-                                        value={youtube_link}
-                                        onChange={(e) => setYoutubeLink(e.target.value)}
-                                        maxLength={200}
-
-                                    />
-                                </InputGroup>
-                                {youtube_link && !youtubeRegex.test(youtube_link) && (
-                                    <FormErrorMessage>Please enter a valid YouTube video URL</FormErrorMessage>
-                                )}
-                            </FormControl>
-
-                            <FormControl display="flex" alignItems="center" gridColumn="1 / -1" gap="2" isRequired>
-                                <FormLabel mb="0">Simracing</FormLabel>
-                                <Checkbox
-                                    color="red"
-                                    isChecked={simracing}
-                                    onChange={(e) => setSimracing(e.target.checked)}
-                                />
-                                <InputGroup>
-                                    <Select
-                                        value={platform}
-                                        onChange={(e) => setPlatform(e.target.value)}
-                                        isDisabled={!simracing}
-                                        focusBorderColor="grey"
-
-                                    >
-                                        <option value="">Select platform</option>
-                                        <option value="Assetto Corsa Competizione">Assetto Corsa Competizione</option>
-                                        <option value="iRacing">iRacing</option>
-                                        <option value="Gran Turismo 7">Gran Turismo 7</option>
-                                        <option value="Assetto Corsa">Assetto Corsa </option>
-                                        <option value="BeamNG.drive">BeamNG.drive</option>
-                                        <option value="Formula 1">Formula 1</option>
-                                        <option value="Forza Motorsport">Forza Motorsport</option>
-                                        <option value="Automobilista 2">Automobilista 2</option>
-                                        <option value="Le Mans Ultimate">Le Mans Ultimate</option>
-                                        <option value="Rennsport">Rennsport</option>
-                                        <option value="Dirt Rally 2.0">Dirt Rally 2.0</option>
-                                        <option value="Dirt Rally 2.0">EA SPORTS WRC</option>
-                                        <option value="rFactor 2">rFactor 2</option>
-                                    </Select>
-                                </InputGroup>
-                            </FormControl>
-                            <FormControl gridColumn="1 / -1" isRequired>
-                                <FormLabel>Comment</FormLabel>
-                                <Textarea
-                                    focusBorderColor="grey"
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                    maxLength={250}
-                                />
-                            </FormControl>
-
-                        </Grid>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="red.500" variant="ghost" onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant='ghost'
-                            onClick={handleSubmit}
-                            isDisabled={!car || !track || !time || !timeRegex.test(time) || !youtube_link || !youtubeRegex.test(youtube_link) || !simracing || !platform || !comment}
-                            cursor={car && track && time && youtube_link && simracing && platform && comment ? "pointer" : "not-allowed"}
-                            isLoading={isLoading}
-                            spinner={<BeatLoader size={8} color='red' />}
-                        >Submit</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
         </Box>
     );
 };
