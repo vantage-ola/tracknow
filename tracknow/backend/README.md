@@ -24,6 +24,8 @@ Fill in the environment variables
     TESTING_PG=postgres://username:password@hostname:port/testdatabasename #dont use the same database, create a new one for testing !
     TESTING_JWT_SECRET_KEY=xxxxxxxxx9612c6808732
     TESTING_SECRET_KEY=xxxxxxxx104af944ae4f60
+    API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 ```
 ### 4. Create the database and start the server.
 ``` shell
