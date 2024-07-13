@@ -193,9 +193,14 @@ def add_laptime():
 @require_api_key
 @jwt_required()
 def get_user_laptimes():
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 5
+
     user_id = get_jwt_identity()
-    laptimes = Laptime.query.filter_by(user_id=user_id).all()
-    
+
+    laptimes_query = Laptime.query.filter_by(user_id=user_id).order_by(desc(Laptime.date_created))
+    laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
+
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 # Logged in user gets one laptime they selected.
