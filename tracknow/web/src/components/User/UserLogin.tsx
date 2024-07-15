@@ -37,6 +37,7 @@ export const UserLogin = () => {
                 isClosable: true,
             });
             navigate("/home");
+            navigate(0);  // i reload the page, seems it reload show  the  data, dont know why though.
             //console.log(response.msg);
         } catch (error) {
             //console.error(error);

@@ -1,24 +1,20 @@
-import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, FormHelperText, Heading, HStack, Input, Select, Center, Stack, Textarea, Avatar, FormErrorMessage, InputRightElement, InputGroup, Spinner } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input } from "@chakra-ui/react";
 import * as React from "react";
 import { CountryDropdown } from "../../misc/dropDown";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
-import API from "../../hooks/API";
 import { useNavigate, Link as ReactRouterLink } from "react-router-dom";
 import { useUsers } from "../../hooks/useUsers";
 import { EditUser, EditUserPic } from "../../Types";
-import { LoadingSpinner } from "../Loading/LoadingSpinner";
+//import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { BeatLoader } from "react-spinners";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import useMiscFunctions from "../../misc/miscFunctions";
 
 const UserAccountSettings = () => {
 
-    const [myusername, setMyUsername] = React.useState("");
-    const [username, setUsername] = React.useState("");
-    const [loading, setLoading] = React.useState(false);
+    const [newusername, setNewUsername] = React.useState("");
+    //const [loading, setLoading] = React.useState(false);
     const [password, setPassword] = React.useState("");
-
-    const [profile_picture, setProfilePic] = React.useState("");
 
     const [passwordValid, setPasswordValid] = React.useState(false);
     const [usernameValid, setUsernameValid] = React.useState(false);
@@ -30,7 +26,7 @@ const UserAccountSettings = () => {
     const [isUploading, setIsUploading] = React.useState(false); // for image uploading
 
     const { cloudName, uploadPreset, api_key, handleLogout } = useMiscFunctions(); // cloudinary names & preset
-
+    const { username, profilePic } = useUsers();
 
     const navigate = useNavigate();
     const toast = useToast();
@@ -38,40 +34,17 @@ const UserAccountSettings = () => {
     const { editProfilePic, editProfile } = useUsers();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    // useEffect to make sure user is in session, else /login
-    React.useEffect(() => {
-        const checkLoggedIn = async () => {
-            try {
-                const response = await API.getIdentity();
-                setMyUsername(response.name);
-                setProfilePic(response.pp)
 
-                setLoading(false);
 
-            } catch (error) {
-                toast({
-                    title: "Login required",
-                    description: "Please log in to view this page.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-                navigate("/login");
-                setLoading(false);
-            }
-        };
-        checkLoggedIn()
-    }, []);
-
-    if (loading) {
+    /*if (loading) {
         return <LoadingSpinner />;
-    };
+    }; */
 
     const handleProfile = async () => {
         const newProfile: EditUser = {};
 
-        if (username !== myusername && username !== "") {
-            newProfile.username = username;
+        if (newusername !== username && newusername !== "") {
+            newProfile.username = newusername;
         }
         if (password !== "" && passwordValid) {
             newProfile.password = password;
@@ -166,7 +139,7 @@ const UserAccountSettings = () => {
                         isClosable: true,
                     });
                     setIsUploading(false); // Stop image uploading
-                    setProfilePic(profile_picture);
+                    //setProfilePic(profile_picture);
                     navigate(0);
                 } else {
                     // Show an error message to the user
@@ -187,7 +160,7 @@ const UserAccountSettings = () => {
     return (
         <>
 
-            <NavbarLoggedIn name={myusername} pp={profile_picture} />
+            <NavbarLoggedIn name={username} pp={profilePic} />
 
             <Flex mt={10} bg="dark">
                 {/* Left section*/}
@@ -218,7 +191,7 @@ const UserAccountSettings = () => {
                                         <Avatar
                                             size={"2xl"}
                                             src={
-                                                profile_picture
+                                                profilePic
                                             }
                                         >
                                         </Avatar>
@@ -247,14 +220,14 @@ const UserAccountSettings = () => {
                                         <Heading size='xs' textTransform='uppercase'>
                                             Username
                                         </Heading>
-                                        <FormControl isInvalid={username !== myusername && !usernameValid && username !== ""}>
+                                        <FormControl isInvalid={newusername !== username && !usernameValid && newusername !== ""}>
                                             <Input borderColor={'#323536'}
                                                 focusBorderColor="grey"
                                                 variant='flushed'
-                                                value={username}
-                                                placeholder={myusername}
+                                                value={newusername}
+                                                placeholder={username}
                                                 onChange={(e) => {
-                                                    setUsername(e.target.value);
+                                                    setNewUsername(e.target.value);
                                                     setUsernameValid(e.target.value.length >= 5 && e.target.value.length <= 10);
                                                 }}
                                             />
@@ -320,7 +293,7 @@ const UserAccountSettings = () => {
                                 spinner={<BeatLoader size={8} color='red' />}
                                 onClick={handleProfile}
                                 isDisabled={!(
-                                    (username !== myusername && usernameValid) ||
+                                    (newusername !== username && usernameValid) ||
                                     (password !== "" && passwordValid) ||
                                     nationality !== ""
                                 )}

@@ -14,6 +14,7 @@ export const useLaptimes = () => {
     const [hasMore, setHasMore] = React.useState(true);
     const [hasMore2, setHasMore2] = React.useState(true);
 
+    const [laptime_loading, setLoading] = React.useState(true);
 
     // fetch all laptimes from the server
     const fetchLaptime = async () => {
@@ -23,6 +24,7 @@ export const useLaptimes = () => {
             if (response.length === 0) {
                 setHasMore(false);
             }
+            setLoading(false);
         } catch (error) {
             throw new Error("Laptimes not loaded!");
         }
@@ -86,6 +88,6 @@ export const useLaptimes = () => {
         }
     };
 
-    return { laptime, addLaptime, mylaptime, fetchMoreData, hasMore, fetchMoreData2, hasMore2 };
+    return { laptime, addLaptime, mylaptime, fetchMoreData, hasMore, fetchMoreData2, hasMore2, laptime_loading };
 
 }

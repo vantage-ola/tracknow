@@ -10,10 +10,11 @@ const styles = {
         },
     }
 };
+
 interface SelectProps {
     value: string;
     change: (event: ChangeEvent<HTMLSelectElement>) => void;
-}
+};
 
 
 // simracing titles

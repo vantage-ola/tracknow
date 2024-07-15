@@ -51,7 +51,7 @@ export interface GetUserLaptimesResponse {
 
 export interface identity {
     "message": "User Found";
-    id: Number;
+    id: number;
     name: string; // username
     pp: string; // profile_pic
 }
@@ -70,4 +70,14 @@ export interface EditUser {
 
 export interface EditUserPic {
     profile_picture_url?: string;
+}
+
+// Define the type for the user data
+export interface UserData {
+    userId: number;
+    username: string;
+    profilePic: string;
+    editProfile: (editProfile: EditUser) => Promise<void>;
+    editProfilePic: (editProfilePic: EditUserPic) => Promise<void>;
+    loading: boolean
 }

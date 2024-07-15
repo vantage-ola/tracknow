@@ -6,21 +6,19 @@ import {
     HStack, useToast,
     FormErrorMessage
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { Laptime } from "../../Types";
 import { BeatLoader } from "react-spinners";
-import API from "../../hooks/API";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
-import { LoadingSpinner } from "../Loading/LoadingSpinner";
+//import { LoadingSpinner } from "../Loading/LoadingSpinner";
+import { useUsers } from "../../hooks/useUsers";
 
 const UserAddLaptimes = () => {
 
     const { addLaptime } = useLaptimes();
+    const { username, profilePic } = useUsers();
 
-
-    const [myusername, setUsername] = React.useState("");
     const [title, setTitle] = React.useState("");
     const [car, setCar] = React.useState("");
     const [track, setTrack] = React.useState("");
@@ -29,42 +27,15 @@ const UserAddLaptimes = () => {
     const [simracing, setSimracing] = React.useState(true);
     const [platform, setPlatform] = React.useState("");
     const [comment, setComment] = React.useState("");
-    const [profilepic, setProfilePic] = React.useState("");
 
 
     const [isLoading, setIsLoading] = React.useState(false); // for moments
-    const [loading, setLoading] = React.useState(false);
 
-    const navigate = useNavigate();
     const toast = useToast();
 
-    // useEffect to make sure user is in session, else /login
-    React.useEffect(() => {
-        const checkLoggedIn = async () => {
-            try {
-                const response = await API.getIdentity();
-                setUsername(response.name);
-                setProfilePic(response.pp)
-                setLoading(false);
-
-            } catch (error) {
-                toast({
-                    title: "Login required",
-                    description: "Please log in to view this page.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
-                navigate("/login");
-                setLoading(false);
-            }
-        };
-        checkLoggedIn()
-    }, []);
-
-    if (loading) {
+    /*if (loading) {
         return <LoadingSpinner />;
-    };
+    }; */
     //console.log(simracing);
 
     const handleSubmit = async () => {
@@ -111,7 +82,7 @@ const UserAddLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={myusername} pp={profilepic} />
+            <NavbarLoggedIn name={username} pp={profilePic} />
             <Flex mt={10} bg="dark">
                 {/* Left section*/}
                 <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
