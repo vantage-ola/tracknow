@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Flex, Text, AspectRatio, Stack, Icon, HStack, Center } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Icon, HStack, Center } from "@chakra-ui/react";
 import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
@@ -17,7 +17,7 @@ type PostProps = {
 // homepage posts( recent) posts of users
 export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore }) => {
 
-    const [liked, setLiked] = React.useState(false);
+    //const [liked, setLiked] = React.useState(false);
     const [showFullText, setShowFullText] = React.useState(false);
     const { LazyLoadYoutubeEmbed } = miscFunctions();
     const textLimit = 100;

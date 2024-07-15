@@ -1,7 +1,5 @@
 import { AspectRatio, Box } from "@chakra-ui/react";
-import * as React from "react";
 import { useNavigate } from "react-router-dom";
-//import useIntersectionObserver from '@react-hook/intersection-observer';
 
 // get logged in username function
 const useMiscFunctions = () => {
@@ -35,6 +33,7 @@ const useMiscFunctions = () => {
 
                 <AspectRatio ratio={16 / 9}>
                     <iframe
+                        title={`Youtube VideoID: ${youtubeID}`}
                         style={roundframe}
                         src={`https://www.youtube.com/embed/${youtubeID}`
                         }

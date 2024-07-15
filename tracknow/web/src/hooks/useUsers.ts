@@ -9,7 +9,11 @@ export const useUsers = () => {
     const toast = useToast();
     const navigate = useNavigate();
 
-    const [userId, setMyUserId] = React.useState<Number>(0)
+    const [userId, setMyUserId] = React.useState<Number>(0);
+    const [username, setMyUsername] = React.useState<string>('')
+    const [profilePic, setProfilePicture] = React.useState<string>('');
+
+
 
     // TODO Utilize this function across the whole react codebase
     // This way we reduce repetition and redundancy
@@ -18,6 +22,9 @@ export const useUsers = () => {
 
             const response = await API.getIdentity();
             setMyUserId(response.id)
+            setMyUsername(response.name)
+            setProfilePicture(response.pp)
+
         } catch (error) {
             toast({
                 title: "Login required",
@@ -57,5 +64,5 @@ export const useUsers = () => {
         }
     };
 
-    return { editProfilePic, editProfile }
+    return { editProfilePic, editProfile, username, profilePic }
 };
