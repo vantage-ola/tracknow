@@ -1,4 +1,3 @@
-import * as React from "react";
 import { HomePost } from "../Post/Post";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
@@ -10,19 +9,19 @@ import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 const UserLaptimes = () => {
 
-    const { mylaptime, fetchMoreData2, hasMore2 } = useLaptimes();
+    const { mylaptime, fetchMoreData2, hasMore2, laptime_loading } = useLaptimes();
     const { username, profilePic, loading } = useUsers();
 
     //const [loading, setLoading] = React.useState(false)
 
-    /*if (loading) {
+    if (laptime_loading) {
         return (
             <>
                 <NavbarLoggedIn name={username} pp={profilePic} />
                 <LoadingSpinner />
             </>
         );
-    } */
+    };
 
     if (mylaptime.length === 0) {
         return (
