@@ -14,10 +14,7 @@ const useMiscFunctions = () => {
     const handleLogout = () => {
 
         localStorage.removeItem("access_token");
-        //navigate('/login')
-        //window.location.href = '/login';
-        //window.location.reload()
-        navigate('/home');
+        navigate('/login');
 
     };
 

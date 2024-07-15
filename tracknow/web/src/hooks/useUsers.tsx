@@ -43,13 +43,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 setProfilePicture(response.pp);
                 setLoading(false);
             } catch (error) {
-                toast({
-                    title: "Login required",
-                    description: "Please log in to view this page.",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                });
+
                 navigate("/login");
             }
         };
