@@ -1,8 +1,7 @@
 import { AspectRatio, Box } from "@chakra-ui/react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import useIntersectionObserver from '@react-hook/intersection-observer';
-import Youtube from 'react-lazyload-youtube';
+//import useIntersectionObserver from '@react-hook/intersection-observer';
 
 // get logged in username function
 const useMiscFunctions = () => {
@@ -24,8 +23,6 @@ const useMiscFunctions = () => {
 
     };
 
-    // react memo, only reloads the youtube if the props change  React.memo(), didnt work lol
-    // some bugs with post read more, it reloads the yt clip, dont know why
     const LazyLoadYoutubeEmbed = ({ youtubeLink }: { youtubeLink: string }) => {
 
         const roundframe = {
