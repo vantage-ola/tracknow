@@ -6,11 +6,12 @@ import { NavbarLoggedIn } from "../Navbar/Navbar";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { Center, Text, } from "@chakra-ui/react";
 import { useUsers } from "../../hooks/useUsers";
+import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 const UserLaptimes = () => {
 
     const { mylaptime, fetchMoreData2, hasMore2 } = useLaptimes();
-    const { username, profilePic } = useUsers();
+    const { username, profilePic, loading } = useUsers();
 
     //const [loading, setLoading] = React.useState(false)
 
@@ -39,7 +40,11 @@ const UserLaptimes = () => {
     return (
         <>
             <NavbarLoggedIn name={username} pp={profilePic} />
-            <HomePost laptimes={mylaptime} fetchMoreData={fetchMoreData2} hasMore={hasMore2} />
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <HomePost laptimes={mylaptime} fetchMoreData={fetchMoreData2} hasMore={hasMore2} />
+            )}
         </>
     );
 
