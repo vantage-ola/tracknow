@@ -1,3 +1,4 @@
+import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./tracknowTheme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,17 +14,43 @@ import { UserProvider } from "./hooks/useUsers";
 export const App = () => (
     <ChakraProvider theme={theme}>
         <BrowserRouter>
-            <UserProvider>
-                <Routes>
-                    <Route path="/" element={<Welcome />} />
-                    <Route path="/login" element={<UserLogin />} />
-                    <Route path="/create-user" element={<UserSignUp />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/user/:username/create-moments" element={<UserAddLaptimes />} />
-                    <Route path="/user/:username/account-settings" element={<UserAccountSettings />} />
-                    <Route path="/user/:username/my-moments" element={<UserLaptimes />} />
-                </Routes>
-            </UserProvider>
+            <Routes>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/login" element={<UserLogin />} />
+                <Route path="/create-user" element={<UserSignUp />} />
+                <Route
+                    path="/home"
+                    element={
+                        <UserProvider>
+                            <Home />
+                        </UserProvider>
+                    }
+                />
+                <Route
+                    path="/user/:username/create-moments"
+                    element={
+                        <UserProvider>
+                            <UserAddLaptimes />
+                        </UserProvider>
+                    }
+                />
+                <Route
+                    path="/user/:username/account-settings"
+                    element={
+                        <UserProvider>
+                            <UserAccountSettings />
+                        </UserProvider>
+                    }
+                />
+                <Route
+                    path="/user/:username/my-moments"
+                    element={
+                        <UserProvider>
+                            <UserLaptimes />
+                        </UserProvider>
+                    }
+                />
+            </Routes>
         </BrowserRouter>
     </ChakraProvider>
 );

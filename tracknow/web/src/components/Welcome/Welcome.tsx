@@ -6,6 +6,7 @@ export const Welcome = () => {
 
     return (
         <>
+
             <NavbarWelcome />
             <Hero />
             <Footer />
