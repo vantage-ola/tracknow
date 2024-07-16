@@ -11,6 +11,14 @@ const navbarButton = defineStyle({
     borderRadius: '12px',
     borderColor: '#323536'
 })
+
+const navbarLink = defineStyle({
+    _hover: { textDecoration: 'none' },
+    textDecoration: 'none',
+    fontWeight: "bold",
+    color: 'inherit'
+
+})
 // menu component styles
 const baseStyle = definePartsStyle({
     list: {
@@ -49,6 +57,11 @@ const baseStyle = definePartsStyle({
 export const badgeTheme = defineStyleConfig({
     variants: { navbarButton }
 })
+
+export const linkTheme = defineStyleConfig({
+    variants: { navbarLink },
+})
+
 const menuTheme = defineMultiStyleConfig({ baseStyle })
 const cardTheme = defineMultiStyleConfig({ baseStyle })
 
@@ -73,5 +86,6 @@ export const theme = extendTheme({
         Button: badgeTheme,
         Menu: menuTheme,
         Card: cardTheme,
+        Link: linkTheme
     }
 });
