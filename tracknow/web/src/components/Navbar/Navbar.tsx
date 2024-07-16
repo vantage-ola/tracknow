@@ -21,16 +21,18 @@ import { identityProfile } from "../../Types";
 import useMiscFunctions from "../../misc/miscFunctions";
 
 
-// TODO move link styles to tracknowTheme
 
 export const NavbarWelcome = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
-            <Box><Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}><Text fontSize="xl" as="b">tracknow</Text></Link></Box>
+            <Box><Link as={ReactRouterLink} to="#" variant={'navbarLink'}><Text fontSize="xl" as="b">tracknow</Text></Link></Box>
             <Flex alignItems={'center'}>
-                <Stack direction={'row'} spacing={7}>
-                    <Link _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', fontWeight: "bold", color: 'inherit' }} as={ReactRouterLink} to={'/login'} >login</Link>
+                <Stack direction={'row'} spacing={4}>
+                    <Text color={'GrayText'}>v-alpha2.1</Text> {/* TODO write function to get from github directly */}
+                    <Link variant={'navbarLink'} as={ReactRouterLink} to={'/create-user'}>signup</Link>
+                    <Link variant={'navbarLink'} as={ReactRouterLink} to={'/login'}>login</Link>
+
                     {/*
                     <Center>
                         <Text as='del' >Leaderboard</Text> coming soon
@@ -48,7 +50,7 @@ export const Navbar = () => (
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
             <Box>
-                <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link as={ReactRouterLink} to="#" variant={'navbarLink'}>
                     <Text fontSize="xl" as="b">
                         tracknow
                     </Text>
@@ -56,11 +58,8 @@ export const Navbar = () => (
 
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
-                    {/* 
-                    <Center>
-                        <Text as='del' >Leaderboard</Text>
-                    </Center>
-                    */}
+                    <Text color={'GrayText'}>v-alpha2.1</Text> {/* TODO write function to get from github directly */}
+
                 </Stack>
             </Flex>
         </Flex>
@@ -85,7 +84,7 @@ export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
         >
             <Flex h={10} alignItems={"center"} justifyContent={'space-between'}>
                 <Box>
-                    <Link as={ReactRouterLink} to="/home" _hover={{ textDecoration: 'none' }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link as={ReactRouterLink} to="/home" variant={'navbarLink'}>
                         <Text fontSize="xl" as="b">
                             tracknow
                         </Text>

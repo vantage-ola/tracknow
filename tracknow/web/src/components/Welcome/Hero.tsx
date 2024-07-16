@@ -26,12 +26,6 @@ export const Hero = () => {
                         moments!
                     </Text>
                 </Heading>
-                <Text color={'gray.300'}>
-                    Share your racing moments with the world! Whether on the real track or in a sim,
-                    tracknow is the place to share your lap times, funny moments, and epic wins.
-                    Connect with fellow racers and show off your skills. Share your passion for racing with tracknow!
-
-                </Text>
                 <Stack
                     direction={'column'}
                     spacing={3}
