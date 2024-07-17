@@ -8,7 +8,8 @@ import {
     GetUserLaptimesResponse,
     identity,
     EditUser,
-    EditUserPic
+    EditUserPic,
+    OneUser
 } from '../Types';
 
 // backend api routes.
@@ -53,7 +54,7 @@ async function fetchUsers(): Promise<User[]> {
 };
 
 // function to fetch one user with id. bearer token required
-async function fetchUser(id: Number): Promise<User> {
+async function fetchUser(id: Number): Promise<OneUser> {
     const token = localStorage.getItem('access_token');
     if (!token) {
         throw new Error('Login')
@@ -69,7 +70,7 @@ async function fetchUser(id: Number): Promise<User> {
     if (!response.ok) {
         throw new Error(`Failed to fetch user`);
     }
-    const data: User = await response.json();
+    const data: OneUser = await response.json();
     return data;
 
 };

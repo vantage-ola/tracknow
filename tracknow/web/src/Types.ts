@@ -4,6 +4,13 @@ export interface User {
     id: Number;
     username: string;
 };
+
+export interface OneUser {
+    id: number
+    username: string;
+    nationality: string;
+    profile_picture: string;
+};
 // login types 
 export interface Login { // login and signup requests
     username: string,
