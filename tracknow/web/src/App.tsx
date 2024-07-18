@@ -13,12 +13,15 @@ import UserAccountSettings from "./components/User/UserAccountSettings";
 import UserLaptimes from "./components/User/UserLaptimes";
 import { UserProfile } from "./components/User/UserProfile";
 
+import ErrorPage from "./components/404/ErrorPage";
+
 import { UserProvider } from "./hooks/useUsers";
 
 export const App = () => (
     <ChakraProvider theme={theme}>
         <BrowserRouter>
             <Routes>
+                <Route path="/*" element={<ErrorPage />} />
                 <Route path="/" element={<Welcome />} />
                 <Route path="/login" element={<UserLogin />} />
                 <Route path="/create-user" element={<UserSignUp />} />
