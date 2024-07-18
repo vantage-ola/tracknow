@@ -91,6 +91,8 @@ export const UserProfile = ({ id }: { id: number }) => {
                                         borderWidth="1px"
                                         borderRadius="lg"
                                         _hover={{ cursor: "not-allowed" }}
+                                        bg="grey"
+                                        color={'dark'}
                                     >
                                         <Text fontWeight="bold">{laptime.title}</Text>
                                         <Text>Car: {laptime.car}</Text>
