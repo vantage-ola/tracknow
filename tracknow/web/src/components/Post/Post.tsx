@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Box, Flex, Text, Stack, Icon, HStack, Center } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Icon, HStack, Center, Link } from "@chakra-ui/react";
 import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
 import miscFunctions from "../../misc/miscFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BeatLoader } from "react-spinners";
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 type PostProps = {
     laptimes: GetUserLaptimesResponse[];
@@ -50,7 +51,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
                             <Flex justifyContent={"space-between"} p={2}>
                                 <Text as="b" fontSize={{ base: 'sm', md: 'lg' }}>{laptime.title}</Text>
 
-                                <Text fontSize="sm" color={"GrayText"}>@{laptime.by}</Text>
+                                <Link as={ReactRouterLink} to={`/user/${laptime.user_id}/${laptime.by}/`} fontSize="sm" color={"GrayText"}>@{laptime.by}</Link>
                             </Flex>
                             {laptime.youtube_link && (
                                 <LazyLoadYoutubeEmbed youtubeLink={laptime.youtube_link} />

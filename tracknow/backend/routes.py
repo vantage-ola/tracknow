@@ -124,7 +124,7 @@ def get_user(id):
     user = User.query.get(id)
     if not user:
         return jsonify({'msg': "User does not exist."})
-    return jsonify({'username': user.username})
+    return jsonify(user.to_dict()), 200
 
 # Route to list all users
 @routes.route('/api/v1/users', methods=['GET'])
@@ -243,3 +243,5 @@ def get_laptime(user_id, laptime_id):
     laptime_data['user'] = user.to_dict()
 
     return jsonify(laptime_data), 200
+
+# TODO Global - get all the laptimes posted by a user.

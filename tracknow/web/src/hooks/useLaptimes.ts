@@ -49,6 +49,15 @@ export const useLaptimes = () => {
         }
     };
 
+    const fetchAUserLaptime = async ({ user_id, id }: { user_id: number, id: number }) => {
+        try {
+
+            const response = await API.fetchAUserLaptime(user_id, id);
+            return response;
+        } catch (error) {
+            throw new Error(`#${user_id} moment does not exist`)
+        }
+    };
 
     React.useEffect(() => {
         fetchLaptime();

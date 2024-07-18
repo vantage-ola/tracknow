@@ -8,7 +8,8 @@ import {
     GetUserLaptimesResponse,
     identity,
     EditUser,
-    EditUserPic
+    EditUserPic,
+    OneUser
 } from '../Types';
 
 // backend api routes.
@@ -29,8 +30,8 @@ const endpoints = {
     GET_USER_LAPTIME: (id: Number) => `${API_PREFIX_URL}/user/laptimes/${id}`, // get an exact laptime of a user jwt*
 
     GET_LAPTIMES: (page: Number) => `${API_PREFIX_URL}/laptimes?page=${page}`, // see everyone's laptime on tracknow
-    GET_ONE_LAPTIME: (user_id: Number, id: Number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
-
+    GET_ONE_LAPTIME: (user_id: number, id: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
+    // GET_MULTIPLE_LAPTIMES (OF OTHER USERS)
     GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
 };
 
@@ -53,7 +54,7 @@ async function fetchUsers(): Promise<User[]> {
 };
 
 // function to fetch one user with id. bearer token required
-async function fetchUser(id: Number): Promise<User> {
+async function fetchUser(id: Number): Promise<OneUser> {
     const token = localStorage.getItem('access_token');
     if (!token) {
         throw new Error('Login')
@@ -69,7 +70,7 @@ async function fetchUser(id: Number): Promise<User> {
     if (!response.ok) {
         throw new Error(`Failed to fetch user`);
     }
-    const data: User = await response.json();
+    const data: OneUser = await response.json();
     return data;
 
 };
@@ -209,6 +210,27 @@ async function fetchEveryoneLaptime(page: number): Promise<GetUserLaptimesRespon
     return data;
 };
 
+// function to get a user's specific laptime.
+async function fetchAUserLaptime(user_id: number, id: number): Promise<GetUserLaptimesResponse> {
+
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.GET_ONE_LAPTIME(user_id, id), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch #${user_id} laptime`)
+    };
+
+    const data: GetUserLaptimesResponse = await response.json();
+    return data;
+}
 async function EditUserProfile(user_id: Number, editUser: EditUser) {
 
     const token = localStorage.getItem('access_token')
@@ -261,7 +283,8 @@ const API = {
     handleLaptimes,
     getIdentity,
     EditUserProfile,
-    EditUserProfilePic
+    EditUserProfilePic,
+    fetchAUserLaptime
 };
 
 

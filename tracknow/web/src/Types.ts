@@ -4,6 +4,13 @@ export interface User {
     id: Number;
     username: string;
 };
+
+export interface OneUser {
+    id: number
+    username: string;
+    nationality: string;
+    profile_picture: string;
+};
 // login types 
 export interface Login { // login and signup requests
     username: string,
@@ -43,8 +50,8 @@ export interface GetUserLaptimesResponse {
     platform: string;
     youtube_link: string;
     comment: string;
-    user_id: Number;
-    id: Number;
+    user_id: number;
+    id: number;
     by: string;
     date_created: string;
 }
