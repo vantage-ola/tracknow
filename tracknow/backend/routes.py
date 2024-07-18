@@ -243,3 +243,5 @@ def get_laptime(user_id, laptime_id):
     laptime_data['user'] = user.to_dict()
 
     return jsonify(laptime_data), 200
+
+# TODO Global - get all the laptimes posted by a user.
