@@ -44,9 +44,14 @@ export const SimracingTitles: React.FC<SelectProps> = ({ value, change }) => {
             <option value="Automobilista 2">Automobilista 2</option>
             <option value="Le Mans Ultimate">Le Mans Ultimate</option>
             <option value="Rennsport">Rennsport</option>
+            <option value="Assetto Corsa Evo">Assetto Corsa Evo</option>
             <option value="Dirt Rally 2.0">Dirt Rally 2.0</option>
             <option value="Dirt Rally 2.0">EA SPORTS WRC</option>
             <option value="rFactor 2">rFactor 2</option>
+            <option value="Project Motor Racing">Project Motor Racing</option>
+            <option value="Project Cars 2">Project Cars 2</option>
+            <option value="Project Cars 1">Project Cars 1</option>
+
         </Select>
     );
 };

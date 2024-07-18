@@ -49,8 +49,53 @@ const useMiscFunctions = () => {
         );
     };
 
+    const dummyLaptimes = [
+        {
+            title: "Fast Lap at Brands Hatch",
+            car: "Audi R8 LMS",
+            track: "Brands Hatch",
+            time: "1:32.5",
+            simracing: false,
+            platform: "PC",
+            youtube_link: "https://www.youtube.com/watch?v=1234567890",
+            comment: "This was a great session!",
+            user_id: 1,
+            id: 1,
+            by: "johndoe",
+            date_created: "2022-01-01"
+        },
+        {
+            title: "Sim Racing at Spa-Francorchamps",
+            car: "Ferrari 488 GT3",
+            track: "Spa-Francorchamps",
+            time: "2:01.2",
+            simracing: true,
+            platform: "PS4",
+            youtube_link: "https://www.youtube.com/watch?v=0987654321",
+            comment: "I need to work on my braking points!",
+            user_id: 1,
+            id: 2,
+            by: "johndoe",
+            date_created: "2022-01-02"
+        },
+        {
+            title: "Rainy Day at Nürburgring",
+            car: "Porsche 911 GT3 R",
+            track: "Nürburgring",
+            time: "8:15.8",
+            simracing: false,
+            platform: "PC",
+            youtube_link: "https://www.youtube.com/watch?v=abcdefghij",
+            comment: "The conditions were terrible, but it was still a fun session!",
+            user_id: 1,
+            id: 3,
+            by: "johndoe",
+            date_created: "2022-01-03"
+        }
+    ];
 
-    return { cloudName, uploadPreset, api_key, handleLogout, LazyLoadYoutubeEmbed }
+
+    return { cloudName, uploadPreset, api_key, handleLogout, LazyLoadYoutubeEmbed, dummyLaptimes }
 
 
 };
