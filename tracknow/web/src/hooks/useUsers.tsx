@@ -75,9 +75,21 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             throw new Error("Error editing user Profile Pic");
         }
     };
+
     return (
         <UserContext.Provider value={{ userId, username, profilePic, editProfile, editProfilePic, loading }}>
             {children}
         </UserContext.Provider>
     );
+};
+
+export const getProfile = async (id: number) => {
+    try {
+
+        const response = await API.fetchUser(id);
+        return response;
+    } catch (error) {
+
+        throw new Error("Error returning User Profile");
+    }
 };
