@@ -59,6 +59,18 @@ export const useLaptimes = () => {
         }
     };
 
+    const fetchUsersLaptimes = async ({ user_id, page }: { user_id: number, page: number }) => {
+
+        try {
+
+            const response = await API.fetchUsersLaptimes(user_id, page);
+            return response;
+
+        } catch (error) {
+            throw new Error(`#${user_id} moments not loaded`)
+        }
+    };
+
     React.useEffect(() => {
         fetchLaptime();
         //console.log(page)
@@ -97,6 +109,11 @@ export const useLaptimes = () => {
         }
     };
 
-    return { laptime, addLaptime, mylaptime, fetchMoreData, hasMore, fetchMoreData2, hasMore2, laptime_loading };
+    return {
+        laptime, addLaptime, mylaptime, fetchMoreData,
+        hasMore, fetchMoreData2, hasMore2, laptime_loading,
+        fetchUsersLaptimes
+
+    };
 
 }

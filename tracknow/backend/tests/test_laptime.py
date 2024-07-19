@@ -118,3 +118,14 @@ def test_get_one_laptime(test_client, init_database):
 
     response = test_client.get('/api/v1/users/1/laptimes/1', headers=headers, content_type='application/json')
     assert response.status_code == 200
+
+def test_user_laptimes(test_client, init_database):
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user),headers=header,  content_type='application/json')
+    
+    token = login_response.json['token']
+    headers = {
+        'x-api-key': api_key,
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = test_client.get('/api/v1/users/1/laptimes?page=4', headers=headers, content_type='appication/json')

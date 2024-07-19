@@ -31,8 +31,10 @@ const endpoints = {
 
     GET_LAPTIMES: (page: Number) => `${API_PREFIX_URL}/laptimes?page=${page}`, // see everyone's laptime on tracknow
     GET_ONE_LAPTIME: (user_id: number, id: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
-    // GET_MULTIPLE_LAPTIMES (OF OTHER USERS)
+    GET_USERS_LAPTIMES: (user_id: number, page: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes?page=${page}`, // see personal moments of other users
+
     GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
+
 };
 
 
@@ -271,7 +273,27 @@ async function EditUserProfilePic(user_id: Number, editUserpic: EditUserPic) {
     return data;
 };
 
+async function fetchUsersLaptimes(user_id: number, page: number): Promise<GetUserLaptimesResponse[]> {
 
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.GET_USERS_LAPTIMES(user_id, page), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY,
+            Authorization: `Bearer ${token}`,
+
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch #${user_id}'s laptimes!`);
+    }
+
+    const data: GetUserLaptimesResponse[] = await response.json();
+    return data;
+};
 
 const API = {
     fetchUser,
@@ -284,7 +306,8 @@ const API = {
     getIdentity,
     EditUserProfile,
     EditUserProfilePic,
-    fetchAUserLaptime
+    fetchAUserLaptime,
+    fetchUsersLaptimes
 };
 
 

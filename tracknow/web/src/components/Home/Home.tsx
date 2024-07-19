@@ -8,8 +8,8 @@ import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 export const Home = () => {
 
-    const { laptime, fetchMoreData, hasMore, } = useLaptimes();
-    const { username, profilePic, loading } = useUsers();
+    const { laptime, fetchMoreData, hasMore, laptime_loading } = useLaptimes();
+    const { username, profilePic, loading, } = useUsers();
 
 
     return (
@@ -17,7 +17,7 @@ export const Home = () => {
 
 
             <NavbarLoggedIn name={username} pp={profilePic} />
-            {loading ? (
+            {loading && laptime_loading ? (
                 <LoadingSpinner />
             ) : (
                 <HomePost laptimes={laptime} fetchMoreData={fetchMoreData} hasMore={hasMore} />

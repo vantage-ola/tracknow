@@ -244,4 +244,16 @@ def get_laptime(user_id, laptime_id):
 
     return jsonify(laptime_data), 200
 
-# TODO Global - get all the laptimes posted by a user.
+# Global - get all the laptimes posted by a user.
+@routes.route('/api/v1/users/<int:user_id>/laptimes', methods=['GET'])
+@require_api_key
+@jwt_required()
+def get_other_userss_laptimes(user_id):
+
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 5
+
+    laptimes_query = Laptime.query.filter_by(user_id=user_id).order_by(desc(Laptime.date_created))
+    laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
+
+    return jsonify([lt.to_dict() for lt in laptimes]), 200
