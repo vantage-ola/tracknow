@@ -7,6 +7,8 @@ import miscFunctions from "../../misc/miscFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BeatLoader } from "react-spinners";
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { useLaptimes } from "../../hooks/useLaptimes";
+import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 type PostProps = {
     laptimes: GetUserLaptimesResponse[];
@@ -18,12 +20,22 @@ type PostProps = {
 // homepage posts( recent) posts of users
 export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore }) => {
 
+    const { laptime_loading } = useLaptimes();
+
     //const [liked, setLiked] = React.useState(false);
     const [showFullText, setShowFullText] = React.useState(false);
     const { LazyLoadYoutubeEmbed } = miscFunctions();
     const textLimit = 100;
 
+    if (laptimes.length == 0) {
+
+        return (
+            <LoadingSpinner />
+        )
+    };
+
     return (
+
         <Flex mt={10} bg="dark">
             {/* Left section*/}
             <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
