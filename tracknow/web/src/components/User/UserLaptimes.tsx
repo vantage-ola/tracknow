@@ -3,7 +3,7 @@ import { useLaptimes } from "../../hooks/useLaptimes";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
 //import { useNavigate } from "react-router-dom";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
-import { Center, Text, } from "@chakra-ui/react";
+import { Center, Text, useDisclosure, } from "@chakra-ui/react";
 import { useUsers } from "../../hooks/useUsers";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { UserProfile } from "./UserProfile";
@@ -12,6 +12,8 @@ const UserLaptimes = () => {
 
     const { mylaptime, fetchMoreData2, hasMore2, laptime_loading } = useLaptimes();
     const { username, profilePic, loading, userId } = useUsers();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     //const [loading, setLoading] = React.useState(false)
 
@@ -39,7 +41,7 @@ const UserLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} />
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             {loading ? (
                 <LoadingSpinner />
             ) : (

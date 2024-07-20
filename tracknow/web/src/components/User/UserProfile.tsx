@@ -6,7 +6,8 @@ import {
     Center, Avatar, Stack, Text,
     CardHeader, Heading,
     Icon,
-    HStack
+    HStack,
+    useDisclosure
 } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
@@ -35,6 +36,9 @@ export const UserProfile = ({ id }: { id: number }) => {
     //const { dummyLaptimes } = useMiscFunctions()
     const { fetchUsersLaptimes } = useLaptimes()
     const { LazyLoadYoutubeEmbed } = miscFunctions();
+
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const fetchMoreData = () => {
         if (hasMore) {
@@ -85,7 +89,7 @@ export const UserProfile = ({ id }: { id: number }) => {
     if (laptimes.length === 0) {
         return (
             <>
-                <NavbarLoggedIn name={username} pp={profilePic} />
+                <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
                 <Center h="100vh">
                     <Text color="white" fontSize="lg">
                         Nothing to see here
@@ -98,7 +102,7 @@ export const UserProfile = ({ id }: { id: number }) => {
     return (
 
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} />
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             {laptime_loading ? (
                 <LoadingSpinner />
 

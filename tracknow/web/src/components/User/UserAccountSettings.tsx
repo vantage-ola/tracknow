@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input, useDisclosure } from "@chakra-ui/react";
 import * as React from "react";
 import { CountryDropdown } from "../../misc/dropDown";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
@@ -34,6 +34,7 @@ const UserAccountSettings = () => {
     const { editProfilePic, editProfile } = useUsers();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
 
     /*if (loading) {
@@ -160,7 +161,7 @@ const UserAccountSettings = () => {
     return (
         <>
 
-            <NavbarLoggedIn name={username} pp={profilePic} />
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
 
             <Flex mt={10} bg="dark">
                 {/* Left section*/}

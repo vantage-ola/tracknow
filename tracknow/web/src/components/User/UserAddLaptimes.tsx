@@ -4,7 +4,8 @@ import {
     Heading, Stack, Button, FormControl,
     Textarea, FormHelperText, Input, Select,
     HStack, useToast,
-    FormErrorMessage
+    FormErrorMessage,
+    useDisclosure
 } from "@chakra-ui/react";
 import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
@@ -30,6 +31,9 @@ const UserAddLaptimes = () => {
 
 
     const [isLoading, setIsLoading] = React.useState(false); // for moments
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
 
     const toast = useToast();
 
@@ -82,7 +86,7 @@ const UserAddLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} />
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             <Flex mt={10} bg="dark">
                 {/* Left section*/}
                 <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
