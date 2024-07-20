@@ -13,9 +13,11 @@ import {
     MenuButton,
     MenuDivider,
     MenuItem,
-    MenuList
+    MenuList,
+    IconButton
 } from "@chakra-ui/react";
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons';
+import { FiMenu } from "react-icons/fi";
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { identityProfile } from "../../Types";
 import useMiscFunctions from "../../misc/miscFunctions";
@@ -67,7 +69,7 @@ export const Navbar = () => (
 );
 
 
-export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
+export const NavbarLoggedIn = ({ name, pp, onOpen }: identityProfile) => {
     const { handleLogout } = useMiscFunctions();
     return (
         <Box
@@ -83,13 +85,21 @@ export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
             borderColor={useColorModeValue("#323536", "white")}
         >
             <Flex h={10} alignItems={"center"} justifyContent={'space-between'}>
-                <Box>
-                    <Link as={ReactRouterLink} to="/home" variant={'navbarLink'}>
+                <IconButton
+                    icon={<FiMenu />}
+                    aria-label="Open Menu"
+                    variant="ghost"
+                    onClick={onOpen}
+                    display={{ base: "flex", md: "none" }}
+                />
+                <Flex alignItems={"center"} justifyContent={{ base: "center", md: "flex-start" }} marginLeft={{ base: 8, md: 0 }}>
+                    <Link as={ReactRouterLink} to="/home" variant={"navbarLink"}>
                         <Text fontSize="xl" as="b">
                             tracknow
                         </Text>
                     </Link>
-                </Box>
+                </Flex>
+
 
                 <Flex alignItems={"center"}>
                     <Stack direction={"row"} spacing={1}>
@@ -99,7 +109,7 @@ export const NavbarLoggedIn = ({ name, pp }: identityProfile) => {
                             as={ReactRouterLink}
                             to={`/user/${name}/create-moments`}
                             leftIcon={<AddIcon />}>
-                            Create
+                            <Text display={{ base: "none", md: "inline" }}>Create</Text>
                         </Button>
                         <Menu>
                             <MenuButton

@@ -1,9 +1,7 @@
-import { Box, Center, Divider, Flex, FlexProps, Icon, Stack } from '@chakra-ui/react';
-import {
-    FiHome,
-    FiCompass,
-} from 'react-icons/fi'
+import { Box, Center, Divider, Flex, FlexProps, Icon, Link, Stack } from '@chakra-ui/react';
+import { FiHome, FiCompass } from 'react-icons/fi'
 import { IconType } from 'react-icons'
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
 interface LinkItemProps {
     name: string
@@ -21,13 +19,18 @@ const LinkItems: Array<LinkItemProps> = [
 
 const SideBarItem = ({ icon, children, ...rest }: SideItemProps) => {
 
+    let link = "/";
+    if (children === "Home") {
+        link = "/home";
+    }
+    if (children === "Explore") {
+        link = "/explore";
+    }
+
     return (
-        <Box style={{ textDecoration: 'none' }}
-            _focus={{ boxShadow: 'none' }}
-            {...rest}
-        >
+        <Link as={ReactRouterLink} to={link} style={{ textDecoration: 'none' }}>
             <Flex align="center"
-                p="4"
+                p="2"
                 mx="4"
                 borderRadius="lg"
                 role="group"
@@ -48,7 +51,7 @@ const SideBarItem = ({ icon, children, ...rest }: SideItemProps) => {
                 )}
                 {children}
             </Flex>
-        </Box>
+        </Link>
     )
 };
 
