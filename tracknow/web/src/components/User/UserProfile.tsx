@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
-import useMiscFunctions from "../../misc/miscFunctions";
+//import useMiscFunctions from "../../misc/miscFunctions";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BeatLoader } from "react-spinners";
@@ -32,7 +32,7 @@ export const UserProfile = ({ id }: { id: number }) => {
     const textLimit = 100;
 
 
-    const { dummyLaptimes } = useMiscFunctions()
+    //const { dummyLaptimes } = useMiscFunctions()
     const { fetchUsersLaptimes } = useLaptimes()
     const { LazyLoadYoutubeEmbed } = miscFunctions();
 
@@ -78,6 +78,20 @@ export const UserProfile = ({ id }: { id: number }) => {
     if (loading && laptime_loading) {
         return (
             <LoadingSpinner />
+        );
+    };
+
+    // TODO fix bug where it shows this for a bit before loading the info.
+    if (laptimes.length === 0) {
+        return (
+            <>
+                <NavbarLoggedIn name={username} pp={profilePic} />
+                <Center h="100vh">
+                    <Text color="white" fontSize="lg">
+                        Nothing to see here
+                    </Text>
+                </Center>
+            </>
         );
     };
 
@@ -255,4 +269,5 @@ export const UserProfile = ({ id }: { id: number }) => {
 
         </>
     );
+
 };
