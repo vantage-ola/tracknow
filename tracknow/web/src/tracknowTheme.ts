@@ -1,9 +1,23 @@
-import { extendTheme } from "@chakra-ui/react";
+import { Drawer, extendTheme } from "@chakra-ui/react";
 import { defineStyle, defineStyleConfig, createMultiStyleConfigHelpers } from '@chakra-ui/react'
 import { menuAnatomy } from '@chakra-ui/anatomy';
+import { drawerAnatomy as parts } from '@chakra-ui/anatomy';
 import '@fontsource-variable/exo-2';
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(menuAnatomy.keys)
+
+const {
+    definePartsStyle: defineDrawerPartsStyle,
+    defineMultiStyleConfig: defineDrawerMultiStyleConfig
+} = createMultiStyleConfigHelpers(parts.keys);
+
+const drawer = defineDrawerPartsStyle({
+    dialog: {
+        bg: 'dark',
+
+    },
+
+})
 
 const navbarButton = defineStyle({
     _hover: { bg: '#1e2021' },
@@ -65,6 +79,9 @@ export const linkTheme = defineStyleConfig({
 const menuTheme = defineMultiStyleConfig({ baseStyle })
 const cardTheme = defineMultiStyleConfig({ baseStyle })
 
+export const drawerTheme = defineDrawerMultiStyleConfig({
+    variants: { drawer },
+})
 export const theme = extendTheme({
     styles: {
         global: {
@@ -76,7 +93,8 @@ export const theme = extendTheme({
     },
     colors: {
         trackred: "#ff3131",
-        dark: "#0d0c0c"
+        dark: "#0d0c0c",
+        lightdark: "#1e2021"
     },
     fonts: {
         heading: `'Exo 2 Variable', sans-serif`,
@@ -86,6 +104,7 @@ export const theme = extendTheme({
         Button: badgeTheme,
         Menu: menuTheme,
         Card: cardTheme,
-        Link: linkTheme
+        Link: linkTheme,
+        Drawer: drawerTheme
     }
 });
