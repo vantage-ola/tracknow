@@ -22,6 +22,8 @@
 ![Contributors](https://img.shields.io/github/contributors/vantage-ola/track-now?color=green) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/vantage-ola/track-now)
 ![GitHub License](https://img.shields.io/github/license/vantage-ola/track-now)
 ![GitHub Tag](https://img.shields.io/github/v/tag/vantage-ola/track-now)
+![tracknow api](https://img.shields.io/github/actions/workflow/status/vantage-ola/tracknow/workflow.yml)
+
 
 ## Table Of Contents
 
@@ -32,8 +34,8 @@
 - [License](#license)
 
 ## About The Project
-
-![Screen Shot](./tracknow/img/v1.0.0.alpha2.png)
+`v1.0.0.alpha2.2`
+![Screen Shot](./tracknow/img/v1.0.0.alpha2.2.png)
 
 TRACK NOW is a application by simracers for simracers. A platform to share racing moments with others.
 
