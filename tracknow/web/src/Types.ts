@@ -66,6 +66,7 @@ export interface identity {
 export interface identityProfile {
     name: string; // username
     pp: string; // profile_pic
+    onOpen: () => void;
 }
 
 export interface EditUser {

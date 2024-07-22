@@ -6,17 +6,23 @@ import {
     Center, Avatar, Stack, Text,
     CardHeader, Heading,
     Icon,
-    HStack
+    HStack,
+    useDisclosure,
+    useBreakpointValue
 } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
-import useMiscFunctions from "../../misc/miscFunctions";
+//import useMiscFunctions from "../../misc/miscFunctions";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BeatLoader } from "react-spinners";
 import miscFunctions from "../../misc/miscFunctions";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
+
+import MobileDrawer from "../../misc/MobileDrawer";
+import LeftSideBar from "../SideBar/LeftSideBar";
+import RightSideBar from "../SideBar/RightSideBar";
 
 export const UserProfile = ({ id }: { id: number }) => {
 
@@ -32,9 +38,13 @@ export const UserProfile = ({ id }: { id: number }) => {
     const textLimit = 100;
 
 
-    const { dummyLaptimes } = useMiscFunctions()
+    //const { dummyLaptimes } = useMiscFunctions()
     const { fetchUsersLaptimes } = useLaptimes()
     const { LazyLoadYoutubeEmbed } = miscFunctions();
+
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     const fetchMoreData = () => {
         if (hasMore) {
@@ -81,19 +91,44 @@ export const UserProfile = ({ id }: { id: number }) => {
         );
     };
 
+    if (!laptime_loading && laptimes.length === 0) {
+        return (
+            <>
+                <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
+                <Center h="100vh">
+                    <Text color="white" fontSize="lg">
+                        Nothing to see here
+                    </Text>
+                </Center>
+            </>
+        );
+    }
+
+
     return (
 
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} />
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             {laptime_loading ? (
                 <LoadingSpinner />
 
             ) : (
-                <Flex mt={10} bg="dark" >
+                <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
                     {/* Left section*/}
-                    <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
-                        {/* left section content */}
-                    </Box>
+                    {isMobile ? (
+                        <MobileDrawer isOpen={isOpen} onClose={onClose}>
+                            <LeftSideBar />
+                        </MobileDrawer>
+                    ) : (
+                        <Box
+                            flex="1"
+                            borderRight="1px solid #323536"
+                            overflowY="auto"
+                            height="full"
+                        >
+                            <LeftSideBar />
+                        </Box>
+                    )}
 
                     {/* Main Section */}
                     <Box
@@ -102,7 +137,10 @@ export const UserProfile = ({ id }: { id: number }) => {
                         my={1}
                         mx={[0, 5]}
                         overflow={'hidden'}
-                        borderRadius={"1px"}>
+                        borderRadius={"1px"}
+                        overflowY="auto"
+                        height="full"
+                    >
                         <Card size={'lg'} maxW='600px'>
 
                             <CardHeader>
@@ -255,4 +293,5 @@ export const UserProfile = ({ id }: { id: number }) => {
 
         </>
     );
+
 };

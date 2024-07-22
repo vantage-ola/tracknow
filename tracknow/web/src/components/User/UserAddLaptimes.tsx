@@ -4,7 +4,9 @@ import {
     Heading, Stack, Button, FormControl,
     Textarea, FormHelperText, Input, Select,
     HStack, useToast,
-    FormErrorMessage
+    FormErrorMessage,
+    useDisclosure,
+    useBreakpointValue
 } from "@chakra-ui/react";
 import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
@@ -13,6 +15,10 @@ import { BeatLoader } from "react-spinners";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { useUsers } from "../../hooks/useUsers";
+
+import MobileDrawer from "../../misc/MobileDrawer";
+import LeftSideBar from "../SideBar/LeftSideBar";
+import RightSideBar from "../SideBar/RightSideBar";
 
 const UserAddLaptimes = () => {
 
@@ -30,6 +36,9 @@ const UserAddLaptimes = () => {
 
 
     const [isLoading, setIsLoading] = React.useState(false); // for moments
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     const toast = useToast();
 
@@ -82,12 +91,23 @@ const UserAddLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} />
-            <Flex mt={10} bg="dark">
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
+            <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
                 {/* Left section*/}
-                <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
-                    {/* left section content */}
-                </Box>
+                {isMobile ? (
+                    <MobileDrawer isOpen={isOpen} onClose={onClose}>
+                        <LeftSideBar />
+                    </MobileDrawer>
+                ) : (
+                    <Box
+                        flex="1"
+                        borderRight="1px solid #323536"
+                        overflowY="auto"
+                        height="full"
+                    >
+                        <LeftSideBar />
+                    </Box>
+                )}
 
                 {/* Main Section */}
                 <Box flex="4"
@@ -95,7 +115,10 @@ const UserAddLaptimes = () => {
                     my={1}
                     mx={[0, 5]}
                     overflow={'hidden'}
-                    borderRadius={"1px"}>
+                    borderRadius={"1px"}
+                    overflowY="auto"
+                    height="full"
+                >
 
                     <Card size={'lg'} maxW='600px' >
                         <CardHeader>
