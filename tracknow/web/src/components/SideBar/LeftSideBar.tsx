@@ -6,24 +6,27 @@ import { BiGhost } from "react-icons/bi";
 import { FaGithub } from "react-icons/fa";
 
 interface LinkItemProps {
-    name: string
-    icon: IconType
+    name: string;
+    icon: IconType;
+    disabled?: boolean;
+
 }
 interface SideItemProps extends FlexProps {
-    icon: IconType
-    children: string | number
+    icon: IconType;
+    children: string | number;
+    disabled?: boolean;
 }
 
 const LinkItems: Array<LinkItemProps> = [
-    { name: 'Home', icon: FiHome },
-    { name: 'Discover', icon: FiGlobe },
-    { name: 'Events', icon: FiCalendar },
-    { name: 'Leaderboard', icon: FiAward },
-    { name: 'Setups', icon: FiSettings },
-    { name: 'Ghosts', icon: BiGhost },
-    { name: 'About tracknow', icon: FiInfo },
-    { name: 'Contribute', icon: FaGithub },
-    { name: 'Donate', icon: FiDollarSign },
+    { name: 'Home', icon: FiHome, disabled: false },
+    { name: 'Discover', icon: FiGlobe, disabled: true },
+    { name: 'Events', icon: FiCalendar, disabled: true },
+    { name: 'Leaderboard', icon: FiAward, disabled: true },
+    { name: 'Setups', icon: FiSettings, disabled: true },
+    { name: 'Ghosts', icon: BiGhost, disabled: true },
+    { name: 'About tracknow', icon: FiInfo, disabled: true },
+    { name: 'Contribute', icon: FaGithub, disabled: true },
+    { name: 'Donate', icon: FiDollarSign, disabled: true },
 ];
 
 const linkMap: { [key: string]: string } = {
@@ -32,52 +35,30 @@ const linkMap: { [key: string]: string } = {
 };
 
 
-const SideBarItem = ({ icon, children, ...rest }: SideItemProps) => {
+const SideBarItem = ({ icon, children, disabled, ...rest }: SideItemProps) => {
     const link = linkMap[String(children)] || "/";
 
-    return linkMap[String(children)] ? (
-        <Link as={ReactRouterLink} to={link} style={{ textDecoration: 'none' }}>
-            <Flex align="center"
-                p="4"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-                _hover={{
-                    bg: 'lightdark',
-                    color: 'white',
-                }}>
-                {icon && (
-                    <Icon
-                        mr="4"
-                        fontSize="16"
-                        _groupHover={{
-                            color: 'white',
-                        }}
-                        as={icon}
-                    />
-                )}
-                {children}
-            </Flex>
-        </Link>
-    ) : (
+    return disabled ? (
         <div>
-            <Flex align="center"
+            <Flex
+                align="center"
                 p="4"
                 mx="4"
                 borderRadius="lg"
                 role="group"
                 cursor="not-allowed"
+                opacity={0.5}
                 _hover={{
-                    bg: 'lightdark',
-                    color: 'white',
-                }}>
+                    bg: "lightdark",
+                    color: "white",
+                }}
+            >
                 {icon && (
                     <Icon
                         mr="4"
                         fontSize="16"
                         _groupHover={{
-                            color: 'white',
+                            color: "white",
                         }}
                         as={icon}
                     />
@@ -85,6 +66,33 @@ const SideBarItem = ({ icon, children, ...rest }: SideItemProps) => {
                 {children}
             </Flex>
         </div>
+    ) : (
+        <Link as={ReactRouterLink} to={link} style={{ textDecoration: "none" }}>
+            <Flex
+                align="center"
+                p="4"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+                _hover={{
+                    bg: "lightdark",
+                    color: "white",
+                }}
+            >
+                {icon && (
+                    <Icon
+                        mr="4"
+                        fontSize="16"
+                        _groupHover={{
+                            color: "white",
+                        }}
+                        as={icon}
+                    />
+                )}
+                {children}
+            </Flex>
+        </Link>
     );
 };
 
@@ -95,7 +103,7 @@ const LeftSideBar = () => {
             <Box mt={2}>
                 <Stack>
                     {LinkItems.map((link) => (
-                        <SideBarItem key={link.name} icon={link.icon}>
+                        <SideBarItem key={link.name} icon={link.icon} disabled={link.disabled}>
                             {link.name}
                         </SideBarItem>
                     ))}
