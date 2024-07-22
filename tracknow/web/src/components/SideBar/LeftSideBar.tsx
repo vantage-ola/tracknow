@@ -25,12 +25,17 @@ const LinkItems: Array<LinkItemProps> = [
     { name: 'Setups', icon: FiSettings, disabled: true },
     { name: 'Ghosts', icon: BiGhost, disabled: true },
     { name: 'About tracknow', icon: FiInfo, disabled: true },
-    { name: 'Contribute', icon: FaGithub, disabled: true },
-    { name: 'Donate', icon: FiDollarSign, disabled: true },
+    { name: 'Contribute', icon: FaGithub, disabled: false },
+    { name: 'Donate', icon: FiDollarSign, disabled: false },
 ];
 
 const linkMap: { [key: string]: string } = {
     Home: "/home",
+
+    // TODO make this items open in a new page.
+    Donate: 'https://www.buymeacoffee.com/vantageola',
+    Contribute: 'https://github.com/vantage-ola',
+
     // Add more links here
 };
 
@@ -67,7 +72,12 @@ const SideBarItem = ({ icon, children, disabled, ...rest }: SideItemProps) => {
             </Flex>
         </div>
     ) : (
-        <Link as={ReactRouterLink} to={link} style={{ textDecoration: "none" }}>
+        <Link
+            as={ReactRouterLink}
+            to={link}
+            style={{ textDecoration: "none" }}
+            target={link.startsWith("http") ? "_blank" : undefined} // open in a new tab if  item url starts wiht http.
+        >
             <Flex
                 align="center"
                 p="4"
@@ -95,6 +105,7 @@ const SideBarItem = ({ icon, children, disabled, ...rest }: SideItemProps) => {
         </Link>
     );
 };
+
 
 const LeftSideBar = () => {
 
