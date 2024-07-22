@@ -30,7 +30,7 @@ export const NavbarWelcome = () => (
             <Box><Link as={ReactRouterLink} to="#" variant={'navbarLink'}><Text fontSize="xl" as="b">tracknow</Text></Link></Box>
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={4}>
-                    <Text color={'GrayText'}>v-alpha2.1</Text> {/* TODO write function to get from github directly */}
+                    <Text color={'GrayText'}>v-alpha2.2</Text> {/* TODO write function to get from github directly */}
                     <Link variant={'navbarLink'} as={ReactRouterLink} to={'/create-user'}>signup</Link>
                     <Link variant={'navbarLink'} as={ReactRouterLink} to={'/login'}>login</Link>
 
@@ -59,7 +59,7 @@ export const Navbar = () => (
 
             <Flex alignItems={'center'}>
                 <Stack direction={'row'} spacing={7}>
-                    <Text color={'GrayText'}>v-alpha2.1</Text> {/* TODO write function to get from github directly */}
+                    <Text color={'GrayText'}>v-alpha2.2</Text> {/* TODO write function to get from github directly */}
 
                 </Stack>
             </Flex>
