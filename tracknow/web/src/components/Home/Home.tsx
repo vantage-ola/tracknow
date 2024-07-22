@@ -6,18 +6,13 @@ import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import {
     Box,
     Flex,
-    Text,
-    Center,
     useBreakpointValue,
     useDisclosure,
-    Drawer,
-    DrawerBody,
-    DrawerCloseButton,
-    DrawerContent,
-    DrawerOverlay,
 } from "@chakra-ui/react";
+
+import MobileDrawer from "../../misc/MobileDrawer";
 import LeftSideBar from "../SideBar/LeftSideBar";
-import RightSideBar from "../SideBar/RightSideBar"; // Assuming you have a RightSideBar component
+import RightSideBar from "../SideBar/RightSideBar";
 
 export const Home = () => {
     const { laptime, fetchMoreData, hasMore, laptime_loading } = useLaptimes();
@@ -30,29 +25,12 @@ export const Home = () => {
         <>
             <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
 
-            <Flex mt={10} bg="dark" height="calc(100vh - 60px)"> {/* Adjust height to fit the viewport */}
+            <Flex mt={10} bg="dark" height="calc(100vh - 45px)"> {/* Adjust height to fit the viewport */}
                 {/* Left section */}
                 {isMobile ? (
-                    <Drawer
-                        variant={"drawer"}
-                        isOpen={isOpen}
-                        placement="left"
-                        onClose={onClose}
-                    >
-                        <DrawerOverlay>
-                            <DrawerContent>
-                                <DrawerCloseButton />
-                                <DrawerBody>
-                                    <Center>
-                                        <Text fontSize="xl" as="b">
-                                            tracknow
-                                        </Text>
-                                    </Center>
-                                    <LeftSideBar />
-                                </DrawerBody>
-                            </DrawerContent>
-                        </DrawerOverlay>
-                    </Drawer>
+                    <MobileDrawer isOpen={isOpen} onClose={onClose}>
+                        <LeftSideBar />
+                    </MobileDrawer>
                 ) : (
                     <Box
                         flex="1"
@@ -93,7 +71,7 @@ export const Home = () => {
                     display={["none", "none", "block"]}
                     height="full"
                 >
-                    <RightSideBar /> {/* Add your right sidebar content here */}
+                    <RightSideBar /> {/*  right sidebar content*/}
                 </Box>
             </Flex>
         </>

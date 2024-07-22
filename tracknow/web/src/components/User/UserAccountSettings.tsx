@@ -1,5 +1,6 @@
-import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input, useDisclosure } from "@chakra-ui/react";
 import * as React from "react";
+
+import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input, useDisclosure, useBreakpointValue } from "@chakra-ui/react";
 import { CountryDropdown } from "../../misc/dropDown";
 import { NavbarLoggedIn } from "../Navbar/Navbar";
 import { useNavigate, Link as ReactRouterLink } from "react-router-dom";
@@ -9,6 +10,10 @@ import { EditUser, EditUserPic } from "../../Types";
 import { BeatLoader } from "react-spinners";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import useMiscFunctions from "../../misc/miscFunctions";
+
+import MobileDrawer from "../../misc/MobileDrawer";
+import LeftSideBar from "../SideBar/LeftSideBar";
+import RightSideBar from "../SideBar/RightSideBar";
 
 const UserAccountSettings = () => {
 
@@ -35,7 +40,10 @@ const UserAccountSettings = () => {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
+
+    // sidebar
 
     /*if (loading) {
         return <LoadingSpinner />;
@@ -163,11 +171,22 @@ const UserAccountSettings = () => {
 
             <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
 
-            <Flex mt={10} bg="dark">
-                {/* Left section*/}
-                <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
-                    {/* left section content */}
-                </Box>
+            <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
+                {/* Left section */}
+                {isMobile ? (
+                    <MobileDrawer isOpen={isOpen} onClose={onClose}>
+                        <LeftSideBar />
+                    </MobileDrawer>
+                ) : (
+                    <Box
+                        flex="1"
+                        borderRight="1px solid #323536"
+                        overflowY="auto"
+                        height="full"
+                    >
+                        <LeftSideBar />
+                    </Box>
+                )}
 
                 {/* Main Section */}
                 <Box flex="4"
@@ -175,7 +194,10 @@ const UserAccountSettings = () => {
                     my={1}
                     mx={[0, 5]}
                     overflow={'hidden'}
-                    borderRadius={"1px"}>
+                    borderRadius={"1px"}
+                    overflowY="auto"
+                    height="full"
+                >
 
                     <Card size={'lg'} maxW='600px' >
                         <CardHeader>

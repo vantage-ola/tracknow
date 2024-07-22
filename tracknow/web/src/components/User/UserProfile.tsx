@@ -7,7 +7,8 @@ import {
     CardHeader, Heading,
     Icon,
     HStack,
-    useDisclosure
+    useDisclosure,
+    useBreakpointValue
 } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
@@ -18,6 +19,10 @@ import { BeatLoader } from "react-spinners";
 import miscFunctions from "../../misc/miscFunctions";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
+
+import MobileDrawer from "../../misc/MobileDrawer";
+import LeftSideBar from "../SideBar/LeftSideBar";
+import RightSideBar from "../SideBar/RightSideBar";
 
 export const UserProfile = ({ id }: { id: number }) => {
 
@@ -39,6 +44,7 @@ export const UserProfile = ({ id }: { id: number }) => {
 
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     const fetchMoreData = () => {
         if (hasMore) {
@@ -85,8 +91,7 @@ export const UserProfile = ({ id }: { id: number }) => {
         );
     };
 
-    // TODO fix bug where it shows this for a bit before loading the info.
-    if (laptimes.length === 0) {
+    if (!laptime_loading && laptimes.length === 0) {
         return (
             <>
                 <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
@@ -97,7 +102,8 @@ export const UserProfile = ({ id }: { id: number }) => {
                 </Center>
             </>
         );
-    };
+    }
+
 
     return (
 
@@ -107,11 +113,22 @@ export const UserProfile = ({ id }: { id: number }) => {
                 <LoadingSpinner />
 
             ) : (
-                <Flex mt={10} bg="dark" >
+                <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
                     {/* Left section*/}
-                    <Box flex="1" borderRight="1px solid #323536" overflowY="auto" display={["none", "none", "block"]}>
-                        {/* left section content */}
-                    </Box>
+                    {isMobile ? (
+                        <MobileDrawer isOpen={isOpen} onClose={onClose}>
+                            <LeftSideBar />
+                        </MobileDrawer>
+                    ) : (
+                        <Box
+                            flex="1"
+                            borderRight="1px solid #323536"
+                            overflowY="auto"
+                            height="full"
+                        >
+                            <LeftSideBar />
+                        </Box>
+                    )}
 
                     {/* Main Section */}
                     <Box
@@ -120,7 +137,10 @@ export const UserProfile = ({ id }: { id: number }) => {
                         my={1}
                         mx={[0, 5]}
                         overflow={'hidden'}
-                        borderRadius={"1px"}>
+                        borderRadius={"1px"}
+                        overflowY="auto"
+                        height="full"
+                    >
                         <Card size={'lg'} maxW='600px'>
 
                             <CardHeader>
