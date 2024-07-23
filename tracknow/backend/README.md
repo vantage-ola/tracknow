@@ -25,8 +25,12 @@ Fill in the environment variables
     TESTING_JWT_SECRET_KEY=xxxxxxxxx9612c6808732
     TESTING_SECRET_KEY=xxxxxxxx104af944ae4f60
     API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+    REDIS_HOST=xxxxxxxxxxxxxxxxxxxxxx
+    REDIS_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    REDIS_PORT=xxxx
+    FORMULA_1_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx  
 ```
+Get Formula 1 Key from here: [F1 Live Motorsport Data](https://rapidapi.com/sportcontentapi/api/f1-live-motorsport-data)
 ### 4. Create the database and start the server.
 ``` shell
     flask shell 
