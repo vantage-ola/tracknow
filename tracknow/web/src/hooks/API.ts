@@ -33,7 +33,11 @@ const endpoints = {
     GET_ONE_LAPTIME: (user_id: number, id: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
     GET_USERS_LAPTIMES: (user_id: number, page: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes?page=${page}`, // see personal moments of other users
 
-    GET_IDENTITY: `${API_PREFIX_URL}/protected` // make sure user is logged in and in session.
+    GET_IDENTITY: `${API_PREFIX_URL}/protected`, // make sure user is logged in and in session.
+
+    // formula 1 standings
+    FORMULA_1_TEAMS: `${API_PREFIX_URL}/f1/teams`,
+    FORMULA_1_DRIVERS: `${API_PREFIX_URL}/f1/drivers`
 
 };
 
@@ -294,6 +298,38 @@ async function fetchUsersLaptimes(user_id: number, page: number): Promise<GetUse
     const data: GetUserLaptimesResponse[] = await response.json();
     return data;
 };
+// function to fetch 'live' f1 constructors standings
+async function fetchF1Teams() {
+
+    const response = await fetch(endpoints.FORMULA_1_TEAMS, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to get Formula 1 Team Standings`)
+    };
+
+    const data = await response.json();
+    return data;
+};
+
+// function to fetch 'live' f1 drivers standings
+async function fetchF1Drivers() {
+    const response = await fetch(endpoints.FORMULA_1_DRIVERS, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (!response.ok) {
+        throw new Error(`Failed to get Formula 1 Driver Standings`)
+    };
+
+    const data = await response.json();
+    return data;
+};
 
 const API = {
     fetchUser,
@@ -307,7 +343,9 @@ const API = {
     EditUserProfile,
     EditUserProfilePic,
     fetchAUserLaptime,
-    fetchUsersLaptimes
+    fetchUsersLaptimes,
+    fetchF1Drivers,
+    fetchF1Teams
 };
 
 
