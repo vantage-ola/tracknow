@@ -1,5 +1,8 @@
 alembic==1.13.1
+async-timeout==4.0.3
 blinker==1.8.2
+certifi==2024.7.4
+charset-normalizer==3.3.2
 click==8.1.7
 exceptiongroup==1.2.1
 Flask==3.0.3
@@ -10,6 +13,7 @@ Flask-SQLAlchemy==3.1.1
 flask-swagger-ui==4.11.1
 greenlet==3.0.3
 gunicorn==22.0.0
+idna==3.7
 iniconfig==2.0.0
 itsdangerous==2.2.0
 Jinja2==3.1.4
@@ -22,7 +26,10 @@ PyJWT==2.8.0
 pytest==8.2.2
 python-decouple==3.8
 python-dotenv==1.0.1
+redis==5.0.7
+requests==2.32.3
 SQLAlchemy==2.0.30
 tomli==2.0.1
 typing_extensions==4.12.1
+urllib3==2.2.2
 Werkzeug==3.0.3
