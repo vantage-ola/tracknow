@@ -17,7 +17,11 @@ jobs:
       TESTING_JWT_SECRET_KEY: ${{ secrets.TESTING_JWT_SECRET_KEY }}
       TESTING_SECRET_KEY: ${{ secrets.TESTING_SECRET_KEY }}
       API_KEY: ${{ secrets.API_KEY }}
-
+      FORMULA_1_KEY: ${{ secrets.FORMULA_1_KEY }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

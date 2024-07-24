@@ -1,4 +1,4 @@
-import { Drawer, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import { defineStyle, defineStyleConfig, createMultiStyleConfigHelpers } from '@chakra-ui/react'
 import { menuAnatomy } from '@chakra-ui/anatomy';
 import { drawerAnatomy as parts } from '@chakra-ui/anatomy';
@@ -85,9 +85,30 @@ export const drawerTheme = defineDrawerMultiStyleConfig({
 export const theme = extendTheme({
     styles: {
         global: {
+
             body: {
                 bg: "dark",
                 color: "white",
+            },
+            "::-webkit-scrollbar": {
+                width: "8px",
+                backgroundColor: "transparent",
+            },
+            "::-webkit-scrollbar-thumb": {
+                backgroundColor: "dark",
+
+            },
+            ":hover::-webkit-scrollbar-thumb": {
+                backgroundColor: "lightdark",
+            },
+            ":focus::-webkit-scrollbar-thumb": {
+                backgroundColor: "lightdark",
+            },
+            ":focus-within::-webkit-scrollbar-thumb": {
+                backgroundColor: "lightdark",
+            },
+            "::-webkit-scrollbar-track": {
+                backgroundColor: "transparent",
             },
         },
     },

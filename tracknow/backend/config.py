@@ -1,5 +1,6 @@
 from decouple import config
 from datetime import timedelta
+import redis
 
 class Config:
     SQLALCHEMY_DATABASE_URI=config('PG')
@@ -21,4 +22,10 @@ class TestConfig:
     DEBUG = True
     TESTING = True
     # pool_pre_ping should help handle DB connection drops
-    SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}  
+    SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
+
+# redis instance
+def redis_instance():
+    r = redis.Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'), 
+                    password=config('REDIS_PASSWORD'),ssl=True)
+    return r

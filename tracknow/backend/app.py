@@ -6,6 +6,14 @@ from flask_jwt_extended import JWTManager
 from flask_swagger_ui import get_swaggerui_blueprint
 from routes import routes 
 from flask_cors import CORS
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+import atexit
+import json
+import datetime
+from motorsport.formula_1 import get_driver_standings, get_team_standings
+from config import redis_instance
+
 # swagger setup
 SWAGGER_URL="/api/v1/docs"
 API_URL="/static/swagger.json"
@@ -22,7 +30,7 @@ def create_app(config_class='config.Config'):
     app = Flask(__name__)
     CORS(app)
     app.config.from_object(config_class)
-    
+
     db.init_app(app)
     migrate = Migrate(app, db)
     jwt = JWTManager(app)
@@ -42,7 +50,28 @@ def create_app(config_class='config.Config'):
 
     return app
 
+def update_data():
+    r = redis_instance()
+
+    current_year = datetime.datetime.now().year
+
+    team_data = get_team_standings()
+    r.set(f"f1_constructors_{current_year}", json.dumps(team_data))
+
+    driver_data = get_driver_standings()
+    r.set(f"f1_drivers_{current_year}", json.dumps(driver_data))
+
 app = create_app()
+
+scheduler = BackgroundScheduler()
+trigger = CronTrigger(day_of_week='sun', hour=18, minute=0)
+scheduler.add_job(update_data, trigger)
+
+# Start the scheduler
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == '__main__':
     app.run(debug=True)

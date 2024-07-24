@@ -10,7 +10,6 @@ import { UserProfile } from "./UserProfile";
 
 const UserLaptimes = () => {
 
-    const { mylaptime, fetchMoreData2, hasMore2, laptime_loading } = useLaptimes();
     const { username, profilePic, loading, userId } = useUsers();
 
     const { isOpen, onOpen, onClose } = useDisclosure();

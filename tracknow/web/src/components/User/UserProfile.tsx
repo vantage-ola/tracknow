@@ -22,7 +22,6 @@ import { FaCar } from "react-icons/fa";
 
 import MobileDrawer from "../../misc/MobileDrawer";
 import LeftSideBar from "../SideBar/LeftSideBar";
-import RightSideBar from "../SideBar/RightSideBar";
 
 export const UserProfile = ({ id }: { id: number }) => {
 

@@ -1,15 +1,24 @@
 from flask import Blueprint, request, jsonify, url_for
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from models import db, User, Laptime
+from motorsport.formula_1 import get_driver_standings, get_team_standings
+from config import redis_instance
 
 from functools import wraps
 from decouple import config
 from sqlalchemy import desc, func
+import json
+import datetime
 
 routes = Blueprint('routes', __name__)
 
 # api key authentication
 api_key = config("API_KEY")
+
+# Get the current year and day of the week
+now = datetime.datetime.now()
+current_year = now.year
+current_day = now.weekday()
 
 def require_api_key(view_function):
     @wraps(view_function)
@@ -257,3 +266,38 @@ def get_other_userss_laptimes(user_id):
     laptimes = laptimes_query.offset((page - 1) * items_per_page).limit(items_per_page).all()
 
     return jsonify([lt.to_dict() for lt in laptimes]), 200
+
+@routes.route("/api/v1/f1/teams")
+def get_constructors_standings():
+    # Connect Redis instance
+    r = redis_instance()
+
+    # Get the current year
+    current_year = datetime.datetime.now().year
+
+    # Check if the data is in Redis
+    cached_data = r.get(f"f1_constructors_{current_year}")
+
+    if cached_data:
+        # If the data is in Redis, parse it and return it
+        data = json.loads(cached_data)
+    else:
+        # If the data is not in Redis, return an error message
+        return jsonify({"error": "Data not found"}), 404
+
+    return jsonify(data)
+
+@routes.route("/api/v1/f1/drivers")
+def get_drivers_standings():
+    r = redis_instance()
+
+    current_year = datetime.datetime.now().year
+
+    cached_data = r.get(f"f1_drivers_{current_year}")
+
+    if cached_data:
+        data = json.loads(cached_data)
+    else:
+        return jsonify({"error": "Data not found"}), 404
+
+    return jsonify(data)

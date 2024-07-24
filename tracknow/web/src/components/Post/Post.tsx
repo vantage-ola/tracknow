@@ -27,7 +27,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
     const { LazyLoadYoutubeEmbed } = miscFunctions();
     const textLimit = 100;
 
-    if (laptimes.length == 0) {
+    if (laptimes.length === 0) {
 
         return (
             <LoadingSpinner />
@@ -35,11 +35,6 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
     };
 
     return (
-
-
-
-
-
         <InfiniteScroll
             dataLength={laptimes.length}
             next={fetchMoreData}

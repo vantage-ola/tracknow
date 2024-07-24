@@ -1,7 +1,7 @@
 import * as React from "react";
 import { EditUser, EditUserPic, UserData } from "../Types";
 import API from "./API";
-import { useToast } from "@chakra-ui/react";
+//import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -22,7 +22,7 @@ export const useUsers = () => {
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const toast = useToast();
+    //const toast = useToast();
     const navigate = useNavigate();
 
     const [userId, setMyUserId] = React.useState<number>(0);
