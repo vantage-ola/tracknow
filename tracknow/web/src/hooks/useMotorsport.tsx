@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import API from "./API";
 
 const useMotorsportData = () => {
@@ -26,7 +24,21 @@ const useMotorsportData = () => {
 
     };
 
-    return { fetchDriverStandings, fetchTeamStandings }
+
+    const teamColors: { [key: string]: string } = {
+        'Mercedes': '#00D2BE',
+        'Red Bull': '#0600EF',
+        'Ferrari': '#DC0000',
+        'Aston Martin': '#006F62',
+        'Alpine': '#0090FF',
+        'Williams': '#005AFF',
+        'Team RB': '#2c18c5',
+        'Haas': '#FFFFFF',
+        'McLaren': '#FF8700',
+        'Kick Sauber': '#00e00b'
+    };
+
+    return { fetchDriverStandings, fetchTeamStandings, teamColors }
 
 };
 

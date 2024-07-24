@@ -80,7 +80,6 @@ export interface EditUserPic {
     profile_picture_url?: string;
 }
 
-// Define the type for the user data
 export interface UserData {
     userId: number;
     username: string;
@@ -88,4 +87,25 @@ export interface UserData {
     editProfile: (editProfile: EditUser) => Promise<void>;
     editProfilePic: (editProfilePic: EditUserPic) => Promise<void>;
     loading: boolean
+}
+
+export interface TeamStanding {
+    points: number;
+    position: number;
+    season: number;
+    team_id: number;
+    team_name: string;
+}
+
+export interface DriverStanding {
+    driver_id: number;
+    driver_name: string;
+    is_reserve: number;
+    nationality: string;
+    points: number;
+    position: number;
+    season: number;
+    team_id: number;
+    team_name: string;
+    updated: string;
 }
