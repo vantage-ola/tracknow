@@ -24,7 +24,15 @@ const useMiscFunctions = () => {
             borderRadius: "15px",
             overflow: "hidden",
         };
-        const youtubeID = youtubeLink.split("v=")[1]
+
+        const getYouTubeId = (url: string) => {
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : false;
+        }
+
+        const youtubeID = getYouTubeId(youtubeLink);
+
         return (
             <Box mt={1}  >
 
