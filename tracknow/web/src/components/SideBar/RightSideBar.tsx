@@ -60,7 +60,7 @@ const RightSideBar = () => {
                     </h2>
                     <AccordionPanel pb={4}>
                         <Flex mb={2} color={'grey'} justifyContent="space-between" alignItems="center">
-                            <Text fontSize="1px">Rank</Text>
+                            <Text fontSize="10px">Rank</Text>
                             <Text width="130px" fontSize="10px">Constructor</Text>
                             <Text width="30px" fontSize="10px">Points</Text>
                         </Flex>
