@@ -89,23 +89,20 @@ export interface UserData {
     loading: boolean
 }
 
-export interface TeamStanding {
-    points: number;
-    position: number;
-    season: number;
-    team_id: number;
-    team_name: string;
+export interface F1DriverStanding {
+    position: string;
+    Driver: {
+        givenName: string;
+        familyName: string;
+    };
+    Constructors: Array<{ name: string }>;
+    points: string;
 }
 
-export interface DriverStanding {
-    driver_id: number;
-    driver_name: string;
-    is_reserve: number;
-    nationality: string;
-    points: number;
-    position: number;
-    season: number;
-    team_id: number;
-    team_name: string;
-    updated: string;
+export interface F1ConstructorStanding {
+    position: string;
+    Constructor: {
+        name: string;
+    };
+    points: string;
 }

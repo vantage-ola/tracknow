@@ -30,12 +30,12 @@ const useMotorsportData = () => {
         'Red Bull': '#0600EF',
         'Ferrari': '#DC0000',
         'Aston Martin': '#006F62',
-        'Alpine': '#0090FF',
+        'Alpine F1 Team': '#0090FF',
         'Williams': '#005AFF',
-        'Team RB': '#2c18c5',
-        'Haas': '#FFFFFF',
+        'RB F1 Team': '#2c18c5',
+        'Haas F1 Team': '#FFFFFF',
         'McLaren': '#FF8700',
-        'Kick Sauber': '#00e00b'
+        'Sauber': '#00e00b'
     };
 
     return { fetchDriverStandings, fetchTeamStandings, teamColors }
