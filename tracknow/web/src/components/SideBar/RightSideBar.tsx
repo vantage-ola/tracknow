@@ -9,66 +9,47 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import useMotorsportData from "../../hooks/useMotorsport";
-import { TeamStanding, DriverStanding } from "../../Types";
+import { F1DriverStanding, F1ConstructorStanding } from "../../Types";
 
 const RightSideBar = () => {
     const { fetchTeamStandings, fetchDriverStandings, teamColors } = useMotorsportData();
-    const [teamStandings, setTeamStandings] = React.useState<TeamStanding[]>([]);
-    const [driverStandings, setDriverStandings] = React.useState<DriverStanding[]>([]);
+    const [teamStandings, setTeamStandings] = React.useState<F1ConstructorStanding[]>([]);
+    const [driverStandings, setDriverStandings] = React.useState<F1DriverStanding[]>([]);
 
     React.useEffect(() => {
-        // Check if the data is already cached in local storage
-        const cachedTeamStandings = localStorage.getItem('teamStandings');
-        const cachedDriverStandings = localStorage.getItem('driverStandings');
+        const fetchData = async () => {
+            const teamData = await fetchTeamStandings();
+            setTeamStandings(teamData.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
 
-        if (cachedTeamStandings && cachedDriverStandings) {
-            // If the data is cached, parse it and set it to state
-            setTeamStandings(JSON.parse(cachedTeamStandings));
-            setDriverStandings(JSON.parse(cachedDriverStandings));
-        } else {
-            // If the data is not cached, fetch it and set it to state
-            const fetchData = async () => {
-                const teamData = await fetchTeamStandings();
-                setTeamStandings(teamData.results);
-                localStorage.setItem('teamStandings', JSON.stringify(teamData.results));
-
-                const driverData = await fetchDriverStandings();
-                setDriverStandings(driverData.results);
-                localStorage.setItem('driverStandings', JSON.stringify(driverData.results));
-            };
-            fetchData();
-        }
+            const driverData = await fetchDriverStandings();
+            setDriverStandings(driverData.MRData.StandingsTable.StandingsLists[0].DriverStandings);
+        };
+        fetchData();
     }, []);
-
 
     const today = new Date();
 
     return (
         <>
-            <Center >
+            <Center>
                 <Image src='f1_logo.png' boxSize='55px' />
-
             </Center>
             <Center pb={2}>
                 <VStack>
                     <Heading size='xs' color={'grey'} textTransform='uppercase'>
                         {today.getFullYear()} Standings
                     </Heading>
-                    {driverStandings.length > 0 && (
-                        <Text fontSize={'8px'}>
-                            Last Updated: {new Date(driverStandings[0].updated).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}
-                        </Text>
-                    )}
+                    <Text fontSize={'8px'}>
+                        Last Updated: {today.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </Text>
                 </VStack>
-
             </Center>
             <Accordion allowMultiple>
                 <AccordionItem>
-
                     <h2>
                         <AccordionButton>
                             <Box as='span' color={'grey'} flex='1' textAlign='left'>
@@ -79,19 +60,19 @@ const RightSideBar = () => {
                     </h2>
                     <AccordionPanel pb={4}>
                         <Flex mb={2} color={'grey'} justifyContent="space-between" alignItems="center">
-                            <Text fontSize="10px" >Rank</Text>
-                            <Text width="120px" fontSize="10px" >Constructor</Text>
-                            <Text width="30px" fontSize="10px" >Points</Text>
+                            <Text fontSize="1px">Rank</Text>
+                            <Text width="130px" fontSize="10px">Constructor</Text>
+                            <Text width="30px" fontSize="10px">Points</Text>
                         </Flex>
                         <Divider mb={2} />
                         {teamStandings.map((team) => (
-                            <Box key={team.team_id}>
+                            <Box key={team.Constructor.name}>
                                 <Flex justifyContent="space-between" alignItems="flex-start">
-                                    <HStack >
+                                    <HStack>
                                         <Text color={'grayText'}>{team.position}</Text>
                                     </HStack>
-                                    <Box width="100px">
-                                        <Text color={teamColors[team.team_name]}>{team.team_name}</Text>
+                                    <Box width="110px">
+                                        <Text color={teamColors[team.Constructor.name]}>{team.Constructor.name}</Text>
                                     </Box>
                                     <HStack>
                                         <Box width="30px">
@@ -114,50 +95,42 @@ const RightSideBar = () => {
                     </h2>
                     <AccordionPanel pb={4}>
                         <Flex mb={2} color={'grey'} justifyContent="space-between" alignItems="center">
-                            <Text fontSize="10px" >Rank</Text>
-                            <Text width="120px" fontSize="10px" >Constructor</Text>
-                            <Text width="30px" fontSize="10px" >Points</Text>
+                            <Text fontSize="10px">Rank</Text>
+                            <Text width="120px" fontSize="10px">Driver</Text>
+                            <Text width="30px" fontSize="10px">Points</Text>
                         </Flex>
                         <Divider mb={2} />
                         {driverStandings.map((driver) => (
-                            <Box key={driver.driver_id}>
-
+                            <Box key={driver.Driver.familyName}>
                                 <Flex p={1} justifyContent="space-between" alignItems="flex-start">
-
-                                    <HStack >
+                                    <HStack>
                                         <Text color={'grayText'}>{driver.position}</Text>
                                     </HStack>
                                     <Box width="100px">
                                         <Text fontSize={'15px'}>
-                                            {driver.driver_name.split(' ').map((name, index) => (
-                                                index === 0 ? name.charAt(0) + '.' : name
-                                            )).join(' ')}
+                                            {`${driver.Driver.givenName.charAt(0)}. ${driver.Driver.familyName}`}
                                         </Text>
-
-                                        <Text color={teamColors[driver.team_name]} fontSize={'8px'}>{driver.team_name}</Text>
+                                        <Text color={teamColors[driver.Constructors[0].name]} fontSize={'8px'}>
+                                            {driver.Constructors[0].name}
+                                        </Text>
                                     </Box>
                                     <HStack>
                                         <Box width="30px">
-                                            <Text >{driver.points}</Text>
+                                            <Text>{driver.points}</Text>
                                         </Box>
                                     </HStack>
-
                                 </Flex>
                             </Box>
                         ))}
                     </AccordionPanel>
-                </AccordionItem >
-            </Accordion >
-
+                </AccordionItem>
+            </Accordion>
             <Center>
                 <Box mt={2} fontSize="10px" color="GrayText">
                     More motorsport data coming soon...
                 </Box>
             </Center>
-
-
         </>
-
     );
 };
 
