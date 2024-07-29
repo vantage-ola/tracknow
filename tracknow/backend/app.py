@@ -10,7 +10,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import atexit
 import json
-import datetime
+from datetime import datetime, timezone
 from motorsport.formula_1 import get_driver_standings, get_team_standings
 from config import redis_instance
 
@@ -48,12 +48,22 @@ def create_app(config_class='config.Config'):
     app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
     app.register_blueprint(routes)  # Register the routes blueprint
 
+    scheduler = BackgroundScheduler()
+    trigger = CronTrigger(day_of_week='sun', hour=18, minute=0, timezone=timezone.utc)
+    scheduler.add_job(update_data, trigger)
+
+    # Start the scheduler
+    scheduler.start()
+
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
+    
     return app
 
 def update_data():
     r = redis_instance()
 
-    current_year = datetime.datetime.now().year
+    current_year = datetime.now().year
 
     team_data = get_team_standings()
     r.set(f"f1_constructors_{current_year}", json.dumps(team_data))
@@ -63,15 +73,6 @@ def update_data():
 
 app = create_app()
 
-scheduler = BackgroundScheduler()
-trigger = CronTrigger(day_of_week='sun', hour=18, minute=0)
-scheduler.add_job(update_data, trigger)
-
-# Start the scheduler
-scheduler.start()
-
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == '__main__':
     app.run(debug=True)
