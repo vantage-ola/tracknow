@@ -41,3 +41,16 @@ jobs:
         run: |
           cd tracknow/backend
           python -m pytest
+    
+      - name: Run tests with code coverage
+        run: |
+          cd tracknow/backend
+          python -m pytest
+          coverage run -m pytest
+          coverage report -m
+          coverage xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
