@@ -21,7 +21,8 @@ jobs:
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -45,7 +46,6 @@ jobs:
       - name: Run tests with code coverage
         run: |
           cd tracknow/backend
-          python -m pytest
           coverage run -m pytest
           coverage report -m
           coverage xml
