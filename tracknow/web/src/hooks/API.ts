@@ -14,8 +14,8 @@ import {
 
 // backend api routes.
 
-const API_PREFIX_URL = process.env.REACT_APP_PREFIX_URL || '';
-const API_KEY = process.env.REACT_APP_API_KEY || 'wont work lol';
+export const API_PREFIX_URL = process.env.REACT_APP_PREFIX_URL || '';
+export const API_KEY = process.env.REACT_APP_API_KEY || 'wont work lol';
 
 const endpoints = {
     GET_USERS: `${API_PREFIX_URL}/users`, // get all users
