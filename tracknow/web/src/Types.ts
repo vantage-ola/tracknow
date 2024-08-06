@@ -33,7 +33,7 @@ export interface Laptime {
     simracing: boolean;
     platform?: string;
     youtube_link?: string;
-    comment?: string;
+    comment: string;
 }
 
 export interface CreateLaptimeResponse {
