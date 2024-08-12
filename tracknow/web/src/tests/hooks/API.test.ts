@@ -23,7 +23,7 @@ describe('API', () => {
     describe('fetchUsers', () => {
         it('should fetch users successfully', async () => {
             const mockUsers = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }];
-            (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockUsers,
             } as Response);
@@ -48,7 +48,7 @@ describe('API', () => {
     describe('fetchUser', () => {
         it('should fetch a user successfully', async () => {
             const mockUser = { id: 1, name: 'User 1' };
-            (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockUser,
             } as Response);
@@ -77,7 +77,7 @@ describe('API', () => {
     describe('loginUser', () => {
         it('should login user successfully', async () => {
             const mockResponse = { token: 'mock-token', user: { id: 1, name: 'User 1' } };
-            (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -99,7 +99,7 @@ describe('API', () => {
         });
 
         it('should throw an error when login fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
 
@@ -111,7 +111,7 @@ describe('API', () => {
     describe('getIdentity', () => {
         it('should get identity successfully', async () => {
             const mockIdentity = { id: 1, name: 'User 1' };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockIdentity,
             } as Response);
@@ -134,7 +134,7 @@ describe('API', () => {
         });
 
         it('should throw an error when user is not logged in', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -147,7 +147,7 @@ describe('API', () => {
     describe('CreateUser', () => {
         it('should create a user successfully', async () => {
             const mockResponse = { id: 1, name: 'New User' };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -169,7 +169,7 @@ describe('API', () => {
         });
 
         it('should throw an error when user creation fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
 
@@ -181,7 +181,7 @@ describe('API', () => {
     describe('handleLaptimes', () => {
         it('should create a laptime successfully', async () => {
             const mockResponse = { id: 1, time: '1:30.000' };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -207,7 +207,7 @@ describe('API', () => {
 
         it('should fetch laptimes successfully', async () => {
             const mockResponse = [{ id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" }, { id: 2, title: 'new laptime 2', simracing: false, comment: "my racing moments 2" }];
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -230,7 +230,7 @@ describe('API', () => {
         });
 
         it('should throw an error when creating laptime fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -239,7 +239,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching laptimes fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -252,7 +252,7 @@ describe('API', () => {
     describe('fetchMyLaptime', () => {
         it('should fetch a personal laptime successfully', async () => {
             const mockLaptime = { id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptime,
             } as Response);
@@ -275,7 +275,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching personal laptime fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -288,7 +288,7 @@ describe('API', () => {
     describe('fetchAUserLaptime', () => {
         it('should fetch a user\'s specific laptime successfully', async () => {
             const mockLaptime = { id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptime,
             } as Response);
@@ -311,7 +311,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching a user\'s specific laptime fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -324,7 +324,7 @@ describe('API', () => {
     describe('EditUserProfile', () => {
         it('should edit user profile successfully', async () => {
             const mockResponse = { id: 1, username: 'Updated User' };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -348,7 +348,7 @@ describe('API', () => {
         });
 
         it('should throw an error when editing user profile fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -361,7 +361,7 @@ describe('API', () => {
     describe('EditUserProfilePic', () => {
         it('should edit user profile picture successfully', async () => {
             const mockResponse = { id: 1, profile_picture_url: 'new-profile-picture.jpg' };
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
             } as Response);
@@ -385,7 +385,7 @@ describe('API', () => {
         });
 
         it('should throw an error when editing user profile picture fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -398,7 +398,7 @@ describe('API', () => {
     describe('fetchUsersLaptimes', () => {
         it('should fetch user\'s laptimes successfully', async () => {
             const mockLaptimes = [{ id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" }, { id: 2, title: 'new laptime 2', simracing: false, comment: "my racing moments 2" }];
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptimes,
             } as Response);
@@ -421,7 +421,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching user\'s laptimes fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
@@ -434,7 +434,7 @@ describe('API', () => {
     describe('fetchF1Teams', () => {
         it('should fetch Formula 1 teams successfully', async () => {
             const mockTeams = [{ id: 1, name: 'Team A' }, { id: 2, name: 'Team B' }];
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockTeams,
             } as Response);
@@ -454,7 +454,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching Formula 1 teams fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
 
@@ -466,7 +466,7 @@ describe('API', () => {
     describe('fetchF1Drivers', () => {
         it('should fetch Formula 1 drivers successfully', async () => {
             const mockDrivers = [{ id: 1, name: 'Driver A' }, { id: 2, name: 'Driver B' }];
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockDrivers,
             } as Response);
@@ -486,7 +486,7 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching Formula 1 drivers fails', async () => {
-            (global.fetch as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
                 ok: false,
             } as Response);
 
