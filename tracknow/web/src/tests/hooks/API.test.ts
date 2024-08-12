@@ -1,10 +1,8 @@
 import { jest, describe, beforeEach, it, expect } from '@jest/globals';
 import API, { API_KEY, API_PREFIX_URL } from '../../hooks/API';
 
-
 // Mock fetch globally
-global.fetch = jest.fn() as jest.MockedFunction<typeof fetch>;
-
+global.fetch = jest.fn() as unknown as typeof fetch;
 
 // Mock localStorage
 const localStorageMock = {
@@ -23,7 +21,7 @@ describe('API', () => {
     describe('fetchUsers', () => {
         it('should fetch users successfully', async () => {
             const mockUsers = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }];
-            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockUsers,
             } as Response);
@@ -48,7 +46,7 @@ describe('API', () => {
     describe('fetchUser', () => {
         it('should fetch a user successfully', async () => {
             const mockUser = { id: 1, name: 'User 1' };
-            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockUser,
             } as Response);
@@ -77,10 +75,10 @@ describe('API', () => {
     describe('loginUser', () => {
         it('should login user successfully', async () => {
             const mockResponse = { token: 'mock-token', user: { id: 1, name: 'User 1' } };
-            (global.fetch as unknown as jest.MockedFunction<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
 
             const result = await API.loginUser({ username: 'user1', password: 'password' });
 
@@ -99,9 +97,9 @@ describe('API', () => {
         });
 
         it('should throw an error when login fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
 
             await expect(API.loginUser({ username: 'user1', password: 'wrong' })).rejects.toThrow('Login Failed');
         });
@@ -111,10 +109,10 @@ describe('API', () => {
     describe('getIdentity', () => {
         it('should get identity successfully', async () => {
             const mockIdentity = { id: 1, name: 'User 1' };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockIdentity,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.getIdentity();
@@ -134,9 +132,9 @@ describe('API', () => {
         });
 
         it('should throw an error when user is not logged in', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.getIdentity()).rejects.toThrow('User not Logged in');
@@ -147,10 +145,10 @@ describe('API', () => {
     describe('CreateUser', () => {
         it('should create a user successfully', async () => {
             const mockResponse = { id: 1, name: 'New User' };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
 
             const result = await API.CreateUser({ username: 'newuser', password: 'password' });
 
@@ -169,9 +167,9 @@ describe('API', () => {
         });
 
         it('should throw an error when user creation fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
 
             await expect(API.CreateUser({ username: 'newuser', password: 'password' })).rejects.toThrow('Failed to create user');
         });
@@ -181,10 +179,10 @@ describe('API', () => {
     describe('handleLaptimes', () => {
         it('should create a laptime successfully', async () => {
             const mockResponse = { id: 1, time: '1:30.000' };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
 
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
@@ -207,10 +205,10 @@ describe('API', () => {
 
         it('should fetch laptimes successfully', async () => {
             const mockResponse = [{ id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" }, { id: 2, title: 'new laptime 2', simracing: false, comment: "my racing moments 2" }];
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.handleLaptimes(1);
@@ -230,18 +228,18 @@ describe('API', () => {
         });
 
         it('should throw an error when creating laptime fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.handleLaptimes(1, { title: 'new laptime', simracing: false, comment: "my racing moments" })).rejects.toThrow('Failed to create laptime');
         });
 
         it('should throw an error when fetching laptimes fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.handleLaptimes(1)).rejects.toThrow('Failed to fetch Personal laptimes');
@@ -252,10 +250,10 @@ describe('API', () => {
     describe('fetchMyLaptime', () => {
         it('should fetch a personal laptime successfully', async () => {
             const mockLaptime = { id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptime,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.fetchMyLaptime(1);
@@ -275,9 +273,9 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching personal laptime fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.fetchMyLaptime(1)).rejects.toThrow('Failed to fetch Personal Laptime. Does not exist.');
@@ -288,10 +286,10 @@ describe('API', () => {
     describe('fetchAUserLaptime', () => {
         it('should fetch a user\'s specific laptime successfully', async () => {
             const mockLaptime = { id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptime,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.fetchAUserLaptime(1, 1);
@@ -311,9 +309,9 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching a user\'s specific laptime fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.fetchAUserLaptime(1, 1)).rejects.toThrow('Failed to fetch #1 laptime');
@@ -324,10 +322,10 @@ describe('API', () => {
     describe('EditUserProfile', () => {
         it('should edit user profile successfully', async () => {
             const mockResponse = { id: 1, username: 'Updated User' };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.EditUserProfile(1, { username: 'Updated User' });
@@ -348,9 +346,9 @@ describe('API', () => {
         });
 
         it('should throw an error when editing user profile fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.EditUserProfile(1, { username: 'Updated User' })).rejects.toThrow('Failed to Edit User profile');
@@ -361,10 +359,10 @@ describe('API', () => {
     describe('EditUserProfilePic', () => {
         it('should edit user profile picture successfully', async () => {
             const mockResponse = { id: 1, profile_picture_url: 'new-profile-picture.jpg' };
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockResponse,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.EditUserProfilePic(1, { profile_picture_url: 'new-profile-picture.jpg' });
@@ -385,9 +383,9 @@ describe('API', () => {
         });
 
         it('should throw an error when editing user profile picture fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.EditUserProfilePic(1, { profile_picture_url: 'new-profile-picture.jpg' })).rejects.toThrow('Failed to Edit User profile picture');
@@ -398,10 +396,10 @@ describe('API', () => {
     describe('fetchUsersLaptimes', () => {
         it('should fetch user\'s laptimes successfully', async () => {
             const mockLaptimes = [{ id: 1, title: 'new laptime', simracing: false, comment: "my racing moments" }, { id: 2, title: 'new laptime 2', simracing: false, comment: "my racing moments 2" }];
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockLaptimes,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             const result = await API.fetchUsersLaptimes(1, 1);
@@ -421,9 +419,9 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching user\'s laptimes fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
             (localStorageMock.getItem as jest.MockedFunction<typeof localStorageMock.getItem>).mockReturnValue('mock-token');
 
             await expect(API.fetchUsersLaptimes(1, 1)).rejects.toThrow('Failed to fetch #1\'s laptimes!');
@@ -434,10 +432,10 @@ describe('API', () => {
     describe('fetchF1Teams', () => {
         it('should fetch Formula 1 teams successfully', async () => {
             const mockTeams = [{ id: 1, name: 'Team A' }, { id: 2, name: 'Team B' }];
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockTeams,
-            } as Response);
+            });
 
             const result = await API.fetchF1Teams();
 
@@ -454,9 +452,9 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching Formula 1 teams fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
 
             await expect(API.fetchF1Teams()).rejects.toThrow('Failed to get Formula 1 Team Standings');
         });
@@ -466,10 +464,10 @@ describe('API', () => {
     describe('fetchF1Drivers', () => {
         it('should fetch Formula 1 drivers successfully', async () => {
             const mockDrivers = [{ id: 1, name: 'Driver A' }, { id: 2, name: 'Driver B' }];
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: true,
                 json: async () => mockDrivers,
-            } as Response);
+            });
 
             const result = await API.fetchF1Drivers();
 
@@ -486,9 +484,9 @@ describe('API', () => {
         });
 
         it('should throw an error when fetching Formula 1 drivers fails', async () => {
-            (global.fetch as unknown as jest.Mock<typeof fetch>).mockResolvedValueOnce({
+            (global.fetch as jest.Mock).mockResolvedValueOnce({
                 ok: false,
-            } as Response);
+            });
 
             await expect(API.fetchF1Drivers()).rejects.toThrow('Failed to get Formula 1 Driver Standings');
         });
