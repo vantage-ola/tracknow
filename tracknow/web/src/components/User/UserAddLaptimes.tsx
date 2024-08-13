@@ -87,7 +87,7 @@ const UserAddLaptimes = () => {
 
     // regex
     const youtubeRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
-    const timeRegex = /^(\d{1,2})?(\.(\d{2}))?(\.(\d{2}))?(\.(\d{1,3}))?$/;
+    const timeRegex = /^(\d{1,2})?(\:([0-5]\d))?(\:([0-5]\d))?(\.(\d{1,3}))?$/;
 
     return (
         <>
