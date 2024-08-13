@@ -211,11 +211,11 @@ const UserAddLaptimes = () => {
                                         <Input
                                             borderColor={'#323536'}
                                             focusBorderColor="grey"
-                                            variant='flushed' placeholder='6.59.34'
+                                            variant='flushed' placeholder='6:59:34.035'
                                             onChange={(e) => setTime(e.target.value)}
                                             maxLength={10} />
                                         {time && !timeRegex.test(time) && (
-                                            <FormErrorMessage fontSize={'11px'}>Please enter a valid laptime (minutes.seconds.milliseconds)</FormErrorMessage>
+                                            <FormErrorMessage fontSize={'11px'}>Please enter a valid laptime (hours:minutes:seconds.milliseconds)</FormErrorMessage>
                                         )}
                                     </FormControl>
                                 </Box>
