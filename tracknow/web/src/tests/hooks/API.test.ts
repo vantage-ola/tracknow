@@ -1,5 +1,5 @@
 import { jest, describe, beforeEach, it, expect } from '@jest/globals';
-import API, { API_KEY, API_PREFIX_URL } from '../../hooks/API';
+import API from '../../hooks/API';
 
 // Mock fetch globally
 global.fetch = jest.fn() as unknown as typeof fetch;

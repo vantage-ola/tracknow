@@ -22,8 +22,8 @@
 ![Contributors](https://img.shields.io/github/contributors/vantage-ola/track-now?color=green) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/vantage-ola/track-now)
 ![GitHub License](https://img.shields.io/github/license/vantage-ola/track-now)
 ![GitHub Tag](https://img.shields.io/github/v/tag/vantage-ola/track-now)
-![tracknow api](https://img.shields.io/github/actions/workflow/status/vantage-ola/tracknow/workflow.yml)
-
+![tracknow worflows](https://img.shields.io/github/actions/workflow/status/vantage-ola/tracknow/workflow.yml)
+![tracknow code coverage](https://img.shields.io/codecov/c/github/vantage-ola/tracknow)
 
 ## Table Of Contents
 
