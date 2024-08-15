@@ -25,7 +25,7 @@ import { Outlet } from 'react-router-dom';
 import { useUsers } from "../../hooks/useUsers";
 
 
-export const NavbarWelcome = () => (
+const NavbarWelcome = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
@@ -48,7 +48,7 @@ export const NavbarWelcome = () => (
     </Box>
 );
 
-export const Navbar = () => (
+const Navbar = () => (
     <Box px={4} borderBottom={1} borderStyle={'solid'} borderColor={useColorModeValue('dark', 'white')}>
         <Flex h={10} alignItems={'center'} justifyContent={'space-between'}>
 
@@ -153,10 +153,28 @@ const NavbarLoggedIn = ({ name, pp, onOpen }: identityProfile) => {
 };
 
 
+// Layout to prevent duplicating navbar across components
 export const NavbarLayout = () => {
+    return (
+        <>
+            <Navbar />
+            <Outlet />
+        </>
+    )
+};
+export const NavbarWelcomeLayout = () => {
+    return (
+        <>
+            <NavbarWelcome />
+            <Outlet />
+        </>
+    )
+};
+
+export const NavbarLoggedInLayout = () => {
     const { username, profilePic } = useUsers();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure(); // needs fix.
 
     return (
         <>
