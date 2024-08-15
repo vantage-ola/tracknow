@@ -2,7 +2,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./tracknowTheme";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
-import { NavbarLayout } from "./components/Navbar/Navbar";
+import { NavbarLayout, NavbarLoggedInLayout, NavbarWelcomeLayout } from "./components/Navbar/Navbar";
 
 import { UserLogin } from "./components/User/UserLogin";
 import { UserSignUp } from "./components/User/UserSignUp";
@@ -23,12 +23,26 @@ export const App = () => (
         <BrowserRouter>
             <Routes>
                 <Route path="/*" element={<ErrorPage />} />
-                <Route path="/" element={<Welcome />} />
-                <Route path="/login" element={<UserLogin />} />
-                <Route path="/create-user" element={<UserSignUp />} />
+
+                {/*welcome page*/}
+                <Route element={
+                    <NavbarWelcomeLayout />
+                }>
+                    <Route path="/" element={<Welcome />} />
+                </Route>
+
+                {/*user is about to login/signup */}
+                <Route element={
+                    <NavbarLayout />
+                }>
+                    <Route path="/login" element={<UserLogin />} />
+                    <Route path="/create-user" element={<UserSignUp />} />
+                </Route>
+
+                {/*user is logged in */}
                 <Route element={
                     <UserProvider>
-                        <NavbarLayout />
+                        <NavbarLoggedInLayout />
                     </UserProvider>
                 }>
                     <Route

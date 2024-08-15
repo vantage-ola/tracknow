@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Flex, Input, Button, Image, Text, Link, useToast, InputRightElement, InputGroup } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
-import { Navbar } from "../Navbar/Navbar";
 import API from "../../hooks/API"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -64,7 +63,6 @@ export const UserSignUp = () => {
 
     return (
         <>
-            <Navbar />
             <Flex h="80vh" alignItems="center" justifyContent="center">
                 <Flex
                     flexDirection="column"
