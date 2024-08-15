@@ -1,4 +1,3 @@
-import { NavbarLoggedIn } from "../Navbar/Navbar";
 import { HomePost } from "../Post/Post";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { useUsers } from "../../hooks/useUsers";
@@ -23,8 +22,6 @@ export const Home = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
-
             <Flex mt={10} bg="dark" height="calc(100vh - 45px)"> {/* Adjust height to fit the viewport */}
                 {/* Left section */}
                 {isMobile ? (

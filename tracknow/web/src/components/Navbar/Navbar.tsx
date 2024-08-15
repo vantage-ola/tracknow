@@ -13,14 +13,16 @@ import {
     MenuDivider,
     MenuItem,
     MenuList,
-    IconButton
+    IconButton,
+    useDisclosure
 } from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons';
 import { FiMenu } from "react-icons/fi";
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { identityProfile } from "../../Types";
 import useMiscFunctions from "../../misc/miscFunctions";
-
+import { Outlet } from 'react-router-dom';
+import { useUsers } from "../../hooks/useUsers";
 
 
 export const NavbarWelcome = () => (
@@ -68,7 +70,7 @@ export const Navbar = () => (
 );
 
 
-export const NavbarLoggedIn = ({ name, pp, onOpen }: identityProfile) => {
+const NavbarLoggedIn = ({ name, pp, onOpen }: identityProfile) => {
     const { handleLogout } = useMiscFunctions();
     return (
         <Box
@@ -148,4 +150,18 @@ export const NavbarLoggedIn = ({ name, pp, onOpen }: identityProfile) => {
 
         </Box>
     );
+};
+
+
+export const NavbarLayout = () => {
+    const { username, profilePic } = useUsers();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    return (
+        <>
+            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
+            <Outlet />
+        </>
+    )
 };
