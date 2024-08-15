@@ -1,6 +1,5 @@
 import { HomePost } from "../Post/Post";
 import { useLaptimes } from "../../hooks/useLaptimes";
-import { NavbarLoggedIn } from "../Navbar/Navbar";
 //import { useNavigate } from "react-router-dom";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { Center, Text, useDisclosure, } from "@chakra-ui/react";
@@ -19,7 +18,6 @@ const UserLaptimes = () => {
     /* if (laptime_loading) {
         return (
             <>
-                <NavbarLoggedIn name={username} pp={profilePic} />
                 <LoadingSpinner />
             </>
         );
@@ -28,7 +26,6 @@ const UserLaptimes = () => {
     if (mylaptime.length === 0) {
          return (
              <>
-                 <NavbarLoggedIn name={username} pp={profilePic} />
                  <Center h="100vh">
                      <Text color="white" fontSize="lg">
                          Nothing to see here, Create Post above
@@ -40,7 +37,6 @@ const UserLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             {loading ? (
                 <LoadingSpinner />
             ) : (

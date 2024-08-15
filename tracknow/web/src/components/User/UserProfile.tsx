@@ -1,5 +1,4 @@
 import * as React from "react";
-import { NavbarLoggedIn } from "../Navbar/Navbar";
 import { useUsers, getProfile } from "../../hooks/useUsers";
 import {
     Flex, Box, Card, CardBody,
@@ -93,7 +92,6 @@ export const UserProfile = ({ id }: { id: number }) => {
     if (!laptime_loading && laptimes.length === 0) {
         return (
             <>
-                <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
                 <Center h="100vh">
                     <Text color="white" fontSize="lg">
                         Nothing to see here
@@ -107,7 +105,6 @@ export const UserProfile = ({ id }: { id: number }) => {
     return (
 
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             {laptime_loading ? (
                 <LoadingSpinner />
 

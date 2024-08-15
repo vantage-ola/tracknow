@@ -12,7 +12,6 @@ import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { Laptime } from "../../Types";
 import { BeatLoader } from "react-spinners";
-import { NavbarLoggedIn } from "../Navbar/Navbar";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { useUsers } from "../../hooks/useUsers";
 
@@ -91,7 +90,6 @@ const UserAddLaptimes = () => {
 
     return (
         <>
-            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
             <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
                 {/* Left section*/}
                 {isMobile ? (

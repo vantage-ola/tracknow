@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { Box, Button, Card, CardBody, CardHeader, useToast, Flex, FormControl, Heading, Stack, Avatar, FormErrorMessage, InputRightElement, InputGroup, Center, Input, useDisclosure, useBreakpointValue } from "@chakra-ui/react";
 import { CountryDropdown } from "../../misc/dropDown";
-import { NavbarLoggedIn } from "../Navbar/Navbar";
 import { useNavigate, Link as ReactRouterLink } from "react-router-dom";
 import { useUsers } from "../../hooks/useUsers";
 import { EditUser, EditUserPic } from "../../Types";
@@ -168,9 +167,6 @@ const UserAccountSettings = () => {
 
     return (
         <>
-
-            <NavbarLoggedIn name={username} pp={profilePic} onOpen={onOpen} />
-
             <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
                 {/* Left section */}
                 {isMobile ? (
