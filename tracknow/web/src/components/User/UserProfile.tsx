@@ -6,8 +6,6 @@ import {
     CardHeader, Heading,
     Icon,
     HStack,
-    useDisclosure,
-    useBreakpointValue
 } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
@@ -19,12 +17,10 @@ import miscFunctions from "../../misc/miscFunctions";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
 
-import MobileDrawer from "../../misc/MobileDrawer";
-import LeftSideBar from "../SideBar/LeftSideBar";
 
 export const UserProfile = ({ id }: { id: number }) => {
 
-    const { username, profilePic, loading } = useUsers();
+    const { loading } = useUsers();
     const [userData, setUserData] = React.useState<OneUser | null>(null);
     const [laptimes, setUserLaptimes] = React.useState<GetUserLaptimesResponse[]>([]);
     const [hasMore, setHasMore] = React.useState(true);
@@ -40,9 +36,6 @@ export const UserProfile = ({ id }: { id: number }) => {
     const { fetchUsersLaptimes } = useLaptimes()
     const { LazyLoadYoutubeEmbed } = miscFunctions();
 
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const isMobile = useBreakpointValue({ base: true, md: false });
 
     const fetchMoreData = () => {
         if (hasMore) {
@@ -109,184 +102,154 @@ export const UserProfile = ({ id }: { id: number }) => {
                 <LoadingSpinner />
 
             ) : (
-                <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
-                    {/* Left section*/}
-                    {isMobile ? (
-                        <MobileDrawer isOpen={isOpen} onClose={onClose}>
-                            <LeftSideBar />
-                        </MobileDrawer>
-                    ) : (
-                        <Box
-                            flex="1"
-                            borderRight="1px solid #323536"
-                            overflowY="auto"
-                            height="full"
-                        >
-                            <LeftSideBar />
-                        </Box>
-                    )}
-
+                <>
                     {/* Main Section */}
-                    <Box
-                        flex="4"
-                        rounded={'sm'}
-                        my={1}
-                        mx={[0, 5]}
-                        overflow={'hidden'}
-                        borderRadius={"1px"}
-                        overflowY="auto"
-                        height="full"
-                    >
-                        <Card size={'lg'} maxW='600px'>
 
-                            <CardHeader>
-                                <Heading size='md'>{userData ? userData.username : "Loading..."}'s Profile</Heading>
-                            </CardHeader>
-                            <Center>
+                    <Card size={'lg'} maxW='600px'>
 
-                                <Stack>
-                                    <Avatar
-                                        size={"2xl"}
-                                        src={userData ? userData.profile_picture : ""}
-                                    />
-                                    <Center>
-                                        <Text>{userData ? userData.nationality : "Loading..."}</Text>
+                        <CardHeader>
+                            <Heading size='md'>{userData ? userData.username : "Loading..."}'s Profile</Heading>
+                        </CardHeader>
+                        <Center>
 
-                                    </Center>
-                                </Stack>
+                            <Stack>
+                                <Avatar
+                                    size={"2xl"}
+                                    src={userData ? userData.profile_picture : ""}
+                                />
+                                <Center>
+                                    <Text>{userData ? userData.nationality : "Loading..."}</Text>
+
+                                </Center>
+                            </Stack>
 
 
-                            </Center>
-                            <CardBody >
-                                <InfiniteScroll
-                                    dataLength={laptimes.length}
-                                    next={fetchMoreData}
-                                    hasMore={hasMore}
-                                    loader={<Center><BeatLoader size={8} color='red' /></Center>}
-                                >
-                                    {laptimes.map((laptime) => (
-                                        <Box key={laptime.id.toString()} p={1} borderBottom="1px solid #323536">
+                        </Center>
+                        <CardBody >
+                            <InfiniteScroll
+                                dataLength={laptimes.length}
+                                next={fetchMoreData}
+                                hasMore={hasMore}
+                                loader={<Center><BeatLoader size={8} color='red' /></Center>}
+                            >
+                                {laptimes.map((laptime) => (
+                                    <Box key={laptime.id.toString()} p={1} borderBottom="1px solid #323536">
 
-                                            {laptime.youtube_link && (
-                                                <LazyLoadYoutubeEmbed youtubeLink={laptime.youtube_link} />
-                                            )}
-                                            <Box p={4} >
-                                                <Flex alignItems={"center"} justifyContent={"space-between"} overflowX="auto"
-                                                >
-                                                    <Stack direction={"row"} spacing={2} align="flex-start" flexShrink="0">
+                                        {laptime.youtube_link && (
+                                            <LazyLoadYoutubeEmbed youtubeLink={laptime.youtube_link} />
+                                        )}
+                                        <Box p={4} >
+                                            <Flex alignItems={"center"} justifyContent={"space-between"} overflowX="auto"
+                                            >
+                                                <Stack direction={"row"} spacing={2} align="flex-start" flexShrink="0">
 
-                                                        {laptime.car && (
-                                                            <Box
-                                                                bg="black"
-                                                                display={"inline-block"}
-                                                                px={2}
-                                                                py={1}
-                                                                color="white"
-                                                                mb={2}
-                                                            >
-                                                                <Flex justifyContent={"space-between"}>
-                                                                    <HStack>
-                                                                        <Icon color="red" as={FaCar} />
-                                                                        <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
-                                                                            {laptime.car}
-                                                                        </Text>
-                                                                    </HStack>
-                                                                </Flex>
-                                                            </Box>
-                                                        )}
-                                                        {laptime.track && (
-
-                                                            <Flex>
-                                                                <Box
-                                                                    bg="black"
-                                                                    display={"inline-block"}
-                                                                    px={2}
-                                                                    py={1}
-                                                                    color="white"
-                                                                    mb={2}
-                                                                >
-                                                                    <Flex justifyContent={"space-between"}>
-                                                                        <HStack>
-                                                                            <Icon color="red" as={RiMapPinLine} />
-
-                                                                            <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
-                                                                                {laptime.track}
-                                                                            </Text>
-                                                                        </HStack>
-                                                                    </Flex>
-                                                                </Box>
-                                                            </Flex>
-                                                        )}
-                                                        {laptime.platform && (
-
-                                                            <Box
-                                                                bg="black"
-                                                                display={"inline-block"}
-                                                                px={2}
-                                                                py={1}
-                                                                color="white"
-                                                                mb={2}
-                                                            >
-                                                                <Flex justifyContent={"space-between"}>
-                                                                    <HStack>
-                                                                        <Icon color="red" as={RiComputerLine} />
-                                                                        <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
-                                                                            {laptime.platform}
-                                                                        </Text>
-                                                                    </HStack>
-                                                                </Flex>
-                                                            </Box>
-                                                        )}
-                                                        {laptime.time && (
-
-                                                            <Box
-                                                                bg="black"
-                                                                display={"inline-block"}
-                                                                px={2}
-                                                                py={1}
-                                                                color="white"
-                                                                mb={2}
-                                                            >
-                                                                <Flex justifyContent={"space-between"}>
-                                                                    <HStack>
-                                                                        <Icon color="red" as={RiTimerFlashLine} />
-                                                                        <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
-                                                                            {laptime.time}
-                                                                        </Text>
-                                                                    </HStack>
-                                                                </Flex>
-                                                            </Box>
-                                                        )}
-                                                    </Stack>
-                                                </Flex>
-                                                <Text fontSize={"smaller"} color={"white"} mt={3}>
-                                                    {showFullText ? laptime.comment : laptime.comment.substring(0, textLimit)}
-                                                    {laptime.comment.length > textLimit && (
-                                                        <span
-                                                            style={{ color: "red", fontWeight: "bold", cursor: "pointer" }}
-                                                            onClick={() => setShowFullText(!showFullText)}
+                                                    {laptime.car && (
+                                                        <Box
+                                                            bg="black"
+                                                            display={"inline-block"}
+                                                            px={2}
+                                                            py={1}
+                                                            color="white"
+                                                            mb={2}
                                                         >
-                                                            {showFullText ? "Read less" : "... Read more"}
-                                                        </span>
+                                                            <Flex justifyContent={"space-between"}>
+                                                                <HStack>
+                                                                    <Icon color="red" as={FaCar} />
+                                                                    <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
+                                                                        {laptime.car}
+                                                                    </Text>
+                                                                </HStack>
+                                                            </Flex>
+                                                        </Box>
                                                     )}
-                                                </Text>
+                                                    {laptime.track && (
 
-                                            </Box>
+                                                        <Flex>
+                                                            <Box
+                                                                bg="black"
+                                                                display={"inline-block"}
+                                                                px={2}
+                                                                py={1}
+                                                                color="white"
+                                                                mb={2}
+                                                            >
+                                                                <Flex justifyContent={"space-between"}>
+                                                                    <HStack>
+                                                                        <Icon color="red" as={RiMapPinLine} />
+
+                                                                        <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
+                                                                            {laptime.track}
+                                                                        </Text>
+                                                                    </HStack>
+                                                                </Flex>
+                                                            </Box>
+                                                        </Flex>
+                                                    )}
+                                                    {laptime.platform && (
+
+                                                        <Box
+                                                            bg="black"
+                                                            display={"inline-block"}
+                                                            px={2}
+                                                            py={1}
+                                                            color="white"
+                                                            mb={2}
+                                                        >
+                                                            <Flex justifyContent={"space-between"}>
+                                                                <HStack>
+                                                                    <Icon color="red" as={RiComputerLine} />
+                                                                    <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
+                                                                        {laptime.platform}
+                                                                    </Text>
+                                                                </HStack>
+                                                            </Flex>
+                                                        </Box>
+                                                    )}
+                                                    {laptime.time && (
+
+                                                        <Box
+                                                            bg="black"
+                                                            display={"inline-block"}
+                                                            px={2}
+                                                            py={1}
+                                                            color="white"
+                                                            mb={2}
+                                                        >
+                                                            <Flex justifyContent={"space-between"}>
+                                                                <HStack>
+                                                                    <Icon color="red" as={RiTimerFlashLine} />
+                                                                    <Text color={"GrayText"} fontSize={"xs"} fontWeight="medium">
+                                                                        {laptime.time}
+                                                                    </Text>
+                                                                </HStack>
+                                                            </Flex>
+                                                        </Box>
+                                                    )}
+                                                </Stack>
+                                            </Flex>
+                                            <Text fontSize={"smaller"} color={"white"} mt={3}>
+                                                {showFullText ? laptime.comment : laptime.comment.substring(0, textLimit)}
+                                                {laptime.comment.length > textLimit && (
+                                                    <span
+                                                        style={{ color: "red", fontWeight: "bold", cursor: "pointer" }}
+                                                        onClick={() => setShowFullText(!showFullText)}
+                                                    >
+                                                        {showFullText ? "Read less" : "... Read more"}
+                                                    </span>
+                                                )}
+                                            </Text>
 
                                         </Box>
-                                    ))}
-                                </InfiniteScroll>
-                            </CardBody>
 
-                        </Card>
+                                    </Box>
+                                ))}
+                            </InfiniteScroll>
+                        </CardBody>
 
+                    </Card>
+                </>
 
-
-                    </Box >
-
-                </Flex >
-            )}
-
+            )};
         </>
     );
 

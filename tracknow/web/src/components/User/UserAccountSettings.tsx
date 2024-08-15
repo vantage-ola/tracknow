@@ -10,9 +10,6 @@ import { BeatLoader } from "react-spinners";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import useMiscFunctions from "../../misc/miscFunctions";
 
-import MobileDrawer from "../../misc/MobileDrawer";
-import LeftSideBar from "../SideBar/LeftSideBar";
-import RightSideBar from "../SideBar/RightSideBar";
 
 const UserAccountSettings = () => {
 
@@ -37,9 +34,6 @@ const UserAccountSettings = () => {
 
     const { editProfilePic, editProfile } = useUsers();
     const fileInputRef = React.useRef<HTMLInputElement>(null);
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const isMobile = useBreakpointValue({ base: true, md: false });
 
 
     // sidebar
@@ -167,165 +161,133 @@ const UserAccountSettings = () => {
 
     return (
         <>
-            <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
-                {/* Left section */}
-                {isMobile ? (
-                    <MobileDrawer isOpen={isOpen} onClose={onClose}>
-                        <LeftSideBar />
-                    </MobileDrawer>
-                ) : (
-                    <Box
-                        flex="1"
-                        borderRight="1px solid #323536"
-                        overflowY="auto"
-                        height="full"
-                    >
-                        <LeftSideBar />
-                    </Box>
-                )}
+            {/* Main Section */}
+            <Card size={'lg'} maxW='600px' >
+                <CardHeader>
+                    <Heading size='lg'>Settings</Heading>
+                </CardHeader>
 
-                {/* Main Section */}
-                <Box flex="4"
-                    rounded={'sm'}
-                    my={1}
-                    mx={[0, 5]}
-                    overflow={'hidden'}
-                    borderRadius={"1px"}
-                    overflowY="auto"
-                    height="full"
-                >
+                <CardBody>
+                    <Stack spacing={6}>
 
-                    <Card size={'lg'} maxW='600px' >
-                        <CardHeader>
-                            <Heading size='lg'>Settings</Heading>
-                        </CardHeader>
+                        <Center>
 
-                        <CardBody>
-                            <Stack spacing={6}>
+                            <Stack>
 
-                                <Center>
-
-                                    <Stack>
-
-                                        <Avatar
-                                            size={"2xl"}
-                                            src={
-                                                profilePic
-                                            }
-                                        >
-                                        </Avatar>
-                                        <input
-                                            type="file"
-                                            ref={fileInputRef}
-                                            style={{ display: "none" }}
-                                            onChange={() => handleProfilePic()}
-                                        />
-                                        <Button
-                                            bg={"#171616"}
-                                            variant={"navbarButton"}
-                                            onClick={() => fileInputRef.current?.click()}
-                                            isLoading={isUploading}
-                                            spinner={<BeatLoader size={8} color='red' />}
-                                        >
-                                            Change Picture
-                                        </Button>
-                                    </Stack>
-
-                                </Center>
-
-                                <Stack spacing={5}>
-
-                                    <Box>
-                                        <Heading size='xs' textTransform='uppercase'>
-                                            Username
-                                        </Heading>
-                                        <FormControl isInvalid={newusername !== username && !usernameValid && newusername !== ""}>
-                                            <Input borderColor={'#323536'}
-                                                focusBorderColor="grey"
-                                                variant='flushed'
-                                                value={newusername}
-                                                placeholder={username}
-                                                onChange={(e) => {
-                                                    setNewUsername(e.target.value);
-                                                    setUsernameValid(e.target.value.length >= 5 && e.target.value.length <= 10);
-                                                }}
-                                            />
-                                            <FormErrorMessage fontSize={'11px'} color={usernameValid ? "green.500" : "red.500"} mb={2}>
-                                                Username must be between 5 and 10 characters long.
-                                            </FormErrorMessage>
-                                        </FormControl>
-                                    </Box>
-                                    <Box>
-                                        <Heading size='xs' textTransform='uppercase'>
-                                            Password
-                                        </Heading>
-                                        <FormControl isInvalid={password !== "" && !passwordValid}>
-                                            <InputGroup>
-                                                <Input type={showPassword ? 'text' : 'password'}
-                                                    borderColor={'#323536'}
-                                                    focusBorderColor="grey"
-                                                    placeholder="***********"
-                                                    variant='flushed'
-                                                    isRequired
-                                                    value={password}
-                                                    onChange={(e) => {
-                                                        setPassword(e.target.value);
-                                                        setPasswordValid(e.target.value.length >= 8);
-                                                    }}
-                                                />
-                                                <InputRightElement >
-                                                    <Button
-                                                        color={'red'}
-                                                        variant={'ghost'}
-                                                        colorScheme='black'
-                                                        onClick={() => setShowPassword((showPassword) => !showPassword)}>
-                                                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                                                    </Button>
-                                                </InputRightElement>
-                                            </InputGroup>
-                                            <FormErrorMessage fontSize={'11px'} color={passwordValid ? "green.500" : "red.500"} mb={2}>
-                                                Password must be at least 8 characters long.
-                                            </FormErrorMessage>
-                                        </FormControl>
-
-                                    </Box>
-                                    <Box >
-                                        <Stack spacing={3}>
-                                            <Heading size='xs' textTransform='uppercase'>
-                                                Nationality
-                                            </Heading>
-                                            <CountryDropdown value={nationality} change={(e) => setNationality(e.target.value)} />
-                                        </Stack>
-
-                                    </Box>
-                                </Stack>
+                                <Avatar
+                                    size={"2xl"}
+                                    src={
+                                        profilePic
+                                    }
+                                >
+                                </Avatar>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    style={{ display: "none" }}
+                                    onChange={() => handleProfilePic()}
+                                />
+                                <Button
+                                    bg={"#171616"}
+                                    variant={"navbarButton"}
+                                    onClick={() => fileInputRef.current?.click()}
+                                    isLoading={isUploading}
+                                    spinner={<BeatLoader size={8} color='red' />}
+                                >
+                                    Change Picture
+                                </Button>
                             </Stack>
 
-                        </CardBody>
-                        <Flex pr={5} mb={6} justifyContent={'flex-end'}>
-                            <Button _hover={{ bg: 'red' }} variant={"navbarButton"} as={ReactRouterLink}
-                                to={`/home`}>
-                                Cancel
-                            </Button>
-                            <Button variant={"navbarButton"}
-                                isLoading={isLoading}
-                                spinner={<BeatLoader size={8} color='red' />}
-                                onClick={handleProfile}
-                                isDisabled={!(
-                                    (newusername !== username && usernameValid) ||
-                                    (password !== "" && passwordValid) ||
-                                    nationality !== ""
-                                )}
-                            >
-                                Submit
-                            </Button>
-                        </Flex>
-                    </Card>
+                        </Center>
 
-                </Box >
+                        <Stack spacing={5}>
 
+                            <Box>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    Username
+                                </Heading>
+                                <FormControl isInvalid={newusername !== username && !usernameValid && newusername !== ""}>
+                                    <Input borderColor={'#323536'}
+                                        focusBorderColor="grey"
+                                        variant='flushed'
+                                        value={newusername}
+                                        placeholder={username}
+                                        onChange={(e) => {
+                                            setNewUsername(e.target.value);
+                                            setUsernameValid(e.target.value.length >= 5 && e.target.value.length <= 10);
+                                        }}
+                                    />
+                                    <FormErrorMessage fontSize={'11px'} color={usernameValid ? "green.500" : "red.500"} mb={2}>
+                                        Username must be between 5 and 10 characters long.
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Box>
+                            <Box>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    Password
+                                </Heading>
+                                <FormControl isInvalid={password !== "" && !passwordValid}>
+                                    <InputGroup>
+                                        <Input type={showPassword ? 'text' : 'password'}
+                                            borderColor={'#323536'}
+                                            focusBorderColor="grey"
+                                            placeholder="***********"
+                                            variant='flushed'
+                                            isRequired
+                                            value={password}
+                                            onChange={(e) => {
+                                                setPassword(e.target.value);
+                                                setPasswordValid(e.target.value.length >= 8);
+                                            }}
+                                        />
+                                        <InputRightElement >
+                                            <Button
+                                                color={'red'}
+                                                variant={'ghost'}
+                                                colorScheme='black'
+                                                onClick={() => setShowPassword((showPassword) => !showPassword)}>
+                                                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                                            </Button>
+                                        </InputRightElement>
+                                    </InputGroup>
+                                    <FormErrorMessage fontSize={'11px'} color={passwordValid ? "green.500" : "red.500"} mb={2}>
+                                        Password must be at least 8 characters long.
+                                    </FormErrorMessage>
+                                </FormControl>
 
-            </Flex >
+                            </Box>
+                            <Box >
+                                <Stack spacing={3}>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Nationality
+                                    </Heading>
+                                    <CountryDropdown value={nationality} change={(e) => setNationality(e.target.value)} />
+                                </Stack>
+
+                            </Box>
+                        </Stack>
+                    </Stack>
+
+                </CardBody>
+                <Flex pr={5} mb={6} justifyContent={'flex-end'}>
+                    <Button _hover={{ bg: 'red' }} variant={"navbarButton"} as={ReactRouterLink}
+                        to={`/home`}>
+                        Cancel
+                    </Button>
+                    <Button variant={"navbarButton"}
+                        isLoading={isLoading}
+                        spinner={<BeatLoader size={8} color='red' />}
+                        onClick={handleProfile}
+                        isDisabled={!(
+                            (newusername !== username && usernameValid) ||
+                            (password !== "" && passwordValid) ||
+                            nationality !== ""
+                        )}
+                    >
+                        Submit
+                    </Button>
+                </Flex>
+            </Card>
         </>
 
     )

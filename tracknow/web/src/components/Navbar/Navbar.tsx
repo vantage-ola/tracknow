@@ -171,10 +171,12 @@ export const NavbarWelcomeLayout = () => {
     )
 };
 
-export const NavbarLoggedInLayout = () => {
-    const { username, profilePic } = useUsers();
+type NavbarLoggedInLayout = {
+    onOpen: () => void;
+};
 
-    const { isOpen, onOpen, onClose } = useDisclosure(); // needs fix.
+export const NavbarLoggedInLayout: React.FC<NavbarLoggedInLayout> = ({ onOpen }) => {
+    const { username, profilePic } = useUsers();
 
     return (
         <>
