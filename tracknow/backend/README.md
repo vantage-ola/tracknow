@@ -27,10 +27,9 @@ Fill in the environment variables
     API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     REDIS_HOST=xxxxxxxxxxxxxxxxxxxxxx
     REDIS_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    REDIS_PORT=xxxx
-    FORMULA_1_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxx  
+    REDIS_PORT=xxxx   
 ```
-Get Formula 1 Key from here: [F1 Live Motorsport Data](https://rapidapi.com/sportcontentapi/api/f1-live-motorsport-data)
+<!--Get Formula 1 Key from here: [F1 Live Motorsport Data](https://rapidapi.com/sportcontentapi/api/f1-live-motorsport-data) -->
 ### 4. Create the database and start the server.
 ``` shell
     flask shell 
