@@ -23,7 +23,7 @@
 ![GitHub License](https://img.shields.io/github/license/vantage-ola/track-now)
 ![GitHub Tag](https://img.shields.io/github/v/tag/vantage-ola/track-now)
 ![tracknow worflows](https://img.shields.io/github/actions/workflow/status/vantage-ola/tracknow/workflow.yml)
-![tracknow code coverage](https://img.shields.io/codecov/c/github/vantage-ola/tracknow)
+<!--![tracknow code coverage](https://img.shields.io/codecov/c/github/vantage-ola/tracknow) -->
 
 ## Table Of Contents
 
