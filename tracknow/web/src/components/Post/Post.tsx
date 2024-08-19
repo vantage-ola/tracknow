@@ -7,7 +7,6 @@ import miscFunctions from "../../misc/miscFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BeatLoader } from "react-spinners";
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { useLaptimes } from "../../hooks/useLaptimes";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 type PostProps = {
@@ -20,6 +19,23 @@ type PostProps = {
 // homepage posts( recent) posts of users
 export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore }) => {
 
+    // intersection observation api instead of the bad infinite scroll component
+    const observer = React.useRef<IntersectionObserver | null>(null);
+    const lastLaptimeRef = React.useCallback((node: HTMLDivElement | null) => {
+        if (observer.current) observer.current.disconnect();
+        if (hasMore) {
+            observer.current = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting) fetchMoreData();
+            });
+            if (node) observer.current.observe(node);
+        }
+    }, [hasMore, fetchMoreData]);
+
+    React.useEffect(() => {
+        return () => {
+            if (observer.current) observer.current.disconnect();
+        };
+    }, []);
 
     //const [liked, setLiked] = React.useState(false);
     const [showFullText, setShowFullText] = React.useState(false);
@@ -34,14 +50,9 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
     };
 
     return (
-        <InfiniteScroll
-            dataLength={laptimes.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            loader={<Center><BeatLoader size={8} color='red' /></Center>}
-        >
-            {laptimes.map((laptime) => (
-                <Box key={laptime.id.toString()} p={1} borderBottom="1px solid #323536">
+        <>
+            {laptimes.map((laptime, index) => (
+                <Box key={laptime.id} ref={index === laptimes.length - 1 ? lastLaptimeRef : null} p={1} borderBottom="1px solid #323536">
 
                     <Flex justifyContent={"space-between"} p={2}>
                         <Text as="b" fontSize={{ base: 'sm', md: 'lg' }}>{laptime.title}</Text>
@@ -182,8 +193,8 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
                         */}
                 </Box>
             ))}
-        </InfiniteScroll>
 
+        </>
 
     );
 };

@@ -60,7 +60,7 @@ export const App = () => {
                         </UserProvider>
                     }>
                         <Route element={
-                            <Flex height={{ base: "auto", md: "none" }}>
+                            <Flex height={{ base: "auto", md: "100vh" }}>
                                 <MainLayout isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
                             </Flex>
                         }>
