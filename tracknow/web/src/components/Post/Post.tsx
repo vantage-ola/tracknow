@@ -20,7 +20,6 @@ type PostProps = {
 // homepage posts( recent) posts of users
 export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore }) => {
 
-    const { laptime_loading } = useLaptimes();
 
     //const [liked, setLiked] = React.useState(false);
     const [showFullText, setShowFullText] = React.useState(false);
