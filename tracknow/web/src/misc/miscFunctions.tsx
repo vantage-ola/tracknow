@@ -1,5 +1,7 @@
 import { AspectRatio, Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
 // get logged in username function
 const useMiscFunctions = () => {
@@ -34,23 +36,14 @@ const useMiscFunctions = () => {
         const youtubeID = getYouTubeId(youtubeLink);
 
         return (
-            <Box mt={1}  >
+            <Box mt={1} style={roundframe}>
 
                 <AspectRatio ratio={16 / 9}>
-                    <iframe
-                        title={`Youtube VideoID: ${youtubeID}`}
-                        style={roundframe}
-                        src={`https://www.youtube.com/embed/${youtubeID}`
-                        }
-                        srcDoc={`<style>
-                            *{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,
-                            span{position:absolute;width:100%;top:0;bottom:0;margin:auto}
-                            span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}
-                            </style>
-                            <a href=https://www.youtube.com/embed/${youtubeID}?autoplay=1>
-                            <img src=https://img.youtube.com/vi/${youtubeID}/hqdefault.jpg><span>▶</span></a>"`}
-                        allowFullScreen
-                    />
+
+                    <LiteYouTubeEmbed
+
+                        id={`${youtubeID}`}
+                        title={`Youtube VideoID: ${youtubeID}`} />
                 </AspectRatio>
 
             </Box>

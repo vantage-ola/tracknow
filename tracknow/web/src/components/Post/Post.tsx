@@ -4,8 +4,6 @@ import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
 import miscFunctions from "../../misc/miscFunctions";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { BeatLoader } from "react-spinners";
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
@@ -20,6 +18,7 @@ type PostProps = {
 export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore }) => {
 
     // intersection observation api instead of the bad infinite scroll component
+    // when the user reach the end of the page, its going to fetch more data
     const observer = React.useRef<IntersectionObserver | null>(null);
     const lastLaptimeRef = React.useCallback((node: HTMLDivElement | null) => {
         if (observer.current) observer.current.disconnect();
