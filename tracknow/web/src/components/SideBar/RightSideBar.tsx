@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
-    Box, Heading, List, ListItem,
-    Text, Divider, Image, Stack, Flex, Center,
+    Box, Heading, Text, Divider, Image, Flex, Center,
     Accordion, AccordionButton, AccordionIcon,
     AccordionItem,
     AccordionPanel,

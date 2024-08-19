@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Flex, FlexProps, Icon, Link, Stack, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, FlexProps, Icon, Link, Stack } from '@chakra-ui/react';
 import { FiHome, FiAward, FiGlobe, FiInfo, FiSettings, FiDollarSign, FiCalendar } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
