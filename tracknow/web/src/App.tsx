@@ -1,5 +1,5 @@
 import React from "react";
-import { ChakraProvider, useDisclosure } from "@chakra-ui/react";
+import { ChakraProvider, Flex, useDisclosure } from "@chakra-ui/react";
 import { theme } from "./tracknowTheme";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { NavbarLayout, NavbarLoggedInLayout, NavbarWelcomeLayout } from "./components/Navbar/Navbar";
@@ -60,8 +60,9 @@ export const App = () => {
                         </UserProvider>
                     }>
                         <Route element={
-                            <MainLayout isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-
+                            <Flex height={{ base: "auto", md: "none" }}>
+                                <MainLayout isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+                            </Flex>
                         }>
 
 

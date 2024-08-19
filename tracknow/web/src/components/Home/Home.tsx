@@ -2,12 +2,6 @@ import { HomePost } from "../Post/Post";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { useUsers } from "../../hooks/useUsers";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
-import {
-    Box,
-    Flex,
-    useBreakpointValue,
-    useDisclosure,
-} from "@chakra-ui/react";
 
 
 

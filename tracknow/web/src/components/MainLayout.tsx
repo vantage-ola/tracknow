@@ -17,7 +17,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ isOpen, onOpen, onClose }) => {
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     return (
-        <Flex mt={10} bg="dark" height="calc(100vh - 45px)">
+        <Flex mt={10} bg="dark" flex={1}>
             {/* Left section */}
 
             {isMobile ? (
@@ -29,14 +29,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({ isOpen, onOpen, onClose }) => {
                     flex="1"
                     borderRight="1px solid #323536"
                     overflowY="auto"
-                    height="full"
+                    display={["none", "none", "block"]}
+
                 >
                     <LeftSideBar />
                 </Box>
             )}
 
             {/* Middle section */}
-            <Box flex="3" rounded={'sm'} my={1} mx={[0, 5]} overflow={'hidden'} borderRadius={"1px"} overflowY="auto" height="full">
+            <Box flex="3" rounded={'sm'} my={1} mx={[0, 5]} borderRadius={"1px"} overflowY="auto" >
                 <Outlet />
             </Box>
 
@@ -45,7 +46,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ isOpen, onOpen, onClose }) => {
                 flex="1"
                 overflowY="auto"
                 display={["none", "none", "block"]}
-                height="full"
             >
                 <RightSideBar /> {/*  right sidebar content*/}
             </Box>
