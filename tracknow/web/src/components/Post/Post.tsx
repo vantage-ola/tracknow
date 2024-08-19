@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Flex, Text, Stack, Icon, HStack, Center, Link } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Icon, HStack, Link } from "@chakra-ui/react";
 import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
