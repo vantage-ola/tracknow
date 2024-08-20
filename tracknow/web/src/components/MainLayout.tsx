@@ -37,7 +37,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ isOpen, onOpen, onClose }) => {
             )}
 
             {/* Middle section */}
-            <Box flex="3" rounded={'sm'} my={1} mx={[0, 5]} borderRadius={"1px"} overflowY="auto" >
+            <Box flex="3" rounded={'sm'} my={[0, 1]} mx={[0, 5]} borderRadius={"1px"} overflowY="auto" >
                 <Outlet />
             </Box>
 

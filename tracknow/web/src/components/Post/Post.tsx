@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Box, Flex, Text, Stack, Icon, HStack, Link } from "@chakra-ui/react";
+import { Box, Flex, Text, Stack, Icon, HStack, Link, Center } from "@chakra-ui/react";
 import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
 import miscFunctions from "../../misc/miscFunctions";
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
+import { BeatLoader } from "react-spinners";
 
 type PostProps = {
     laptimes: GetUserLaptimesResponse[];
@@ -51,7 +52,8 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
     return (
         <>
             {laptimes.map((laptime, index) => (
-                <Box key={laptime.id} ref={index === laptimes.length - 1 ? lastLaptimeRef : null} p={1} borderBottom="1px solid #323536">
+                // width fixes mobile maximum width increasing.
+                <Box width={{ base: '100vw', md: 'auto' }} key={laptime.id} ref={index === laptimes.length - 1 ? lastLaptimeRef : null} p={1} borderBottom="1px solid #323536">
 
                     <Flex justifyContent={"space-between"} p={2}>
                         <Text as="b" fontSize={{ base: 'sm', md: 'lg' }}>{laptime.title}</Text>
@@ -192,7 +194,11 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
                         */}
                 </Box>
             ))}
-
+            {hasMore && (
+                <Center>
+                    <BeatLoader size={8} color='red' />
+                </Center>
+            )}
         </>
 
     );
