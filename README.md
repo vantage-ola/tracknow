@@ -27,17 +27,14 @@
 
 ## Table Of Contents
 
-- [About the Project](#about-the-project)
 - [Getting Started](#getting-started)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 
-## About The Project
-`v1.0.0.alpha2.2`
-![Screen Shot](./tracknow/img/v1.0.0.alpha2.2.png)
+![Screen Shot](./tracknow/img/v1.0.0.alpha2.3.jpeg)
 
-TRACK NOW is a application by simracers for simracers. A platform to share racing moments with others.
+A platform to share racing moments with others.
 
 Feel free to contribute by suggesting improvements and ideas to make TRACK NOW even better.
 
