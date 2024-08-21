@@ -86,28 +86,27 @@ const UserAddLaptimes = () => {
                 <CardHeader>
                     <Heading size='lg'>Add Racing Moment</Heading>
                 </CardHeader>
-
-                <HStack spacing={6} pt={3}>
-                    <Select borderColor={'#323536'}
-                        isRequired
-                        focusBorderColor="grey"
-                        ml={4}
-                        value={String(simracing)}
-                        onChange={(e) => setSimracing(e.target.value === 'true')}
-                    >
-                        <option style={{ backgroundColor: 'black' }} value="true">Sim racing</option>
-                        <option style={{ backgroundColor: 'black' }} value="false">Real life</option>
-                    </Select>
-                    {/* if simracing is selected show simracing titles*/}
-                    {simracing && (
-                        <SimracingTitles value={platform} change={(e) => setPlatform(e.target.value)} />
-                    )}
-                </HStack>
-
-
                 <CardBody >
 
                     <Stack spacing='5'>
+
+                        <HStack>
+                            <Select borderColor={'#323536'}
+                                isRequired
+                                focusBorderColor="grey"
+                                value={String(simracing)}
+                                onChange={(e) => setSimracing(e.target.value === 'true')}
+
+                            >
+                                <option style={{ backgroundColor: 'black' }} value="true">Sim racing</option>
+                                <option style={{ backgroundColor: 'black' }} value="false">Real life</option>
+                            </Select>
+                            {/* if simracing is selected show simracing titles*/}
+                            {simracing && (
+                                <SimracingTitles value={platform} change={(e) => setPlatform(e.target.value)} />
+                            )}
+                        </HStack>
+
                         <FormControl isInvalid={!title}>
                             <Input
                                 borderColor={'#323536'}
