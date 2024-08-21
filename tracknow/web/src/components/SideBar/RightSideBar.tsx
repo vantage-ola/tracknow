@@ -48,7 +48,7 @@ const RightSideBar = () => {
                 </VStack>
             </Center>
             <Accordion allowMultiple>
-                <AccordionItem>
+                <AccordionItem borderColor="#323536">
                     <h2>
                         <AccordionButton>
                             <Box as='span' color={'grey'} flex='1' textAlign='left'>
@@ -63,7 +63,7 @@ const RightSideBar = () => {
                             <Text width="130px" fontSize="10px">Constructor</Text>
                             <Text width="30px" fontSize="10px">Points</Text>
                         </Flex>
-                        <Divider mb={2} />
+                        <Divider mb={2} borderColor="#323536" />
                         {teamStandings.map((team) => (
                             <Box key={team.Constructor.name}>
                                 <Flex justifyContent="space-between" alignItems="flex-start">
@@ -83,7 +83,7 @@ const RightSideBar = () => {
                         ))}
                     </AccordionPanel>
                 </AccordionItem>
-                <AccordionItem>
+                <AccordionItem borderColor="#323536">
                     <h2>
                         <AccordionButton>
                             <Box as='span' flex='1' color={'grey'} textAlign='left'>
@@ -98,7 +98,7 @@ const RightSideBar = () => {
                             <Text width="120px" fontSize="10px">Driver</Text>
                             <Text width="30px" fontSize="10px">Points</Text>
                         </Flex>
-                        <Divider mb={2} />
+                        <Divider mb={2} borderColor="#323536" />
                         {driverStandings.map((driver) => (
                             <Box key={driver.Driver.familyName}>
                                 <Flex p={1} justifyContent="space-between" alignItems="flex-start">
