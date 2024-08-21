@@ -1,7 +1,7 @@
 //import { useNavigate } from "react-router-dom";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { useUsers } from "../../hooks/useUsers";
-import { LoadingSpinner } from "../Loading/LoadingSpinner";
+//import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { UserProfile } from "./UserProfile";
 
 const UserLaptimes = () => {
@@ -32,11 +32,7 @@ const UserLaptimes = () => {
 
     return (
         <>
-            {loading ? (
-                <LoadingSpinner />
-            ) : (
-                <UserProfile id={userId} />
-            )}
+            <UserProfile id={userId} />
         </>
     );
 

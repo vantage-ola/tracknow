@@ -5,7 +5,7 @@ import {
     Center, Avatar, Stack, Text,
     CardHeader, Heading,
 } from "@chakra-ui/react";
-import { LoadingSpinner } from "../Loading/LoadingSpinner";
+//import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { HomePost } from "../Post/Post";
@@ -13,7 +13,7 @@ import { BeatLoader } from "react-spinners";
 
 export const UserProfile = ({ id }: { id: number }) => {
 
-    const { loading } = useUsers();
+    //const { loading } = useUsers();
     const [userData, setUserData] = React.useState<OneUser | null>(null);
     const [laptimes, setUserLaptimes] = React.useState<GetUserLaptimesResponse[]>([]);
     const [hasMore, setHasMore] = React.useState(true);
@@ -65,12 +65,6 @@ export const UserProfile = ({ id }: { id: number }) => {
 
     }, [page]);
 
-    if (loading && laptime_loading) {
-        return (
-            <LoadingSpinner />
-        );
-    };
-
     if (!laptime_loading && laptimes.length === 0) {
         return (
             <>
@@ -85,53 +79,42 @@ export const UserProfile = ({ id }: { id: number }) => {
 
 
     return (
-
         <>
-            {laptime_loading ? (
-                <LoadingSpinner />
+            {/* Main Section */}
 
-            ) : (
-                <>
-                    {/* Main Section */}
+            <Card size={'lg'} width={{ base: '100vw', md: 'auto' }}>
 
-                    <Card size={'lg'} width={{ base: '100vw', md: 'auto' }}>
+                <CardHeader>
+                    <Heading size={'md'} ml={{ base: 2 }} >{userData ? userData.username : "Loading..."}'s Profile</Heading>
+                </CardHeader>
+                <Center>
 
-                        <CardHeader>
-                            <Heading size='md'>{userData ? userData.username : "Loading..."}'s Profile</Heading>
-                        </CardHeader>
+                    <Stack>
+                        <Avatar
+                            size={"2xl"}
+                            src={userData ? userData.profile_picture : ""}
+                        />
                         <Center>
-
-                            <Stack>
-                                <Avatar
-                                    size={"2xl"}
-                                    src={userData ? userData.profile_picture : ""}
-                                />
-                                <Center>
-                                    <Text>{userData ? userData.nationality : "Loading..."}</Text>
-
-                                </Center>
-                            </Stack>
-
+                            <Text>{userData ? userData.nationality : "Loading..."}</Text>
 
                         </Center>
-                        <CardBody >
-                            <HomePost
-                                laptimes={laptimes}
-                                fetchMoreData={fetchMoreData}
-                                hasMore={hasMore}
-                            />
-                            {hasMore && (
-                                <Center>
-                                    <BeatLoader size={8} color='red' />
-                                </Center>
-                            )}
-                        </CardBody>
+                    </Stack>
 
-                    </Card>
-                </>
 
-            )}
+                </Center>
+                <CardBody >
+                    <HomePost
+                        laptimes={laptimes}
+                        fetchMoreData={fetchMoreData}
+                        hasMore={hasMore}
+                    />
+
+                </CardBody>
+
+            </Card>
         </>
+
+
     );
 
 };
