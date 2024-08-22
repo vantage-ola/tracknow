@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useUsers, getProfile } from "../../hooks/useUsers";
+import { getProfile } from "../../hooks/useUsers";
 import {
     Card, CardBody,
     Center, Avatar, Stack, Text,
@@ -9,7 +9,7 @@ import {
 import { GetUserLaptimesResponse, OneUser } from "../../Types";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { HomePost } from "../Post/Post";
-import { BeatLoader } from "react-spinners";
+//import { BeatLoader } from "react-spinners";
 
 export const UserProfile = ({ id }: { id: number }) => {
 

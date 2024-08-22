@@ -6,7 +6,7 @@ import { UserProfile } from "./UserProfile";
 
 const UserLaptimes = () => {
 
-    const { loading, userId } = useUsers();
+    const { userId } = useUsers();
 
     //const [loading, setLoading] = React.useState(false)
 
