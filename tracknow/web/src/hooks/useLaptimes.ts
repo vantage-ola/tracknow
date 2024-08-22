@@ -112,7 +112,7 @@ export const useLaptimes = () => {
     return {
         laptime, addLaptime, mylaptime, fetchMoreData,
         hasMore, fetchMoreData2, hasMore2, laptime_loading,
-        fetchUsersLaptimes
+        fetchUsersLaptimes, fetchAUserLaptime
 
     };
 

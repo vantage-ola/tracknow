@@ -15,6 +15,8 @@ import UserAccountSettings from "./components/User/UserAccountSettings";
 import UserLaptimes from "./components/User/UserLaptimes";
 import { UserProfile } from "./components/User/UserProfile";
 
+import { SelectedPost } from "./components/Post/Post";
+
 import ErrorPage from "./components/404/ErrorPage";
 
 import { UserProvider } from "./hooks/useUsers";
@@ -69,9 +71,9 @@ export const App = () => {
                             <Route
                                 path="/home"
                                 element={
-                                    <UserProvider>
-                                        <Home />
-                                    </UserProvider>
+
+                                    <Home />
+
                                 }
                             />
                             <Route
@@ -101,9 +103,17 @@ export const App = () => {
                             <Route
                                 path="user/:user_id/:username/"
                                 element={
-                                    <UserProvider>
-                                        <UserProfileWrapper />
-                                    </UserProvider>
+
+                                    <UserProfileWrapper />
+
+                                }
+                            />
+                            <Route
+                                path="user/:user_id/moments/:id/"
+                                element={
+
+                                    <SelectedPost />
+
                                 }
                             />
                         </Route>
