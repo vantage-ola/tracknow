@@ -71,9 +71,9 @@ export const App = () => {
                             <Route
                                 path="/home"
                                 element={
-
-                                    <Home />
-
+                                    <UserProvider>
+                                        <Home />
+                                    </UserProvider>
                                 }
                             />
                             <Route
@@ -103,16 +103,18 @@ export const App = () => {
                             <Route
                                 path="user/:user_id/:username/"
                                 element={
-
-                                    <UserProfileWrapper />
+                                    <UserProvider>
+                                        <UserProfileWrapper />
+                                    </UserProvider>
 
                                 }
                             />
                             <Route
                                 path="user/:user_id/moments/:id/"
                                 element={
-
-                                    <SelectedPost />
+                                    <UserProvider>
+                                        <SelectedPost />
+                                    </UserProvider>
 
                                 }
                             />
