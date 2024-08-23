@@ -12,6 +12,7 @@ import atexit
 import json
 from datetime import datetime, timezone
 from motorsport.formula_1 import get_driver_standings, get_team_standings
+from internet.youtube import youtube_results
 from config import redis_instance
 
 # swagger setup
@@ -49,8 +50,10 @@ def create_app(config_class='config.Config'):
     app.register_blueprint(routes)  # Register the routes blueprint
 
     scheduler = BackgroundScheduler()
-    trigger = CronTrigger(day_of_week='sun', hour=18, minute=0, timezone=timezone.utc)
-    scheduler.add_job(update_data, trigger)
+    
+    trigger = CronTrigger(day_of_week='*', hour=18, minute=0, timezone=timezone.utc)    
+    scheduler.add_job(update_f1_standings, trigger)
+    scheduler.add_job(update_youtube_data, trigger)
 
     # Start the scheduler
     scheduler.start()
@@ -60,7 +63,7 @@ def create_app(config_class='config.Config'):
     
     return app
 
-def update_data():
+def update_f1_standings():
     r = redis_instance()
 
     current_year = datetime.now().year
@@ -70,6 +73,14 @@ def update_data():
 
     driver_data = get_driver_standings()
     r.set(f"f1_drivers_{current_year}", json.dumps(driver_data))
+
+def update_youtube_data():
+    r = redis_instance()
+
+    today_date = datetime.now().date()
+    youtube_data = youtube_results()
+
+    r.set(f"youtube_data_{today_date}", json.dumps(youtube_data))
 
 app = create_app()
 

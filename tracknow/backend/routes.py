@@ -35,6 +35,7 @@ def require_api_key(view_function):
 def index():
     return jsonify({"msg": 'Track Now...'})
 
+## USERS ##
 # Create a new user with username and password.
 @routes.route('/api/v1/users', methods=['POST'])
 @require_api_key
@@ -156,6 +157,7 @@ def get_identity():
     else:
         return jsonify({'message': 'User not found'}), 404
 
+## RACING MOMENTS(LAPTIMES) ##
 # Logged in user adds laptime.
 @routes.route('/api/v1/user/laptimes', methods=['POST'])
 @require_api_key
@@ -267,6 +269,7 @@ def get_other_userss_laptimes(user_id):
 
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
+## MOTORSPORT DATA ##
 @routes.route("/api/v1/f1/teams")
 def get_constructors_standings():
     # Connect Redis instance
@@ -294,6 +297,25 @@ def get_drivers_standings():
     current_year = datetime.datetime.now().year
 
     cached_data = r.get(f"f1_drivers_{current_year}")
+
+    if cached_data:
+        data = json.loads(cached_data)
+    else:
+        return jsonify({"error": "Data not found"}), 404
+
+    return jsonify(data)
+
+## SOCIAL MEDIA DATA ##
+@routes.route("/api/v1/internet/youtube")
+def get_youtube_results():
+
+    #xxxxx/api/v1/internet/youtube?date=2024-08-23
+    current_day = datetime.datetime.now().date()
+    date = request.args.get('date', current_day, type=str)
+
+    r = redis_instance()
+
+    cached_data = r.get(f"youtube_data_{date}")
 
     if cached_data:
         data = json.loads(cached_data)

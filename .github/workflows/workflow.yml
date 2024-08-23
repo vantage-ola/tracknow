@@ -21,6 +21,7 @@ jobs:
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
