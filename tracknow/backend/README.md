@@ -28,6 +28,7 @@ Fill in the environment variables
     REDIS_HOST=xxxxxxxxxxxxxxxxxxxxxx
     REDIS_PASSWORD=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     REDIS_PORT=xxxx   
+    YOUTUBE_API_KEY= # Get the Youtube api v3 api from  https://cloud.google.com/console
 ```
 <!--Get Formula 1 Key from here: [F1 Live Motorsport Data](https://rapidapi.com/sportcontentapi/api/f1-live-motorsport-data) -->
 ### 4. Create the database and start the server.
