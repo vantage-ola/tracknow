@@ -51,9 +51,13 @@ def create_app(config_class='config.Config'):
 
     scheduler = BackgroundScheduler()
     
-    trigger = CronTrigger(day_of_week='*', hour=18, minute=0, timezone=timezone.utc)    
-    scheduler.add_job(update_f1_standings, trigger)
-    scheduler.add_job(update_youtube_data, trigger)
+    # Update Formula 1 standings every Sunday at 3:45 PM and every day at 12:00 AM
+    f1_trigger = CronTrigger(day_of_week='sun', hour=15, minute=45, timezone=timezone.utc)
+    trigger_daily = CronTrigger(hour=0, minute=0, timezone=timezone.utc)
+
+    scheduler.add_job(update_f1_standings, f1_trigger)
+    scheduler.add_job(update_f1_standings, trigger_daily)
+    scheduler.add_job(update_youtube_data, trigger_daily)
 
     # Start the scheduler
     scheduler.start()
@@ -73,6 +77,7 @@ def update_f1_standings():
 
     driver_data = get_driver_standings()
     r.set(f"f1_drivers_{current_year}", json.dumps(driver_data))
+    print(f"{current_year} standings updated !")
 
 def update_youtube_data():
     r = redis_instance()
@@ -81,6 +86,7 @@ def update_youtube_data():
     youtube_data = youtube_results()
 
     r.set(f"youtube_data_{today_date}", json.dumps(youtube_data))
+    print(f"{today_date} youtube data updated !")
 
 app = create_app()
 
