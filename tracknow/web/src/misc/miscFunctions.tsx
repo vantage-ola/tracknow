@@ -27,10 +27,10 @@ const useMiscFunctions = () => {
             overflow: "hidden",
         };
 
-        const getYouTubeId = (url: string) => {
+        const getYouTubeId = (urlOrId: string) => {
             const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[7].length === 11) ? match[7] : false;
+            const match = urlOrId.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : urlOrId;
         }
 
         const youtubeID = getYouTubeId(youtubeLink);
@@ -49,6 +49,7 @@ const useMiscFunctions = () => {
             </Box>
         );
     };
+
 
     const dummyLaptimes = [
         {

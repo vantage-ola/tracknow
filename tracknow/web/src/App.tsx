@@ -9,6 +9,7 @@ import { UserLogin } from "./components/User/UserLogin";
 import { UserSignUp } from "./components/User/UserSignUp";
 import { Welcome } from "./components/Welcome/Welcome";
 import { Home } from "./components/Home/Home";
+import Discover from "./components/Discover/Discover";
 
 import UserAddLaptimes from "./components/User/UserAddLaptimes";
 import UserAccountSettings from "./components/User/UserAccountSettings";
@@ -55,6 +56,7 @@ export const App = () => {
                         <Route path="/create-user" element={<UserSignUp />} />
                     </Route>
 
+
                     {/*user is logged in */}
                     <Route element={
                         <UserProvider>
@@ -67,6 +69,7 @@ export const App = () => {
                             </Flex>
                         }>
 
+                            <Route path="/discover" element={<Discover />} />
 
                             <Route
                                 path="/home"

@@ -34,12 +34,12 @@ export interface Laptime {
     platform?: string;
     youtube_link?: string;
     comment: string;
-}
+};
 
 export interface CreateLaptimeResponse {
     "Laptime Added Successfully": Laptime;
     by: string;
-}
+};
 
 export interface GetUserLaptimesResponse {
     title: string;
@@ -54,31 +54,31 @@ export interface GetUserLaptimesResponse {
     id: number;
     by: string;
     date_created: string;
-}
+};
 
 export interface identity {
     "message": "User Found";
     id: number;
     name: string; // username
     pp: string; // profile_pic
-}
+};
 
 export interface identityProfile {
     name: string; // username
     pp: string; // profile_pic
     onOpen: () => void;
-}
+};
 
 export interface EditUser {
     username?: string;
     password?: string;
     nationality?: string;
 
-}
+};
 
 export interface EditUserPic {
     profile_picture_url?: string;
-}
+};
 
 export interface UserData {
     userId: number;
@@ -87,7 +87,7 @@ export interface UserData {
     editProfile: (editProfile: EditUser) => Promise<void>;
     editProfilePic: (editProfilePic: EditUserPic) => Promise<void>;
     loading: boolean
-}
+};
 
 export interface F1DriverStanding {
     position: string;
@@ -97,7 +97,7 @@ export interface F1DriverStanding {
     };
     Constructors: Array<{ name: string }>;
     points: string;
-}
+};
 
 export interface F1ConstructorStanding {
     position: string;
@@ -105,4 +105,39 @@ export interface F1ConstructorStanding {
         name: string;
     };
     points: string;
-}
+};
+
+export interface YoutubeSearchResult {
+    kind: string;
+    etag: string;
+    id: {
+        kind: string;
+        videoId: string;
+    };
+    snippet: {
+        publishedAt: string;
+        channelId: string;
+        title: string;
+        description: string;
+        thumbnails: {
+            default: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            medium: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            high: {
+                url: string;
+                width: number;
+                height: number;
+            };
+        };
+        channelTitle: string;
+        liveBroadcastContent: string;
+        publishTime: string;
+    };
+};
