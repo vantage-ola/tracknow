@@ -19,7 +19,7 @@ interface SideItemProps extends FlexProps {
 
 const LinkItems: Array<LinkItemProps> = [
     { name: 'Home', icon: FiHome, disabled: false },
-    { name: 'Discover', icon: FiGlobe, disabled: true },
+    { name: 'Discover', icon: FiGlobe, disabled: false },
     { name: 'Events', icon: FiCalendar, disabled: true },
     { name: 'Leaderboard', icon: FiAward, disabled: true },
     { name: 'Setups', icon: FiSettings, disabled: true },
@@ -31,8 +31,8 @@ const LinkItems: Array<LinkItemProps> = [
 
 const linkMap: { [key: string]: string } = {
     Home: "/home",
+    Discover: "/discover",
 
-    // TODO make this items open in a new page.
     Donate: 'https://www.buymeacoffee.com/vantageola',
     Contribute: 'https://github.com/vantage-ola',
 

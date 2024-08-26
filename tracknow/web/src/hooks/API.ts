@@ -37,7 +37,10 @@ const endpoints = {
 
     // formula 1 standings
     FORMULA_1_TEAMS: `${API_PREFIX_URL}/f1/teams`,
-    FORMULA_1_DRIVERS: `${API_PREFIX_URL}/f1/drivers`
+    FORMULA_1_DRIVERS: `${API_PREFIX_URL}/f1/drivers`,
+
+    // content from internet
+    YOUTUBE: (date: string) => `${API_PREFIX_URL}/internet/youtube?date=${date}`
 
 };
 
@@ -331,6 +334,23 @@ async function fetchF1Drivers() {
     return data;
 };
 
+// function to fetch daily youtube data
+async function fetchYoutube(date: string) {
+    const response = await fetch(endpoints.YOUTUBE(date), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch youtube data`)
+    };
+
+    const data = await response.json();
+    return data;
+};
+
 const API = {
     fetchUser,
     fetchUsers,
@@ -345,7 +365,8 @@ const API = {
     fetchAUserLaptime,
     fetchUsersLaptimes,
     fetchF1Drivers,
-    fetchF1Teams
+    fetchF1Teams,
+    fetchYoutube
 };
 
 
