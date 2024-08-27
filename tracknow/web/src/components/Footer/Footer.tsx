@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
 
     return (
         <Box as="footer" py={4} >
-            <Center mt={12}>
+            <Center>
                 <Text fontSize={14}>
                     Made with 💚 by
                     <Link color="red" href="https://github.com/vantage-ola" isExternal> ola</Link> |

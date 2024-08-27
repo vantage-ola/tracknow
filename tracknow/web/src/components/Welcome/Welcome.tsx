@@ -5,7 +5,6 @@ export const Welcome = () => {
 
     return (
         <>
-
             <Hero />
             <Footer />
         </>

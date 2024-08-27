@@ -11,7 +11,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 export const Hero = () => {
 
     return (
-        <Container maxW={"3xl"}>
+        <Box height="80vh" display="flex" alignItems="center" justifyContent="center">
             <Stack
                 as={Box}
                 textAlign={"center"}
@@ -19,7 +19,7 @@ export const Hero = () => {
                 py={{ base: 115, md: 24 }}>
                 <Heading
                     fontWeight={600}
-                    fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+                    fontSize={{ base: '4xl', sm: '4xl', md: '6xl' }}
                     lineHeight={'110%'}>
                     share your racing <br />
                     <Text as={'span'} color={'red'}>
@@ -38,6 +38,7 @@ export const Hero = () => {
 
                 </Stack>
             </Stack>
-        </Container>
+        </Box>
+
     );
 }
