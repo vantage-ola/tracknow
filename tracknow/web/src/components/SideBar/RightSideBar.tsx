@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
     Box, Heading, Text, Divider, Image, Flex, Center,
-    Accordion, AccordionButton, AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
+    Tabs, TabList, TabPanels, Tab, TabPanel,
     HStack,
     VStack,
 } from "@chakra-ui/react";
@@ -33,31 +31,20 @@ const RightSideBar = () => {
             <Center>
                 <Image src='f1_logo.png' boxSize='55px' />
             </Center>
-            <Center pb={2}>
+            <Center pb={3}>
                 <VStack>
                     <Heading size='xs' color={'grey'} textTransform='uppercase'>
                         {today.getFullYear()} Standings
                     </Heading>
-                    <Text fontSize={'8px'}>
-                        Last Updated: {today.toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
-                    </Text>
                 </VStack>
             </Center>
-            <Accordion allowMultiple>
-                <AccordionItem borderColor="#323536">
-                    <h2>
-                        <AccordionButton>
-                            <Box as='span' color={'grey'} flex='1' textAlign='left'>
-                                CONSTRUCTORS
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
+            <Tabs isFitted variant="soft-rounded" colorScheme={'whiteAlpha'}>
+                <TabList>
+                    <Tab fontSize="sm" color={'grey'} py={1}>CONSTRUCTORS</Tab>
+                    <Tab fontSize="sm" color={'grey'} py={1}>DRIVERS</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
                         <Flex mb={2} color={'grey'} justifyContent="space-between" alignItems="center">
                             <Text fontSize="10px">Rank</Text>
                             <Text width="130px" fontSize="10px">Constructor</Text>
@@ -81,18 +68,8 @@ const RightSideBar = () => {
                                 </Flex>
                             </Box>
                         ))}
-                    </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem borderColor="#323536">
-                    <h2>
-                        <AccordionButton>
-                            <Box as='span' flex='1' color={'grey'} textAlign='left'>
-                                DRIVERS
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
+                    </TabPanel>
+                    <TabPanel>
                         <Flex mb={2} color={'grey'} justifyContent="space-between" alignItems="center">
                             <Text fontSize="10px">Rank</Text>
                             <Text width="120px" fontSize="10px">Driver</Text>
@@ -121,9 +98,9 @@ const RightSideBar = () => {
                                 </Flex>
                             </Box>
                         ))}
-                    </AccordionPanel>
-                </AccordionItem>
-            </Accordion>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
             <Center>
                 <Box mt={2} fontSize="10px" color="GrayText">
                     More motorsport data coming soon...
