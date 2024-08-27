@@ -3,12 +3,14 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 from models import db, User, Laptime
 from motorsport.formula_1 import get_driver_standings, get_team_standings
 from config import redis_instance
+from internet.youtube import youtube_results
 
 from functools import wraps
 from decouple import config
 from sqlalchemy import desc, func
 import json
-import datetime
+from datetime import datetime
+
 
 routes = Blueprint('routes', __name__)
 
@@ -16,10 +18,46 @@ routes = Blueprint('routes', __name__)
 api_key = config("API_KEY")
 
 # Get the current year and day of the week
-now = datetime.datetime.now()
+now = datetime.now()
 current_year = now.year
-current_day = now.weekday()
+today_date = now.date()
 
+# fucntion to update redis f1 standings
+def update_f1_standings():
+    try:
+        r = redis_instance()
+
+        current_year = datetime.now().year
+
+        team_data = get_team_standings()
+        r.set(f"f1_constructors_{current_year}", json.dumps(team_data))
+
+        driver_data = get_driver_standings()
+        r.set(f"f1_drivers_{current_year}", json.dumps(driver_data))
+        
+        print(f"{current_year} standings updated!")
+        return jsonify({"msg": "F1 standings updated successfully"}), 200
+    except Exception as e:
+        print(f"Error updating F1 standings: {str(e)}")
+        return jsonify({"error": "Failed to update F1 standings"}), 500
+
+# fucntion to update redis youtube search results
+def update_youtube_data():
+    try:
+        r = redis_instance()
+
+        today_date = datetime.now().date()
+        youtube_data = youtube_results()
+
+        r.set(f"youtube_data_{today_date}", json.dumps(youtube_data))
+        
+        print(f"{today_date} youtube data updated!")
+        return jsonify({"msg": "YouTube data updated successfully"}), 200
+    except Exception as e:
+        print(f"Error updating YouTube data: {str(e)}")
+        return jsonify({"error": "Failed to update YouTube data"}), 500
+
+# api_key function
 def require_api_key(view_function):
     @wraps(view_function)
     def decorated_function(*args, **kwargs):
@@ -270,13 +308,10 @@ def get_other_userss_laptimes(user_id):
     return jsonify([lt.to_dict() for lt in laptimes]), 200
 
 ## MOTORSPORT DATA ##
-@routes.route("/api/v1/f1/teams")
+@routes.route("/api/v1/f1/teams", methods=['GET'])
 def get_constructors_standings():
     # Connect Redis instance
     r = redis_instance()
-
-    # Get the current year
-    current_year = datetime.datetime.now().year
 
     # Check if the data is in Redis
     cached_data = r.get(f"f1_constructors_{current_year}")
@@ -290,11 +325,9 @@ def get_constructors_standings():
 
     return jsonify(data)
 
-@routes.route("/api/v1/f1/drivers")
+@routes.route("/api/v1/f1/drivers", methods=['GET'])
 def get_drivers_standings():
     r = redis_instance()
-
-    current_year = datetime.datetime.now().year
 
     cached_data = r.get(f"f1_drivers_{current_year}")
 
@@ -304,14 +337,16 @@ def get_drivers_standings():
         return jsonify({"error": "Data not found"}), 404
 
     return jsonify(data)
+@routes.route('/api/v1/cron/update-f1-standings', methods=['POST'])
+def cron_update_f1_standings():
+    return update_f1_standings()
 
 ## SOCIAL MEDIA DATA ##
-@routes.route("/api/v1/internet/youtube")
+@routes.route("/api/v1/internet/youtube", methods=['GET'])
 def get_youtube_results():
 
     #xxxxx/api/v1/internet/youtube?date=2024-08-23
-    current_day = datetime.datetime.now().date()
-    date = request.args.get('date', current_day, type=str)
+    date = request.args.get('date', today_date, type=str)
 
     r = redis_instance()
 
@@ -323,3 +358,7 @@ def get_youtube_results():
         return jsonify({"error": "Data not found"}), 404
 
     return jsonify(data)
+
+@routes.route('/api/v1/cron/update-youtube-data', methods=['POST'])
+def cron_update_youtube_data():
+    return update_youtube_data()
