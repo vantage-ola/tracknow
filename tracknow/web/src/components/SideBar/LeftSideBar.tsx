@@ -24,7 +24,6 @@ const LinkItems: Array<LinkItemProps> = [
     { name: 'Leaderboard', icon: FiAward, disabled: true },
     { name: 'Setups', icon: FiSettings, disabled: true },
     { name: 'Ghosts', icon: BiGhost, disabled: true },
-    { name: 'About tracknow', icon: FiInfo, disabled: true },
     { name: 'Contribute', icon: FaGithub, disabled: false },
     { name: 'Donate', icon: FiDollarSign, disabled: false },
 ];
