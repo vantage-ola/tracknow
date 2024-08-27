@@ -220,6 +220,11 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
                     <BeatLoader size={8} color='red' />
                 </Center>
             )}
+            {!hasMore &&
+                <Center>
+                    <Text fontSize={'xs'} color={'GrayText'}>😥No more data to load...</Text>
+                </Center>}
+
         </>
 
     );
