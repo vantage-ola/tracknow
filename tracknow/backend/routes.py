@@ -27,8 +27,6 @@ def update_f1_standings():
     try:
         r = redis_instance()
 
-        current_year = datetime.now().year
-
         team_data = get_team_standings()
         r.set(f"f1_constructors_{current_year}", json.dumps(team_data))
 
@@ -46,7 +44,6 @@ def update_youtube_data():
     try:
         r = redis_instance()
 
-        today_date = datetime.now().date()
         youtube_data = youtube_results()
 
         r.set(f"youtube_data_{today_date}", json.dumps(youtube_data))
@@ -337,7 +334,8 @@ def get_drivers_standings():
         return jsonify({"error": "Data not found"}), 404
 
     return jsonify(data)
-@routes.route('/api/v1/cron/update-f1-standings', methods=['POST'])
+
+@routes.route('/api/v1/cron/update-f1-standings')
 def cron_update_f1_standings():
     return update_f1_standings()
 
@@ -359,6 +357,6 @@ def get_youtube_results():
 
     return jsonify(data)
 
-@routes.route('/api/v1/cron/update-youtube-data', methods=['POST'])
+@routes.route('/api/v1/cron/update-youtube-data')
 def cron_update_youtube_data():
     return update_youtube_data()

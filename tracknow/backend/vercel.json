@@ -15,13 +15,11 @@
     "crons": [
       {
         "path": "/api/v1/cron/update-f1-standings",
-        "schedule": "45 15 * * 0",
-        "httpMethod": "POST"
+        "schedule": "45 15 * * 0"
       },
       {
         "path": "/api/v1/cron/update-youtube-data",
-        "schedule": "0 0 * * *",
-        "httpMethod": "POST"
+        "schedule": "0 0 * * *"
       }
     ]
   }
