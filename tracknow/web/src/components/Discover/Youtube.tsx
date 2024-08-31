@@ -11,7 +11,7 @@ import { BeatLoader } from "react-spinners";
 
 const Youtube: React.FC = () => {
 
-    const { LazyLoadYoutubeEmbed } = useMiscFunctions();
+    const { LazyLoadYoutubeEmbed, formatTimeAgo } = useMiscFunctions();
     const { fetchYoutube } = getInternetData();
 
     const [youtube, setYoutube] = React.useState<YoutubeSearchResult[]>([]);
@@ -75,7 +75,7 @@ const Youtube: React.FC = () => {
                                     </Text>
                                     {!isMobile && (
                                         <Text fontSize="smaller" color={"GrayText"}>
-                                            {formatDistanceToNow(new Date(video.snippet.publishedAt), { addSuffix: true }).replace("about ", "").replace("less than a minute", "now")}
+                                            {formatTimeAgo(video.snippet.publishedAt)}
                                         </Text>
                                     )}
                                 </Flex>

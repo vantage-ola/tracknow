@@ -4,13 +4,13 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { GetUserLaptimesResponse } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
-import miscFunctions from "../../misc/miscFunctions";
-import { Link as ReactRouterLink } from 'react-router-dom';
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { BeatLoader } from "react-spinners";
 
+import miscFunctions from "../../misc/miscFunctions";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { useParams, useNavigate } from "react-router-dom";
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 type PostProps = {
     laptimes: GetUserLaptimesResponse[];
@@ -50,7 +50,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
             [id]: !prevState[id],
         }));
     };
-    const { LazyLoadYoutubeEmbed } = miscFunctions();
+    const { LazyLoadYoutubeEmbed, formatTimeAgo } = miscFunctions();
     const textLimit = 100;
 
     if (laptimes.length === 0) {
@@ -74,9 +74,28 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
 
                         >
                             <Flex justifyContent={"space-between"} p={2}>
-                                <Text as="b" fontSize={{ base: 'sm', md: 'lg' }}>{laptime.title}</Text>
+                                <Text as="b" fontSize={{ md: 'lg' }} display={{ base: 'none', md: 'block' }}>
+                                    {laptime.title.length > 45
+                                        ? `${laptime.title.substring(0, 45)}...`
+                                        : laptime.title}
+                                </Text>
+                                {/* mobile...  lazy way to truncate text lenght for mobile */}
+                                <Text as="b" fontSize={{ base: 'sm' }} display={{ base: 'block', md: 'none' }}>
+                                    {laptime.title.length > 27
+                                        ? `${laptime.title.substring(0, 27)}...`
+                                        : laptime.title}
+                                </Text>
+                                <HStack fontSize={{ base: '11px', md: 'sm' }} color={"GrayText"} spacing={1}>
+                                    <Text >
+                                        {formatTimeAgo(laptime.date_created)}
+                                    </Text>
+                                    <Text>
+                                        •
+                                    </Text>
+                                    <Link as={ReactRouterLink} to={`/user/${laptime.user_id}/${laptime.by}/`}>@{laptime.by}
+                                    </Link>
+                                </HStack>
 
-                                <Link as={ReactRouterLink} to={`/user/${laptime.user_id}/${laptime.by}/`} fontSize="sm" color={"GrayText"}>@{laptime.by}</Link>
                             </Flex>
                             <Box onClick={(event) => event.preventDefault()}>
                                 {laptime.youtube_link && (
@@ -236,7 +255,7 @@ export const SelectedPost: React.FC = () => {
     const [laptime, setLaptime] = React.useState<GetUserLaptimesResponse | null>(null);
 
     const navigate = useNavigate();
-    const { LazyLoadYoutubeEmbed } = miscFunctions();
+    const { LazyLoadYoutubeEmbed, formatTimeAgo } = miscFunctions();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -276,8 +295,17 @@ export const SelectedPost: React.FC = () => {
                             <Text as="b" fontSize={{ base: 'xs', md: 'lg' }}>{laptime.title}</Text>
 
                         </Flex>
-                        <Link as={ReactRouterLink} to={`/user/${laptime.user_id}/${laptime.by}/`} fontSize={{ base: 'xs', md: 'sm' }} color={"GrayText"}>@{laptime.by}</Link>
 
+                        <HStack fontSize={{ base: '11px', md: 'sm' }} color={"GrayText"} spacing={1}>
+                            <Text >
+                                {formatTimeAgo(laptime.date_created)}
+                            </Text>
+                            <Text>
+                                •
+                            </Text>
+                            <Link as={ReactRouterLink} to={`/user/${laptime.user_id}/${laptime.by}/`}>@{laptime.by}
+                            </Link>
+                        </HStack>
                     </Flex>
 
                     <Box onClick={(event) => event.preventDefault()}>
