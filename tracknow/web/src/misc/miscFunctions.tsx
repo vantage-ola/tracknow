@@ -2,6 +2,7 @@ import { AspectRatio, Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
+import { formatDistanceToNow } from 'date-fns';
 
 // get logged in username function
 const useMiscFunctions = () => {
@@ -20,6 +21,7 @@ const useMiscFunctions = () => {
 
     };
 
+    // handle youtube embed vidoes
     const LazyLoadYoutubeEmbed = ({ youtubeLink }: { youtubeLink: string }) => {
 
         const roundframe = {
@@ -50,6 +52,31 @@ const useMiscFunctions = () => {
         );
     };
 
+    // format date post was created
+    const formatTimeAgo = (date: string) => {
+        const timeAgo = formatDistanceToNow(new Date(date), { addSuffix: true });
+
+        // Replace long text with shortened versions
+        return timeAgo
+            .replace('about ', '')
+            .replace('less than a minute', '1min.')
+            .replace('less than', '<')
+            .replace('minute', 'min.')
+            .replace('minutes', 'min.')
+            .replace('hour', 'hr.')
+            .replace('hours', 'hr.')
+            .replace('day', 'd.')
+            .replace('days', 'd.')
+            .replace('week', 'wk.')
+            .replace('weeks', 'wk.')
+            .replace('month', 'mo.')
+            .replace('months', 'mo.')
+            .replace('year', 'yr.')
+            .replace('years', 'yr.')
+            .replace('s', '')
+            ;
+
+    };
 
     const dummyLaptimes = [
         {
@@ -97,7 +124,7 @@ const useMiscFunctions = () => {
     ];
 
 
-    return { cloudName, uploadPreset, api_key, handleLogout, LazyLoadYoutubeEmbed, dummyLaptimes }
+    return { cloudName, uploadPreset, api_key, handleLogout, LazyLoadYoutubeEmbed, dummyLaptimes, formatTimeAgo }
 
 
 };
