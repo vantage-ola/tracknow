@@ -58,7 +58,7 @@ const UserAccountSettings = () => {
             // No changes made, do nothing or show a message
             return;
         }
-        console.log(newProfile);
+        //console.log(newProfile);
 
         setIsLoading(true);
 
