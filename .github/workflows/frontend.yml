@@ -25,10 +25,5 @@ jobs:
       working-directory: tracknow/web
 
     - name: Run tests
-      run: npm test -- --coverage
+      run: npm test
       working-directory: tracknow/web
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
