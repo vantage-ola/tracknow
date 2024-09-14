@@ -66,7 +66,8 @@ class Laptime(db.Model):
     simracing = db.Column(db.Boolean, nullable=False)  # True for simracing, False for real life
     platform = db.Column(db.String(100), nullable=True) # if simracing is true, what simracing title do you set that laptime.
     youtube_link = db.Column(db.String(255), nullable=True) # youtube link or evidence.
-    comment = db.Column(db.String(500), nullable=True) # sort of like text body after title
+    comment = db.Column(db.String(500), nullable=True) # sort of like text body after title(or description)
+    image = db.Column(db.String(255), nullable=True) # images to 
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     
     def __repr__(self):
@@ -84,6 +85,7 @@ class Laptime(db.Model):
             'platform': self.platform,
             'youtube_link': self.youtube_link,
             'comment': self.comment,
+            'image': self.image,
             'date_created': self.date_created.isoformat(),
             'by': self.user.username if self.user else None
         }

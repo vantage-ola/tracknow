@@ -22,7 +22,7 @@ now = datetime.now()
 current_year = now.year
 today_date = now.date()
 
-# fucntion to update redis f1 standings
+# function to update redis f1 standings
 def update_f1_standings():
     try:
         r = redis_instance()
@@ -39,7 +39,7 @@ def update_f1_standings():
         print(f"Error updating F1 standings: {str(e)}")
         return jsonify({"error": "Failed to update F1 standings"}), 500
 
-# fucntion to update redis youtube search results
+# function to update redis youtube search results
 def update_youtube_data():
     try:
         r = redis_instance()
