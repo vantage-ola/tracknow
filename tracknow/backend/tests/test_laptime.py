@@ -9,7 +9,8 @@ laptime_data = {
     "simracing": True,
     "platform": "ACC",
     "youtube_link": "https://youtube.com/Y94573H383",
-    "comment": "fast af boi"
+    "comment": "fast af boi",
+    "image": "https://example.com/image.jpg"
 }
 user = {
         
