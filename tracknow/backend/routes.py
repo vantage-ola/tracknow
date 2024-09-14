@@ -216,6 +216,7 @@ def add_laptime():
     platform = laptime_data.get('platform')
     youtube_link = laptime_data.get('youtube_link')
     comment = laptime_data.get('comment')
+    image = laptime_data.get('image')
 
     laptime = Laptime(
         user_id=user_id,
@@ -226,7 +227,8 @@ def add_laptime():
         simracing=simracing,
         platform=platform,
         youtube_link=youtube_link,
-        comment=comment
+        comment=comment,
+        image=image
     )
 
     db.session.add(laptime)
