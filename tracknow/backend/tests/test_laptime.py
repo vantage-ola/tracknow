@@ -130,3 +130,60 @@ def test_user_laptimes(test_client, init_database):
     }
 
     response = test_client.get('/api/v1/users/1/laptimes?page=4', headers=headers, content_type='appication/json')
+
+
+def test_edit_laptime(test_client, init_database):
+    
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user), headers=header, content_type='application/json')
+    token = login_response.json['token']
+    headers = {
+        'x-api-key': api_key,
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = test_client.post('/api/v1/user/laptimes', data=json.dumps(laptime_data), headers=headers, content_type='application/json')
+    assert response.status_code == 201
+    laptime_id = response.json['Laptime Added Successfully']['id']
+
+    edit_data = {
+        "title": "Updated Test Laptime",
+        "time": "1.07.999",
+        "comment": "even faster af boi"
+    }
+    edit_response = test_client.put(f'/api/v1/user/laptime/edit/{laptime_id}', data=json.dumps(edit_data), headers=headers, content_type='application/json')
+    
+    assert edit_response.status_code == 200
+    assert edit_response.json['msg'] == 'Laptime updated successfully'
+    assert edit_response.json['laptime']['title'] == "Updated Test Laptime"
+    assert edit_response.json['laptime']['time'] == "1.07.999"
+    assert edit_response.json['laptime']['comment'] == "even faster af boi"
+
+    # Verify that unchanged fields remain the same
+    assert edit_response.json['laptime']['car'] == "Formula 1 2020"
+    assert edit_response.json['laptime']['track'] == "Bathurst"
+
+def test_delete_laptime(test_client, init_database):
+    
+    login_response = test_client.post('/api/v1/login', data=json.dumps(user), headers=header, content_type='application/json')
+    token = login_response.json['token']
+    headers = {
+        'x-api-key': api_key,
+        'Authorization': f'Bearer {token}'
+    }
+
+    
+    response = test_client.post('/api/v1/user/laptimes', data=json.dumps(laptime_data), headers=headers, content_type='application/json')
+    assert response.status_code == 201
+    laptime_id = response.json['Laptime Added Successfully']['id']
+
+    
+    delete_response = test_client.delete(f'/api/v1/user/laptime/delete/{laptime_id}', headers=headers, content_type='application/json')
+    
+    assert delete_response.status_code == 200
+    assert delete_response.json['msg'] == 'Laptime deleted successfully'
+
+    # Verify that the laptime has been deleted by attempting to retrieve it
+    get_response = test_client.get(f'/api/v1/user/laptimes/{laptime_id}', headers=headers, content_type='application/json')
+    assert get_response.status_code == 404
+    assert 'msg' in get_response.json
+    assert get_response.json['msg'] == 'Laptime not found'
