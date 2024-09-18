@@ -236,6 +236,60 @@ def add_laptime():
 
     return jsonify({"Laptime Added Successfully": laptime.to_dict(), "by": loggedin_user.username}), 201
 
+
+# User edits laptime
+@routes.route('/api/v1/user/laptime/edit/<int:id>', methods=['PUT'])
+@require_api_key
+@jwt_required()
+def edit_user_laptime(id):
+    user_id = get_jwt_identity()
+    laptime = Laptime.query.filter_by(id=id, user_id=user_id).first()
+
+    if not laptime:
+        return jsonify({'msg': 'Laptime not found or you do not have permission to edit it'}), 404
+
+    data = request.get_json()
+
+    # Update only the fields that are provided in the request
+    if 'title' in data:
+        laptime.title = data['title']
+    if 'car' in data:
+        laptime.car = data['car']
+    if 'track' in data:
+        laptime.track = data['track']
+    if 'time' in data:
+        laptime.time = data['time']
+    if 'simracing' in data:
+        laptime.simracing = data['simracing']
+    if 'platform' in data:
+        laptime.platform = data['platform']
+    if 'youtube_link' in data:
+        laptime.youtube_link = data['youtube_link']
+    if 'comment' in data:
+        laptime.comment = data['comment']
+    if 'image' in data:
+        laptime.image = data['image']
+
+    db.session.commit()
+
+    return jsonify({'msg': 'Laptime updated successfully', 'laptime': laptime.to_dict()}), 200
+
+# User deletes laptimes
+@routes.route('/api/v1/user/laptime/delete/<int:id>', methods=['DELETE'])
+@require_api_key
+@jwt_required()
+def del_user_laptime(id):
+    user_id = get_jwt_identity()
+    laptime = Laptime.query.filter_by(id=id, user_id=user_id).first()
+
+    if not laptime:
+        return jsonify({'msg': 'Laptime not found or you do not have permission to delete it'}), 404
+
+    db.session.delete(laptime)
+    db.session.commit()
+
+    return jsonify({'msg': 'Laptime deleted successfully'}), 200
+
 # Logged in user gets all the laptimes they posted on tracknow.
 @routes.route('/api/v1/user/laptimes', methods=['GET'])
 @require_api_key
@@ -258,6 +312,10 @@ def get_user_laptimes():
 def get_user_laptime(id):
     user_id = get_jwt_identity()
     laptime = Laptime.query.filter_by(id=id, user_id=user_id).first()
+    
+    if laptime is None:
+        return jsonify({'msg': 'Laptime not found'}), 404
+    
     return jsonify(laptime.to_dict()), 200
 
 # Global - get all laptimes posted around the world.
