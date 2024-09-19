@@ -4,18 +4,22 @@ import {
     Heading, Stack, Button, FormControl,
     Textarea, FormHelperText, Input, Select,
     HStack, useToast,
-    FormErrorMessage,
+    FormErrorMessage, Text, VStack, Icon
 } from "@chakra-ui/react";
 import { SimracingTitles } from "../../misc/dropDown";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { Laptime } from "../../Types";
 import { BeatLoader } from "react-spinners";
+import useMiscFunctions from "../../misc/miscFunctions";
+import { FiUpload } from "react-icons/fi";
 //import { LoadingSpinner } from "../Loading/LoadingSpinner";
 //import { useUsers } from "../../hooks/useUsers";
 
 const UserAddLaptimes = () => {
 
     const { addLaptime } = useLaptimes();
+    const { cloudName, uploadPreset, api_key } = useMiscFunctions(); // cloudinary names & preset
+
 
     const [title, setTitle] = React.useState("");
     const [car, setCar] = React.useState("");
@@ -25,16 +29,68 @@ const UserAddLaptimes = () => {
     const [simracing, setSimracing] = React.useState(true);
     const [platform, setPlatform] = React.useState("");
     const [comment, setComment] = React.useState("");
-
+    const [image, setImage] = React.useState("");
 
     const [isLoading, setIsLoading] = React.useState(false); // for moments
+    const [isUploading, setIsUploading] = React.useState(false); // image uploading
 
     const toast = useToast();
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
     /*if (loading) {
         return <LoadingSpinner />;
     }; */
     //console.log(simracing);
+    const handleuploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            if (file.size > 500 * 1024) { // 500KB in bytes
+                toast({
+                    title: "File too large",
+                    description: "Please upload an image smaller than 500KB.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+
+            setIsUploading(true);
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
+            formData.append("api_key", api_key);
+
+            try {
+                const response = await fetch(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                const data = await response.json();
+                setImage(data.secure_url);
+                toast({
+                    title: "Image uploaded successfully",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } catch (error) {
+                toast({
+                    title: "Error uploading image",
+                    description: (error as Error).message,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } finally {
+                setIsUploading(false);
+            }
+        }
+    };
 
     const handleSubmit = async () => {
         const newLaptime: Laptime = {
@@ -46,11 +102,11 @@ const UserAddLaptimes = () => {
             simracing,
             platform,
             comment,
+            image
         };
-        //console.log(newLaptime)
         setIsLoading(true);
         try {
-            const response = await addLaptime(newLaptime);
+            await addLaptime(newLaptime);
             toast({
                 title: 'Moment created successfully',
                 status: "success",
@@ -58,9 +114,7 @@ const UserAddLaptimes = () => {
                 isClosable: true,
             });
             window.location.href = ('/home');
-
         } catch (error) {
-
             toast({
                 title: "Error while creating Moment",
                 description: (error as Error).message,
@@ -70,7 +124,6 @@ const UserAddLaptimes = () => {
             });
         } finally {
             setIsLoading(false);
-
         }
     };
 
@@ -172,7 +225,7 @@ const UserAddLaptimes = () => {
                                 <Input
                                     borderColor={'#323536'}
                                     focusBorderColor="grey"
-                                    variant='flushed' placeholder='6:59:34.035'
+                                    variant='flushed' placeholder='6:54.554'
                                     onChange={(e) => setTime(e.target.value)}
                                     maxLength={10} />
                                 {time && !timeRegex.test(time) && (
@@ -183,7 +236,7 @@ const UserAddLaptimes = () => {
 
                         <Box>
                             <Heading size='xs' textTransform='uppercase'>
-                                Images / Videos
+                                Youtube
                             </Heading>
                             <FormControl isInvalid={youtube_link && !youtubeRegex.test(youtube_link) ? true : undefined}>
                                 <Input
@@ -197,17 +250,54 @@ const UserAddLaptimes = () => {
                                 {youtube_link && !youtubeRegex.test(youtube_link) && (
                                     <FormErrorMessage fontSize={'11px'}>Please enter a valid YouTube video URL</FormErrorMessage>
                                 )}
-                                <FormHelperText fontSize={'11px'}>Only Youtube links(Videos) are supported now, bear with me :)</FormHelperText>
                             </FormControl>
 
                         </Box>
+                        <FormControl>
+                            <Heading size='xs' textTransform='uppercase' mb={2}>
+                                Upload Image
+                            </Heading>
+                            <Box
+                                borderColor={'#323536'}
+                                borderWidth={2}
+                                borderStyle="dashed"
+                                borderRadius="md"
+                                p={4}
+                                cursor="pointer"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleuploadImage}
+                                    ref={fileInputRef}
+                                    style={{ display: 'none' }}
+                                />
+                                <VStack spacing={2}>
+                                    <Icon as={FiUpload} w={8} h={8} />
+                                    <Text>Click or drag image here</Text>
+                                    <Text fontSize="sm" color="gray.500">Max file size: 500KB</Text>
+                                </VStack>
+                            </Box>
+                            {isUploading && (
+                                <Text mt={2} fontSize="sm" color="yellow.500">
+                                    Uploading image...
+                                </Text>
+                            )}
+                            {image && !isUploading && (
+                                <Text mt={2} fontSize="sm" color="green.500">
+                                    Image uploaded successfully
+                                </Text>
+                            )}
+                        </FormControl>
                     </Stack>
                 </CardBody>
                 <Flex pr={5} mb={6} justifyContent={'flex-end'}>
-                    <Button variant={"navbarButton"}
+                    <Button
+                        variant={"navbarButton"}
                         onClick={handleSubmit}
-                        isDisabled={!title || !comment}
-                        cursor={title && comment ? "pointer" : "not-allowed"}
+                        isDisabled={!title || !comment || isUploading}
+                        cursor={(title && comment && !isUploading) ? "pointer" : "not-allowed"}
                         isLoading={isLoading}
                         spinner={<BeatLoader size={8} color='red' />}
                     >

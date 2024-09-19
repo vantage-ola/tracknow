@@ -34,6 +34,7 @@ export interface Laptime {
     platform?: string;
     youtube_link?: string;
     comment: string;
+    image?: string;
 };
 
 export interface CreateLaptimeResponse {
@@ -50,6 +51,7 @@ export interface GetUserLaptimesResponse {
     platform: string;
     youtube_link: string;
     comment: string;
+    image: string;
     user_id: number;
     id: number;
     by: string;
