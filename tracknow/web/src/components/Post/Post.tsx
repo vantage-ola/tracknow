@@ -11,6 +11,7 @@ import miscFunctions from "../../misc/miscFunctions";
 import { useLaptimes } from "../../hooks/useLaptimes";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link as ReactRouterLink } from 'react-router-dom';
+import MediaCarousel from "./MediaCarousel";
 
 type PostProps = {
     laptimes: GetUserLaptimesResponse[];
@@ -50,7 +51,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
             [id]: !prevState[id],
         }));
     };
-    const { LazyLoadYoutubeEmbed, formatTimeAgo } = miscFunctions();
+    const { formatTimeAgo } = miscFunctions();
     const textLimit = 100;
 
     if (laptimes.length === 0) {
@@ -59,7 +60,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
             <LoadingSpinner />
         )
     };
-
+    //console.log(laptimes)
     return (
         <>
             {laptimes.map((laptime, index) => (
@@ -98,9 +99,7 @@ export const HomePost: React.FC<PostProps> = ({ laptimes, fetchMoreData, hasMore
 
                             </Flex>
                             <Box onClick={(event) => event.preventDefault()}>
-                                {laptime.youtube_link && (
-                                    <LazyLoadYoutubeEmbed youtubeLink={laptime.youtube_link} />
-                                )}
+                                <MediaCarousel youtubeLink={laptime.youtube_link} image={laptime.image} />
                             </Box>
 
                             <Box p={4} >
@@ -255,7 +254,7 @@ export const SelectedPost: React.FC = () => {
     const [laptime, setLaptime] = React.useState<GetUserLaptimesResponse | null>(null);
 
     const navigate = useNavigate();
-    const { LazyLoadYoutubeEmbed, formatTimeAgo } = miscFunctions();
+    const { formatTimeAgo } = miscFunctions();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -309,9 +308,7 @@ export const SelectedPost: React.FC = () => {
                     </Flex>
 
                     <Box onClick={(event) => event.preventDefault()}>
-                        {laptime.youtube_link && (
-                            <LazyLoadYoutubeEmbed youtubeLink={laptime.youtube_link} />
-                        )}
+                        <MediaCarousel youtubeLink={laptime.youtube_link} image={laptime.image} />
                     </Box>
 
                     <Box p={4} >
