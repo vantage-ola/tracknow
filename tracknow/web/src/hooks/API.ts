@@ -11,6 +11,7 @@ import {
     EditUserPic,
     OneUser
 } from '../Types';
+import { useLaptimes } from './useLaptimes';
 
 // backend api routes.
 
@@ -32,6 +33,9 @@ const endpoints = {
     GET_LAPTIMES: (page: Number) => `${API_PREFIX_URL}/laptimes?page=${page}`, // see everyone's laptime on tracknow
     GET_ONE_LAPTIME: (user_id: number, id: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes/${id}`, // see a specific laptime of someone
     GET_USERS_LAPTIMES: (user_id: number, page: number) => `${API_PREFIX_URL}/users/${user_id}/laptimes?page=${page}`, // see personal moments of other users
+
+    EDIT_USER_LAPTIME: (id: number) => `${API_PREFIX_URL}/user/laptime/edit/${id}`,
+    DELETE_USER_LAPTIME: (id: number) => `${API_PREFIX_URL}/user/laptime/delete/${id}`,
 
     GET_IDENTITY: `${API_PREFIX_URL}/protected`, // make sure user is logged in and in session.
 
@@ -240,6 +244,8 @@ async function fetchAUserLaptime(user_id: number, id: number): Promise<GetUserLa
     const data: GetUserLaptimesResponse = await response.json();
     return data;
 }
+
+// function to edit user profile
 async function EditUserProfile(user_id: Number, editUser: EditUser) {
 
     const token = localStorage.getItem('access_token')
@@ -260,6 +266,7 @@ async function EditUserProfile(user_id: Number, editUser: EditUser) {
     return data;
 };
 
+// function to edit user profile picture
 async function EditUserProfilePic(user_id: Number, editUserpic: EditUserPic) {
 
     const token = localStorage.getItem('access_token')
@@ -301,6 +308,46 @@ async function fetchUsersLaptimes(user_id: number, page: number): Promise<GetUse
     const data: GetUserLaptimesResponse[] = await response.json();
     return data;
 };
+
+async function editUserLaptime(id: number, edit_laptime: Laptime): Promise<Laptime> {
+
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.EDIT_USER_LAPTIME(id), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': API_KEY,
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(edit_laptime)
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to edit User laptime')
+    }
+
+    const data = await response.json()
+    return data;
+};
+
+async function deleteUserLaptime(id: number) {
+
+    const token = localStorage.getItem('access_token')
+
+    const response = await fetch(endpoints.DELETE_USER_LAPTIME(id), {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-api-key': API_KEY
+        }
+    })
+
+    const data = await response.json();
+    return data;
+};
+
 // function to fetch 'live' f1 constructors standings
 async function fetchF1Teams() {
 
@@ -364,6 +411,8 @@ const API = {
     EditUserProfilePic,
     fetchAUserLaptime,
     fetchUsersLaptimes,
+    deleteUserLaptime,
+    editUserLaptime,
     fetchF1Drivers,
     fetchF1Teams,
     fetchYoutube
