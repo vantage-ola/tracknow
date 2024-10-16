@@ -95,8 +95,9 @@ export const useLaptimes = () => {
             mySetPage((prevPage) => prevPage + 1);
         }
     };
+
     // add laptimes
-    const addLaptime = async (newLaptime: Laptime,) => {
+    const addLaptime = async (newLaptime: Laptime) => {
 
         try {
 
@@ -109,10 +110,39 @@ export const useLaptimes = () => {
         }
     };
 
+    // edit user laptime
+    const editLaptime = async (id: number, editLaptime: Laptime) => {
+
+        try {
+
+            const response = await API.editUserLaptime(id, editLaptime);
+            return response;
+
+        } catch (error) {
+
+            throw new Error("Laptime cannot be edited!")
+        }
+
+    };
+
+    // delete user laptime
+    const deleteLaptime = async (id: number) => {
+
+        try {
+
+            const response = await API.deleteUserLaptime(id);
+            return response;
+
+        } catch (error) {
+
+            throw new Error("Laptime cannot be deleted.")
+        }
+    };
+
     return {
         laptime, addLaptime, mylaptime, fetchMoreData,
         hasMore, fetchMoreData2, hasMore2, laptime_loading,
-        fetchUsersLaptimes, fetchAUserLaptime
+        fetchUsersLaptimes, fetchAUserLaptime, editLaptime, deleteLaptime
 
     };
 
