@@ -19,6 +19,13 @@ const drawer = defineDrawerPartsStyle({
 
 })
 
+const postButton = defineStyle({
+    color: 'white',
+    backgroundColor: '#1e2021',
+    _hover: { bg: 'dark' },
+
+})
+
 const navbarButton = defineStyle({
     _hover: { bg: '#1e2021' },
     color: 'white',
@@ -69,7 +76,7 @@ const baseStyle = definePartsStyle({
     }
 })
 export const badgeTheme = defineStyleConfig({
-    variants: { navbarButton }
+    variants: { navbarButton, postButton }
 })
 
 export const linkTheme = defineStyleConfig({
