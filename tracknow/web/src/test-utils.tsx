@@ -1,10 +1,10 @@
-import * as React from "react"
-import { render, RenderOptions } from "@testing-library/react"
-import { ChakraProvider, theme } from "@chakra-ui/react"
+import * as React from "react";
+import { render, RenderOptions } from "@testing-library/react";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 
 const AllProviders = ({ children }: { children?: React.ReactNode }) => (
   <ChakraProvider theme={theme}>{children}</ChakraProvider>
-)
+);
 /*
 describe('Time format', () => {
   test('Time format is 00:00:00.000', () => {
@@ -13,6 +13,6 @@ describe('Time format', () => {
 })
 */
 const customRender = (ui: React.ReactElement, options?: RenderOptions) =>
-  render(ui, { wrapper: AllProviders, ...options })
+  render(ui, { wrapper: AllProviders, ...options });
 
-export { customRender as render }
+export { customRender as render };

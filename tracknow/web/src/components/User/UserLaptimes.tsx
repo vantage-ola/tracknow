@@ -5,12 +5,11 @@ import { useUsers } from "../../hooks/useUsers";
 import { UserProfile } from "./UserProfile";
 
 const UserLaptimes = () => {
+  const { userId } = useUsers();
 
-    const { userId } = useUsers();
+  //const [loading, setLoading] = React.useState(false)
 
-    //const [loading, setLoading] = React.useState(false)
-
-    /* if (laptime_loading) {
+  /* if (laptime_loading) {
         return (
             <>
                 <LoadingSpinner />
@@ -30,11 +29,10 @@ const UserLaptimes = () => {
          );
      } */
 
-    return (
-        <>
-            <UserProfile id={userId} />
-        </>
-    );
-
+  return (
+    <>
+      <UserProfile id={userId} />
+    </>
+  );
 };
 export default UserLaptimes;
