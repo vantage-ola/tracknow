@@ -1,8 +1,8 @@
 ## WEB DOCUMENTATION
 
-I am assuming you have npm installed and are in this directory. ```tracknow/web```
+I am assuming you have npm installed and are in this directory. `tracknow/web`
 
-###  `npm install`
+### `npm install`
 
 Installs all the packages dependencies.
 

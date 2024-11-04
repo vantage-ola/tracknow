@@ -40,7 +40,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
     if (mediaItems.length > 0) {
       setLoading(true);
       setCurrentIndex(
-        (prevIndex) => (prevIndex - 1 + mediaItems.length) % mediaItems.length
+        (prevIndex) => (prevIndex - 1 + mediaItems.length) % mediaItems.length,
       );
     }
   };
