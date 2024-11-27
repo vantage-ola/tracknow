@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import * as React from "react";
 import miscFunctions from "../../misc/miscFunctions";
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 
 type MediaItem = {
@@ -59,11 +59,7 @@ const MediaCarousel: React.FC<MediaCarouselProps> = ({
   }, [currentIndex, mediaItems]);
 
   if (mediaItems.length === 0) {
-    return (
-      <Text fontSize={"xs"} color={"GrayText"}>
-        No media items available.
-      </Text>
-    );
+    return <Text fontSize={"xs"} color={"GrayText"}></Text>;
   }
 
   const currentItem = mediaItems[currentIndex];
