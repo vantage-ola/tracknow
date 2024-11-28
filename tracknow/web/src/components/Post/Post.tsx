@@ -10,16 +10,36 @@ import {
   Center,
   Divider,
   Button,
+  useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  Textarea,
+  FormControl,
+  FormLabel,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { GetUserLaptimesResponse } from "../../Types";
+import { GetUserLaptimesResponse, mapToLaptime, Laptime } from "../../Types";
 import { RiComputerLine, RiMapPinLine, RiTimerFlashLine } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
+import { MdEdit, MdDelete } from "react-icons/md";
 import { LoadingSpinner } from "../Loading/LoadingSpinner";
 import { BeatLoader } from "react-spinners";
 
 import miscFunctions from "../../misc/miscFunctions";
 import { useLaptimes } from "../../hooks/useLaptimes";
+import { useUsers } from "../../hooks/useUsers";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import MediaCarousel from "./MediaCarousel";
@@ -318,14 +338,35 @@ export const HomePost: React.FC<PostProps> = ({
 };
 
 export const SelectedPost: React.FC = () => {
-  const { fetchAUserLaptime } = useLaptimes();
+  const { fetchAUserLaptime, editLaptime, deleteLaptime } = useLaptimes();
+  const { userId } = useUsers();
   const { id, user_id } = useParams<{ id: string; user_id: string }>();
   const [laptime, setLaptime] = React.useState<GetUserLaptimesResponse | null>(
     null,
   );
 
+  const isOwner = userId === Number(user_id); // check if user is the owner of post
   const navigate = useNavigate();
+  const Toast = useToast();
   const { formatTimeAgo } = miscFunctions();
+
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const [editData, setEditData] = React.useState<Laptime>({
+    title: "",
+    simracing: true,
+    comment: "",
+  });
+  const [isLoading, setIsLoading] = React.useState(false);
+  const cancelRef = React.useRef(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -341,7 +382,47 @@ export const SelectedPost: React.FC = () => {
     };
 
     fetchData();
-  }, [id, user_id, fetchAUserLaptime]);
+  });
+
+  const handleEdit = () => {
+    if (laptime) {
+      setEditData(mapToLaptime(laptime));
+      onEditOpen();
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteLaptime(Number(id));
+      Toast({ title: "Post deleted successfully.", status: "success" });
+      navigate(-1); // Navigate back after deletion
+    } catch (error) {
+      Toast({ title: "Failed to delete post.", status: "error" });
+    }
+  };
+
+  const handleEditChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setEditData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const saveChanges = async () => {
+    setIsLoading(true);
+    try {
+      await editLaptime(Number(id), editData);
+      Toast({ title: "Post edited successfully.", status: "success" });
+
+      // Wait 500 milliseconds before reloading
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      navigate(0);
+    } catch (error) {
+      Toast({ title: "Failed to edit post.", status: "error" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!laptime) {
     return <LoadingSpinner />;
@@ -495,37 +576,106 @@ export const SelectedPost: React.FC = () => {
                 )}
               </Stack>
             </Flex>
+            {/* user can edit/delete his own posts*/}
+            {isOwner && (
+              <Flex mt={4} justifyContent="flex-end">
+                <Button variant="navbarButton" onClick={handleEdit}>
+                  <MdEdit />
+                </Button>
+
+                <Button variant="navbarButton" onClick={onDeleteOpen}>
+                  <MdDelete />
+                </Button>
+
+                {/* Edit Modal */}
+                <Modal isOpen={isEditOpen} onClose={onEditClose}>
+                  <ModalOverlay />
+                  <ModalContent bg={"dark"}>
+                    <ModalHeader>Edit Laptime</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      <FormControl>
+                        <FormLabel>Title</FormLabel>
+                        <Input
+                          name="title"
+                          value={editData.title}
+                          onChange={handleEditChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Body</FormLabel>
+                        {/*Fix: Max length doesnt work */}
+                        <Textarea
+                          name="comment"
+                          placeholder="Body"
+                          value={editData.comment}
+                          onChange={handleEditChange}
+                          maxLength={500}
+                        />
+                      </FormControl>
+                      {/* Add other form fields for editing as needed */}
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        variant="navbarButton"
+                        onClick={saveChanges}
+                        isLoading={isLoading}
+                        spinner={<BeatLoader size={8} color="red" />}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="navbarButton"
+                        color={"red"}
+                        ml={3}
+                        onClick={onEditClose}
+                      >
+                        Cancel
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+
+                {/* Delete Modal */}
+
+                <AlertDialog
+                  isOpen={isDeleteOpen}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onDeleteClose}
+                >
+                  <AlertDialogOverlay>
+                    <AlertDialogContent bg={"dark"}>
+                      <AlertDialogBody>
+                        Are you sure you want to delete this laptime? This
+                        action cannot be undone.
+                      </AlertDialogBody>
+
+                      <AlertDialogFooter>
+                        <Button
+                          variant="navbarButton"
+                          ref={cancelRef}
+                          onClick={onDeleteClose}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="navbarButton"
+                          color="red"
+                          onClick={handleDelete}
+                          ml={3}
+                        >
+                          Confirm
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogOverlay>
+                </AlertDialog>
+              </Flex>
+            )}
             <Text fontSize={"smaller"} color={"white"} mt={3}>
               {laptime.comment}
             </Text>
           </Box>
-
-          {/*like, comments
-                        <Flex alignItems={"center"} justifyContent={"right"} p={2}>
-                            <Stack direction={"row"} spacing={2}>
-                                <Flex >
-                                    <HStack justifyContent={"space-between"}>
-                                        <Box onClick={() => setLiked(!liked)}>
-                                            {liked ? (
-                                                <BsHeartFill fill="red" fontSize={"18px"} />
-                                            ) : (
-                                                <BsHeart fontSize={"18px"} />
-                                            )}
-                                        </Box>
-                                        <Text color={"grey"} fontSize={"15px"}>200</Text>
-                                    </HStack>
-                                </Flex>
-
-                                <Flex>
-                                    <HStack justifyContent={"space-between"}>
-                                        <Icon as={GoCommentDiscussion} fontSize={"18px"} />
-                                        <Text color={"grey"} fontSize={"15px"}>7</Text>
-
-                                    </HStack>
-                                </Flex>
-                            </Stack>
-                        </Flex>
-                        */}
         </Box>
       </Box>
     </>
