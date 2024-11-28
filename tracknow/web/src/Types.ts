@@ -143,3 +143,16 @@ export interface YoutubeSearchResult {
     publishTime: string;
   };
 }
+
+// helper functions
+export const mapToLaptime = (response: GetUserLaptimesResponse): Laptime => ({
+  title: response.title,
+  car: response.car,
+  track: response.track,
+  time: response.time,
+  simracing: response.simracing,
+  platform: response.platform,
+  youtube_link: response.youtube_link,
+  comment: response.comment,
+  image: response.image,
+});
