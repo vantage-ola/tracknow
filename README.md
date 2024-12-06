@@ -8,51 +8,32 @@
     share your racing moments
     <br/>
     <br/>
-    <a href="https://github.com/vantage-ola/track-now"><strong>Explore the docs »</strong></a>
+    <a href="https://tracknow.vercel.app/">check it out</a>
+    .
+    <a href="https://github.com/vantage-ola/track-now/issues">report bug</a>
+    .
+    <a href="https://github.com/vantage-ola/track-now/issues">request feature</a>
     <br/>
     <br/>
-    <a href="https://tracknow.vantageola.com.ng/">View Alpha Version</a>
-    .
-    <a href="https://github.com/vantage-ola/track-now/issues">Report Bug</a>
-    .
-    <a href="https://github.com/vantage-ola/track-now/issues">Request Feature</a>
   </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/vantage-ola/track-now?color=green) ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/vantage-ola/track-now)
+
+<div align="center">
+
+![Contributors](https://img.shields.io/github/contributors/vantage-ola/track-now?color=green)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/vantage-ola/track-now)
 ![GitHub License](https://img.shields.io/github/license/vantage-ola/track-now)
-![GitHub Tag](https://img.shields.io/github/v/tag/vantage-ola/track-now)
 ![tracknow worflows](https://img.shields.io/github/actions/workflow/status/vantage-ola/tracknow/workflow.yml)
 <!--![tracknow code coverage](https://img.shields.io/codecov/c/github/vantage-ola/tracknow) -->
+<!--![GitHub Tag](https://img.shields.io/github/v/tag/vantage-ola/track-now) -->
+</div>
 
-## Table Of Contents
-
-- [Getting Started](#getting-started)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
 
 ![Screen Shot](./tracknow/img/v1.0.0.alpha2.3.jpeg)
-
-A platform to share racing moments with others.
-
-Feel free to contribute by suggesting improvements and ideas to make TRACK NOW even better.
-
-## Getting Started
-- [BACKEND API README](https://github.com/vantage-ola/track-now/blob/main/tracknow/backend/README.md)
-- [WEB README](https://github.com/vantage-ola/track-now/blob/main/tracknow/web/README.md)
-## Roadmap
-
-See the [open issues](https://github.com/vantage-ola/track-now/issues) for a list of proposed features (and known issues).
-
-### Creating A Pull Request
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-Distributed under the MIT License. See [LICENSE](https://github.com/vantage-ola/track-now/blob/main/LICENSE.md) for more information.
+<br>
+<p align="center">
+  <a>
+  Distributed under the MIT License. See <a href="https://github.com/vantage-ola/track-now/blob/main/LICENSE.md">LICENSE</a> for more information.
+  </a>
+</p>
