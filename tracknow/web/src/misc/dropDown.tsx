@@ -52,6 +52,7 @@ export const SimracingTitles: React.FC<SelectProps> = ({ value, change }) => {
       <option value="Project Motor Racing">Project Motor Racing</option>
       <option value="Project Cars 2">Project Cars 2</option>
       <option value="Project Cars 1">Project Cars 1</option>
+      <option value="Richard Burns Rally">Richard Burns Rally</option>
     </Select>
   );
 };
